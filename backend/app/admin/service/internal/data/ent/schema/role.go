@@ -30,21 +30,27 @@ func (Role) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").
 			Comment("角色名称").
-			Default("").
+			Unique().
+			Optional().
+			Nillable().
 			MaxLen(128),
 
 		field.String("code").
 			Comment("角色标识").
 			Default("").
+			Optional().
+			Nillable().
 			MaxLen(128),
 
 		field.Uint32("parent_id").
 			Comment("上一层角色ID").
-			Default(0).
+			Nillable().
 			Optional(),
 
 		field.Int32("order_no").
 			Comment("排序ID").
+			Optional().
+			Nillable().
 			Default(0),
 	}
 }
@@ -65,8 +71,6 @@ func (Role) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.
 			To("children", Role.Type).
-			From("parent").
-			Unique().
-			Field("parent_id"),
+			From("parent").Unique().Field("parent_id"),
 	}
 }

@@ -1,7 +1,7 @@
-import {BasicColumn} from '/@/components/Table';
-import {FormSchema} from '/@/components/Table';
 import {h} from 'vue';
 import {Tag} from 'ant-design-vue';
+import {BasicColumn} from '/@/components/Table';
+import {FormSchema} from '/@/components/Table';
 import {Icon} from '/@/components/Icon';
 import {SwitchStatusEnum, isOn, isDir, isMenu, isButton, MenuTypeEnum} from '/@/enums/httpEnum';
 import {useI18n} from '/@/hooks/web/useI18n';

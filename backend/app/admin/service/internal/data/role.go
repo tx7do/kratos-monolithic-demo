@@ -35,11 +35,11 @@ func (r *RoleRepo) convertEntToProto(in *ent.Role) *v1.Role {
 	}
 	return &v1.Role{
 		Id:         in.ID,
-		Name:       &in.Name,
-		Code:       &in.Code,
+		Name:       in.Name,
+		Code:       in.Code,
 		Remark:     in.Remark,
-		OrderNo:    &in.OrderNo,
-		ParentId:   &in.ParentID,
+		OrderNo:    in.OrderNo,
+		ParentId:   in.ParentID,
 		Status:     (*string)(in.Status),
 		CreateTime: util.TimeToTimeString(in.CreateTime),
 		UpdateTime: util.TimeToTimeString(in.UpdateTime),
