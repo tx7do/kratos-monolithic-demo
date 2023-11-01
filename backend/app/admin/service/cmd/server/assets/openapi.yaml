@@ -830,6 +830,8 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Position'
+            security:
+                - OAuth2PasswordBearer: []
         delete:
             tags:
                 - PositionService
@@ -872,6 +874,8 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/LoginResponse'
+            security:
+                - OAuth2PasswordBearer: []
     /admin/v1/roles:
         get:
             tags:

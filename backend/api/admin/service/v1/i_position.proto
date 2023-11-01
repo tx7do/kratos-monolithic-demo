@@ -53,6 +53,10 @@ service PositionService {
       put: "/admin/v1/positions/{id}"
       body: "position"
     };
+
+    option(gnostic.openapi.v3.operation) = {
+      security: [{additional_properties: [{name: "OAuth2PasswordBearer"; value: {}}]}]
+    };
   }
 
   // 删除职位
