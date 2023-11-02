@@ -77,6 +77,10 @@ func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1
 		builder.Modify(querySelectors...)
 	}
 
+	if req.GetFieldMask() != nil && len(req.GetFieldMask().GetPaths()) > 0 {
+		builder.Select(req.GetFieldMask().GetPaths()...)
+	}
+
 	results, err := builder.All(ctx)
 	if err != nil {
 		return nil, err
