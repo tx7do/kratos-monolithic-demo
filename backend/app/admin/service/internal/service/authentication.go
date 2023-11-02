@@ -24,7 +24,7 @@ type AuthenticationService struct {
 }
 
 func NewAuthenticationService(logger log.Logger, uc *data.UserRepo, utuc *data.UserTokenRepo) *AuthenticationService {
-	l := log.NewHelper(log.With(logger, "module", "admin/service/admin-service"))
+	l := log.NewHelper(log.With(logger, "module", "authn/service/admin-service"))
 	return &AuthenticationService{
 		log:  l,
 		uc:   uc,
