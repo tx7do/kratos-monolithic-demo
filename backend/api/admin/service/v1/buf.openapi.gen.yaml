@@ -1,7 +1,19 @@
 # 配置protoc生成规则
 version: v1
+
 managed:
-  enabled: false
+  enabled: true
+  optimize_for: SPEED
+
+  go_package_prefix:
+    default: kratos-monolithic-demo/gen/api/go
+    except:
+      - 'buf.build/googleapis/googleapis'
+      - 'buf.build/envoyproxy/protoc-gen-validate'
+      - 'buf.build/kratos/apis'
+      - 'buf.build/gnostic/gnostic'
+      - 'buf.build/gogo/protobuf'
+
 plugins:
   # generate openapi v2 json doc
 #  - name: openapiv2
@@ -9,7 +21,8 @@ plugins:
 #    opt:
 #      - json_names_for_fields=true
 #      - logtostderr=true
-  # generate openapi v2 yaml doc
+
+  # generate openapi v3 yaml doc
   - name: openapi
     out: ./app/admin/service/cmd/server/assets
     opt:

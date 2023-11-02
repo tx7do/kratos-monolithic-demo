@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: system/service/v1/dict_detail.proto
 
-package v1
+package servicev1
 
 import (
 	context "context"

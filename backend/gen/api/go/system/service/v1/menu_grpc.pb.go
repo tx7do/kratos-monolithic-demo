@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: system/service/v1/menu.proto
 
-package v1
+package servicev1
 
 import (
 	context "context"

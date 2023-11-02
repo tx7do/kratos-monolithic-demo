@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: user/service/v1/position.proto
 
-package v1
+package servicev1
 
 import (
 	context "context"

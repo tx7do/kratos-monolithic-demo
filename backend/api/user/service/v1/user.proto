@@ -1,7 +1,6 @@
 syntax = "proto3";
 
 package user.service.v1;
-option go_package = "kratos-monolithic-demo/gen/api/go/user/service/v1;v1";
 
 import "gnostic/openapi/v3/annotations.proto";
 import "google/protobuf/empty.proto";

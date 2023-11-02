@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: file/service/v1/attachment.proto
 
-package v1
+package servicev1
 
 import (
 	context "context"
