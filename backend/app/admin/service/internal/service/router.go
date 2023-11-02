@@ -11,8 +11,9 @@ import (
 	"kratos-monolithic-demo/app/admin/service/internal/data"
 
 	adminV1 "kratos-monolithic-demo/gen/api/go/admin/service/v1"
-	"kratos-monolithic-demo/gen/api/go/common/pagination"
 	systemV1 "kratos-monolithic-demo/gen/api/go/system/service/v1"
+
+	pagination "github.com/tx7do/kratos-bootstrap/gen/api/go/pagination/v1"
 )
 
 type RouterService struct {

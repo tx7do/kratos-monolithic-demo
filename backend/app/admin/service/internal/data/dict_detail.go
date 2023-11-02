@@ -13,8 +13,8 @@ import (
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent"
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent/dictdetail"
 
-	"kratos-monolithic-demo/gen/api/go/common/pagination"
-	"kratos-monolithic-demo/gen/api/go/system/service/v1"
+	pagination "github.com/tx7do/kratos-bootstrap/gen/api/go/pagination/v1"
+	v1 "kratos-monolithic-demo/gen/api/go/system/service/v1"
 )
 
 type DictDetailRepo struct {

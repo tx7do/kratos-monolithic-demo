@@ -18,19 +18,19 @@ import (
 	swaggerUI "github.com/tx7do/kratos-swagger-ui"
 
 	bootstrap "github.com/tx7do/kratos-bootstrap"
-	"github.com/tx7do/kratos-bootstrap/gen/api/go/conf/v1"
+	conf "github.com/tx7do/kratos-bootstrap/gen/api/go/conf/v1"
 
 	"kratos-monolithic-demo/app/admin/service/cmd/server/assets"
 	"kratos-monolithic-demo/app/admin/service/internal/service"
 
-	v1 "kratos-monolithic-demo/gen/api/go/admin/service/v1"
+	adminV1 "kratos-monolithic-demo/gen/api/go/admin/service/v1"
 	"kratos-monolithic-demo/pkg/middleware/auth"
 )
 
 // NewWhiteListMatcher 创建jwt白名单
 func newRestWhiteListMatcher() selector.MatchFunc {
 	whiteList := make(map[string]bool)
-	whiteList[v1.OperationAuthenticationServiceLogin] = true
+	whiteList[adminV1.OperationAuthenticationServiceLogin] = true
 	return func(ctx context.Context, operation string) bool {
 		if _, ok := whiteList[operation]; ok {
 			return false
@@ -67,15 +67,15 @@ func NewRESTServer(
 ) *http.Server {
 	srv := bootstrap.CreateRestServer(cfg, newRestMiddleware(authenticator, authorizer, logger)...)
 
-	v1.RegisterAuthenticationServiceHTTPServer(srv, authnSvc)
-	v1.RegisterUserServiceHTTPServer(srv, userSvc)
-	v1.RegisterDictServiceHTTPServer(srv, dictSvc)
-	v1.RegisterDictDetailServiceHTTPServer(srv, dictDetailSvc)
-	v1.RegisterMenuServiceHTTPServer(srv, menuSvc)
-	v1.RegisterRouterServiceHTTPServer(srv, routerSvc)
-	v1.RegisterOrganizationServiceHTTPServer(srv, orgSvc)
-	v1.RegisterRoleServiceHTTPServer(srv, roleSvc)
-	v1.RegisterPositionServiceHTTPServer(srv, positionSvc)
+	adminV1.RegisterAuthenticationServiceHTTPServer(srv, authnSvc)
+	adminV1.RegisterUserServiceHTTPServer(srv, userSvc)
+	adminV1.RegisterDictServiceHTTPServer(srv, dictSvc)
+	adminV1.RegisterDictDetailServiceHTTPServer(srv, dictDetailSvc)
+	adminV1.RegisterMenuServiceHTTPServer(srv, menuSvc)
+	adminV1.RegisterRouterServiceHTTPServer(srv, routerSvc)
+	adminV1.RegisterOrganizationServiceHTTPServer(srv, orgSvc)
+	adminV1.RegisterRoleServiceHTTPServer(srv, roleSvc)
+	adminV1.RegisterPositionServiceHTTPServer(srv, positionSvc)
 
 	if cfg.GetServer().GetRest().GetEnableSwagger() {
 		swaggerUI.RegisterSwaggerUIServerWithOption(

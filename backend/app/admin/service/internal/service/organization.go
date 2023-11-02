@@ -8,7 +8,8 @@ import (
 
 	"kratos-monolithic-demo/app/admin/service/internal/data"
 
-	"kratos-monolithic-demo/gen/api/go/common/pagination"
+	pagination "github.com/tx7do/kratos-bootstrap/gen/api/go/pagination/v1"
+
 	v1 "kratos-monolithic-demo/gen/api/go/user/service/v1"
 	v12 "kratos-monolithic-demo/gen/api/go/user/service/v1"
 )

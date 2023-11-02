@@ -8,12 +8,12 @@ import (
 
 	"kratos-monolithic-demo/app/admin/service/internal/data"
 
-	"kratos-monolithic-demo/gen/api/go/common/pagination"
-	v12 "kratos-monolithic-demo/gen/api/go/user/service/v1"
+	pagination "github.com/tx7do/kratos-bootstrap/gen/api/go/pagination/v1"
+	userV1 "kratos-monolithic-demo/gen/api/go/user/service/v1"
 )
 
 type PositionService struct {
-	v12.UnimplementedPositionServiceServer
+	userV1.UnimplementedPositionServiceServer
 
 	log *log.Helper
 
@@ -28,23 +28,23 @@ func NewPositionService(uc *data.PositionRepo, logger log.Logger) *PositionServi
 	}
 }
 
-func (s *PositionService) ListPosition(ctx context.Context, req *pagination.PagingRequest) (*v12.ListPositionResponse, error) {
+func (s *PositionService) ListPosition(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListPositionResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *PositionService) GetPosition(ctx context.Context, req *v12.GetPositionRequest) (*v12.Position, error) {
+func (s *PositionService) GetPosition(ctx context.Context, req *userV1.GetPositionRequest) (*userV1.Position, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *PositionService) CreatePosition(ctx context.Context, req *v12.CreatePositionRequest) (*v12.Position, error) {
+func (s *PositionService) CreatePosition(ctx context.Context, req *userV1.CreatePositionRequest) (*userV1.Position, error) {
 	return s.uc.Create(ctx, req)
 }
 
-func (s *PositionService) UpdatePosition(ctx context.Context, req *v12.UpdatePositionRequest) (*v12.Position, error) {
+func (s *PositionService) UpdatePosition(ctx context.Context, req *userV1.UpdatePositionRequest) (*userV1.Position, error) {
 	return s.uc.Update(ctx, req)
 }
 
-func (s *PositionService) DeletePosition(ctx context.Context, req *v12.DeletePositionRequest) (*emptypb.Empty, error) {
+func (s *PositionService) DeletePosition(ctx context.Context, req *userV1.DeletePositionRequest) (*emptypb.Empty, error) {
 	_, err := s.uc.Delete(ctx, req)
 	if err != nil {
 		return nil, err

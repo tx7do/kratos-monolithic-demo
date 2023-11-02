@@ -8,12 +8,12 @@ import (
 
 	"kratos-monolithic-demo/app/admin/service/internal/data"
 
-	"kratos-monolithic-demo/gen/api/go/common/pagination"
-	v12 "kratos-monolithic-demo/gen/api/go/user/service/v1"
+	pagination "github.com/tx7do/kratos-bootstrap/gen/api/go/pagination/v1"
+	userV1 "kratos-monolithic-demo/gen/api/go/user/service/v1"
 )
 
 type RoleService struct {
-	v12.UnimplementedRoleServiceServer
+	userV1.UnimplementedRoleServiceServer
 
 	log *log.Helper
 
@@ -28,23 +28,23 @@ func NewRoleService(uc *data.RoleRepo, logger log.Logger) *RoleService {
 	}
 }
 
-func (s *RoleService) ListRole(ctx context.Context, req *pagination.PagingRequest) (*v12.ListRoleResponse, error) {
+func (s *RoleService) ListRole(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListRoleResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *RoleService) GetRole(ctx context.Context, req *v12.GetRoleRequest) (*v12.Role, error) {
+func (s *RoleService) GetRole(ctx context.Context, req *userV1.GetRoleRequest) (*userV1.Role, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *RoleService) CreateRole(ctx context.Context, req *v12.CreateRoleRequest) (*v12.Role, error) {
+func (s *RoleService) CreateRole(ctx context.Context, req *userV1.CreateRoleRequest) (*userV1.Role, error) {
 	return s.uc.Create(ctx, req)
 }
 
-func (s *RoleService) UpdateRole(ctx context.Context, req *v12.UpdateRoleRequest) (*v12.Role, error) {
+func (s *RoleService) UpdateRole(ctx context.Context, req *userV1.UpdateRoleRequest) (*userV1.Role, error) {
 	return s.uc.Update(ctx, req)
 }
 
-func (s *RoleService) DeleteRole(ctx context.Context, req *v12.DeleteRoleRequest) (*emptypb.Empty, error) {
+func (s *RoleService) DeleteRole(ctx context.Context, req *userV1.DeleteRoleRequest) (*emptypb.Empty, error) {
 	_, err := s.uc.Delete(ctx, req)
 	if err != nil {
 		return nil, err

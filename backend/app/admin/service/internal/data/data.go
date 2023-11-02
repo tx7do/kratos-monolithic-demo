@@ -1,10 +1,6 @@
 package data
 
 import (
-	"github.com/go-redis/redis/v8"
-	"github.com/tx7do/go-utils/entgo"
-	"kratos-monolithic-demo/app/admin/service/internal/data/ent"
-
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 	"github.com/tx7do/kratos-authn/engine/jwt"
 
@@ -12,8 +8,14 @@ import (
 	"github.com/tx7do/kratos-authz/engine/noop"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/go-redis/redis/v8"
+
+	"github.com/tx7do/go-utils/entgo"
 	"github.com/tx7do/kratos-bootstrap"
-	"github.com/tx7do/kratos-bootstrap/gen/api/go/conf/v1"
+
+	"kratos-monolithic-demo/app/admin/service/internal/data/ent"
+
+	conf "github.com/tx7do/kratos-bootstrap/gen/api/go/conf/v1"
 )
 
 // Data .

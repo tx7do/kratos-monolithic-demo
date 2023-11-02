@@ -10,8 +10,9 @@ import (
 	"kratos-monolithic-demo/app/admin/service/internal/data"
 
 	adminV1 "kratos-monolithic-demo/gen/api/go/admin/service/v1"
-	"kratos-monolithic-demo/gen/api/go/common/pagination"
 	userV1 "kratos-monolithic-demo/gen/api/go/user/service/v1"
+
+	pagination "github.com/tx7do/kratos-bootstrap/gen/api/go/pagination/v1"
 
 	"kratos-monolithic-demo/pkg/middleware/auth"
 )
