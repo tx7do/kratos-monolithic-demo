@@ -4,7 +4,7 @@ package file.service.v1;
 
 import "google/protobuf/empty.proto";
 
-import "common/pagination/pagination.proto";
+import "pagination/v1/pagination.proto";
 
 // 附件服务
 service AttachmentService {

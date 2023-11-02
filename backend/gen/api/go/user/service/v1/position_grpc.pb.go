@@ -8,11 +8,11 @@ package servicev1
 
 import (
 	context "context"
+	v1 "github.com/tx7do/kratos-bootstrap/gen/api/go/pagination/v1"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	pagination "kratos-monolithic-demo/gen/api/go/common/pagination"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -33,7 +33,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PositionServiceClient interface {
 	// 查询职位列表
-	ListPosition(ctx context.Context, in *pagination.PagingRequest, opts ...grpc.CallOption) (*ListPositionResponse, error)
+	ListPosition(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListPositionResponse, error)
 	// 查询职位详情
 	GetPosition(ctx context.Context, in *GetPositionRequest, opts ...grpc.CallOption) (*Position, error)
 	// 创建职位
@@ -52,7 +52,7 @@ func NewPositionServiceClient(cc grpc.ClientConnInterface) PositionServiceClient
 	return &positionServiceClient{cc}
 }
 
-func (c *positionServiceClient) ListPosition(ctx context.Context, in *pagination.PagingRequest, opts ...grpc.CallOption) (*ListPositionResponse, error) {
+func (c *positionServiceClient) ListPosition(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListPositionResponse, error) {
 	out := new(ListPositionResponse)
 	err := c.cc.Invoke(ctx, PositionService_ListPosition_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -102,7 +102,7 @@ func (c *positionServiceClient) DeletePosition(ctx context.Context, in *DeletePo
 // for forward compatibility
 type PositionServiceServer interface {
 	// 查询职位列表
-	ListPosition(context.Context, *pagination.PagingRequest) (*ListPositionResponse, error)
+	ListPosition(context.Context, *v1.PagingRequest) (*ListPositionResponse, error)
 	// 查询职位详情
 	GetPosition(context.Context, *GetPositionRequest) (*Position, error)
 	// 创建职位
@@ -118,7 +118,7 @@ type PositionServiceServer interface {
 type UnimplementedPositionServiceServer struct {
 }
 
-func (UnimplementedPositionServiceServer) ListPosition(context.Context, *pagination.PagingRequest) (*ListPositionResponse, error) {
+func (UnimplementedPositionServiceServer) ListPosition(context.Context, *v1.PagingRequest) (*ListPositionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListPosition not implemented")
 }
 func (UnimplementedPositionServiceServer) GetPosition(context.Context, *GetPositionRequest) (*Position, error) {
@@ -147,7 +147,7 @@ func RegisterPositionServiceServer(s grpc.ServiceRegistrar, srv PositionServiceS
 }
 
 func _PositionService_ListPosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(pagination.PagingRequest)
+	in := new(v1.PagingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -159,7 +159,7 @@ func _PositionService_ListPosition_Handler(srv interface{}, ctx context.Context,
 		FullMethod: PositionService_ListPosition_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PositionServiceServer).ListPosition(ctx, req.(*pagination.PagingRequest))
+		return srv.(PositionServiceServer).ListPosition(ctx, req.(*v1.PagingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

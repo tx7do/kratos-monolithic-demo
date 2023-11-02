@@ -10,9 +10,9 @@ import (
 	context "context"
 	http "github.com/go-kratos/kratos/v2/transport/http"
 	binding "github.com/go-kratos/kratos/v2/transport/http/binding"
+	v1 "github.com/tx7do/kratos-bootstrap/gen/api/go/pagination/v1"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	pagination "kratos-monolithic-demo/gen/api/go/common/pagination"
-	v1 "kratos-monolithic-demo/gen/api/go/user/service/v1"
+	v11 "kratos-monolithic-demo/gen/api/go/user/service/v1"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -30,15 +30,15 @@ const OperationRoleServiceUpdateRole = "/admin.service.v1.RoleService/UpdateRole
 
 type RoleServiceHTTPServer interface {
 	// CreateRole 创建角色
-	CreateRole(context.Context, *v1.CreateRoleRequest) (*v1.Role, error)
+	CreateRole(context.Context, *v11.CreateRoleRequest) (*v11.Role, error)
 	// DeleteRole 删除角色
-	DeleteRole(context.Context, *v1.DeleteRoleRequest) (*emptypb.Empty, error)
+	DeleteRole(context.Context, *v11.DeleteRoleRequest) (*emptypb.Empty, error)
 	// GetRole 查询角色详情
-	GetRole(context.Context, *v1.GetRoleRequest) (*v1.Role, error)
+	GetRole(context.Context, *v11.GetRoleRequest) (*v11.Role, error)
 	// ListRole 查询角色列表
-	ListRole(context.Context, *pagination.PagingRequest) (*v1.ListRoleResponse, error)
+	ListRole(context.Context, *v1.PagingRequest) (*v11.ListRoleResponse, error)
 	// UpdateRole 更新角色
-	UpdateRole(context.Context, *v1.UpdateRoleRequest) (*v1.Role, error)
+	UpdateRole(context.Context, *v11.UpdateRoleRequest) (*v11.Role, error)
 }
 
 func RegisterRoleServiceHTTPServer(s *http.Server, srv RoleServiceHTTPServer) {
@@ -52,26 +52,26 @@ func RegisterRoleServiceHTTPServer(s *http.Server, srv RoleServiceHTTPServer) {
 
 func _RoleService_ListRole0_HTTP_Handler(srv RoleServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in pagination.PagingRequest
+		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, OperationRoleServiceListRole)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.ListRole(ctx, req.(*pagination.PagingRequest))
+			return srv.ListRole(ctx, req.(*v1.PagingRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*v1.ListRoleResponse)
+		reply := out.(*v11.ListRoleResponse)
 		return ctx.Result(200, reply)
 	}
 }
 
 func _RoleService_GetRole0_HTTP_Handler(srv RoleServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in v1.GetRoleRequest
+		var in v11.GetRoleRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
@@ -80,20 +80,20 @@ func _RoleService_GetRole0_HTTP_Handler(srv RoleServiceHTTPServer) func(ctx http
 		}
 		http.SetOperation(ctx, OperationRoleServiceGetRole)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetRole(ctx, req.(*v1.GetRoleRequest))
+			return srv.GetRole(ctx, req.(*v11.GetRoleRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*v1.Role)
+		reply := out.(*v11.Role)
 		return ctx.Result(200, reply)
 	}
 }
 
 func _RoleService_CreateRole0_HTTP_Handler(srv RoleServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in v1.CreateRoleRequest
+		var in v11.CreateRoleRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
@@ -102,20 +102,20 @@ func _RoleService_CreateRole0_HTTP_Handler(srv RoleServiceHTTPServer) func(ctx h
 		}
 		http.SetOperation(ctx, OperationRoleServiceCreateRole)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.CreateRole(ctx, req.(*v1.CreateRoleRequest))
+			return srv.CreateRole(ctx, req.(*v11.CreateRoleRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*v1.Role)
+		reply := out.(*v11.Role)
 		return ctx.Result(200, reply)
 	}
 }
 
 func _RoleService_UpdateRole0_HTTP_Handler(srv RoleServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in v1.UpdateRoleRequest
+		var in v11.UpdateRoleRequest
 		if err := ctx.Bind(&in.Role); err != nil {
 			return err
 		}
@@ -127,20 +127,20 @@ func _RoleService_UpdateRole0_HTTP_Handler(srv RoleServiceHTTPServer) func(ctx h
 		}
 		http.SetOperation(ctx, OperationRoleServiceUpdateRole)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.UpdateRole(ctx, req.(*v1.UpdateRoleRequest))
+			return srv.UpdateRole(ctx, req.(*v11.UpdateRoleRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*v1.Role)
+		reply := out.(*v11.Role)
 		return ctx.Result(200, reply)
 	}
 }
 
 func _RoleService_DeleteRole0_HTTP_Handler(srv RoleServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in v1.DeleteRoleRequest
+		var in v11.DeleteRoleRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
@@ -149,7 +149,7 @@ func _RoleService_DeleteRole0_HTTP_Handler(srv RoleServiceHTTPServer) func(ctx h
 		}
 		http.SetOperation(ctx, OperationRoleServiceDeleteRole)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.DeleteRole(ctx, req.(*v1.DeleteRoleRequest))
+			return srv.DeleteRole(ctx, req.(*v11.DeleteRoleRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -161,11 +161,11 @@ func _RoleService_DeleteRole0_HTTP_Handler(srv RoleServiceHTTPServer) func(ctx h
 }
 
 type RoleServiceHTTPClient interface {
-	CreateRole(ctx context.Context, req *v1.CreateRoleRequest, opts ...http.CallOption) (rsp *v1.Role, err error)
-	DeleteRole(ctx context.Context, req *v1.DeleteRoleRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	GetRole(ctx context.Context, req *v1.GetRoleRequest, opts ...http.CallOption) (rsp *v1.Role, err error)
-	ListRole(ctx context.Context, req *pagination.PagingRequest, opts ...http.CallOption) (rsp *v1.ListRoleResponse, err error)
-	UpdateRole(ctx context.Context, req *v1.UpdateRoleRequest, opts ...http.CallOption) (rsp *v1.Role, err error)
+	CreateRole(ctx context.Context, req *v11.CreateRoleRequest, opts ...http.CallOption) (rsp *v11.Role, err error)
+	DeleteRole(ctx context.Context, req *v11.DeleteRoleRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	GetRole(ctx context.Context, req *v11.GetRoleRequest, opts ...http.CallOption) (rsp *v11.Role, err error)
+	ListRole(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListRoleResponse, err error)
+	UpdateRole(ctx context.Context, req *v11.UpdateRoleRequest, opts ...http.CallOption) (rsp *v11.Role, err error)
 }
 
 type RoleServiceHTTPClientImpl struct {
@@ -176,8 +176,8 @@ func NewRoleServiceHTTPClient(client *http.Client) RoleServiceHTTPClient {
 	return &RoleServiceHTTPClientImpl{client}
 }
 
-func (c *RoleServiceHTTPClientImpl) CreateRole(ctx context.Context, in *v1.CreateRoleRequest, opts ...http.CallOption) (*v1.Role, error) {
-	var out v1.Role
+func (c *RoleServiceHTTPClientImpl) CreateRole(ctx context.Context, in *v11.CreateRoleRequest, opts ...http.CallOption) (*v11.Role, error) {
+	var out v11.Role
 	pattern := "/admin/v1/roles"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationRoleServiceCreateRole))
@@ -189,7 +189,7 @@ func (c *RoleServiceHTTPClientImpl) CreateRole(ctx context.Context, in *v1.Creat
 	return &out, err
 }
 
-func (c *RoleServiceHTTPClientImpl) DeleteRole(ctx context.Context, in *v1.DeleteRoleRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *RoleServiceHTTPClientImpl) DeleteRole(ctx context.Context, in *v11.DeleteRoleRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/roles/{id}"
 	path := binding.EncodeURL(pattern, in, true)
@@ -202,8 +202,8 @@ func (c *RoleServiceHTTPClientImpl) DeleteRole(ctx context.Context, in *v1.Delet
 	return &out, err
 }
 
-func (c *RoleServiceHTTPClientImpl) GetRole(ctx context.Context, in *v1.GetRoleRequest, opts ...http.CallOption) (*v1.Role, error) {
-	var out v1.Role
+func (c *RoleServiceHTTPClientImpl) GetRole(ctx context.Context, in *v11.GetRoleRequest, opts ...http.CallOption) (*v11.Role, error) {
+	var out v11.Role
 	pattern := "/admin/v1/roles/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationRoleServiceGetRole))
@@ -215,8 +215,8 @@ func (c *RoleServiceHTTPClientImpl) GetRole(ctx context.Context, in *v1.GetRoleR
 	return &out, err
 }
 
-func (c *RoleServiceHTTPClientImpl) ListRole(ctx context.Context, in *pagination.PagingRequest, opts ...http.CallOption) (*v1.ListRoleResponse, error) {
-	var out v1.ListRoleResponse
+func (c *RoleServiceHTTPClientImpl) ListRole(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListRoleResponse, error) {
+	var out v11.ListRoleResponse
 	pattern := "/admin/v1/roles"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationRoleServiceListRole))
@@ -228,8 +228,8 @@ func (c *RoleServiceHTTPClientImpl) ListRole(ctx context.Context, in *pagination
 	return &out, err
 }
 
-func (c *RoleServiceHTTPClientImpl) UpdateRole(ctx context.Context, in *v1.UpdateRoleRequest, opts ...http.CallOption) (*v1.Role, error) {
-	var out v1.Role
+func (c *RoleServiceHTTPClientImpl) UpdateRole(ctx context.Context, in *v11.UpdateRoleRequest, opts ...http.CallOption) (*v11.Role, error) {
+	var out v11.Role
 	pattern := "/admin/v1/roles/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationRoleServiceUpdateRole))

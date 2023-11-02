@@ -9,6 +9,7 @@ deps:
   - 'buf.build/kratos/apis'
   - 'buf.build/gnostic/gnostic'
   - 'buf.build/gogo/protobuf'
+  - 'buf.build/tx7do/pagination'
 
 breaking:
   use:

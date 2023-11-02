@@ -57,6 +57,7 @@ paths:
                     type: boolean
                 - name: field_mask
                   in: query
+                  description: 字段掩码
                   schema:
                     type: string
                     format: field-mask
@@ -213,6 +214,7 @@ paths:
                     type: boolean
                 - name: field_mask
                   in: query
+                  description: 字段掩码
                   schema:
                     type: string
                     format: field-mask
@@ -427,6 +429,7 @@ paths:
                     type: boolean
                 - name: field_mask
                   in: query
+                  description: 字段掩码
                   schema:
                     type: string
                     format: field-mask
@@ -579,6 +582,7 @@ paths:
                     type: boolean
                 - name: field_mask
                   in: query
+                  description: 字段掩码
                   schema:
                     type: string
                     format: field-mask
@@ -746,6 +750,7 @@ paths:
                     type: boolean
                 - name: field_mask
                   in: query
+                  description: 字段掩码
                   schema:
                     type: string
                     format: field-mask
@@ -919,6 +924,7 @@ paths:
                     type: boolean
                 - name: field_mask
                   in: query
+                  description: 字段掩码
                   schema:
                     type: string
                     format: field-mask
@@ -1086,6 +1092,7 @@ paths:
                     type: boolean
                 - name: field_mask
                   in: query
+                  description: 字段掩码
                   schema:
                     type: string
                     format: field-mask

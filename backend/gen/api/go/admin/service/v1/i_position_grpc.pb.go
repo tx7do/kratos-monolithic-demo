@@ -8,12 +8,12 @@ package servicev1
 
 import (
 	context "context"
+	v1 "github.com/tx7do/kratos-bootstrap/gen/api/go/pagination/v1"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	pagination "kratos-monolithic-demo/gen/api/go/common/pagination"
-	v1 "kratos-monolithic-demo/gen/api/go/user/service/v1"
+	v11 "kratos-monolithic-demo/gen/api/go/user/service/v1"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -34,15 +34,15 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PositionServiceClient interface {
 	// 查询职位列表
-	ListPosition(ctx context.Context, in *pagination.PagingRequest, opts ...grpc.CallOption) (*v1.ListPositionResponse, error)
+	ListPosition(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListPositionResponse, error)
 	// 查询职位详情
-	GetPosition(ctx context.Context, in *v1.GetPositionRequest, opts ...grpc.CallOption) (*v1.Position, error)
+	GetPosition(ctx context.Context, in *v11.GetPositionRequest, opts ...grpc.CallOption) (*v11.Position, error)
 	// 创建职位
-	CreatePosition(ctx context.Context, in *v1.CreatePositionRequest, opts ...grpc.CallOption) (*v1.Position, error)
+	CreatePosition(ctx context.Context, in *v11.CreatePositionRequest, opts ...grpc.CallOption) (*v11.Position, error)
 	// 更新职位
-	UpdatePosition(ctx context.Context, in *v1.UpdatePositionRequest, opts ...grpc.CallOption) (*v1.Position, error)
+	UpdatePosition(ctx context.Context, in *v11.UpdatePositionRequest, opts ...grpc.CallOption) (*v11.Position, error)
 	// 删除职位
-	DeletePosition(ctx context.Context, in *v1.DeletePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	DeletePosition(ctx context.Context, in *v11.DeletePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type positionServiceClient struct {
@@ -53,8 +53,8 @@ func NewPositionServiceClient(cc grpc.ClientConnInterface) PositionServiceClient
 	return &positionServiceClient{cc}
 }
 
-func (c *positionServiceClient) ListPosition(ctx context.Context, in *pagination.PagingRequest, opts ...grpc.CallOption) (*v1.ListPositionResponse, error) {
-	out := new(v1.ListPositionResponse)
+func (c *positionServiceClient) ListPosition(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListPositionResponse, error) {
+	out := new(v11.ListPositionResponse)
 	err := c.cc.Invoke(ctx, PositionService_ListPosition_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -62,8 +62,8 @@ func (c *positionServiceClient) ListPosition(ctx context.Context, in *pagination
 	return out, nil
 }
 
-func (c *positionServiceClient) GetPosition(ctx context.Context, in *v1.GetPositionRequest, opts ...grpc.CallOption) (*v1.Position, error) {
-	out := new(v1.Position)
+func (c *positionServiceClient) GetPosition(ctx context.Context, in *v11.GetPositionRequest, opts ...grpc.CallOption) (*v11.Position, error) {
+	out := new(v11.Position)
 	err := c.cc.Invoke(ctx, PositionService_GetPosition_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -71,8 +71,8 @@ func (c *positionServiceClient) GetPosition(ctx context.Context, in *v1.GetPosit
 	return out, nil
 }
 
-func (c *positionServiceClient) CreatePosition(ctx context.Context, in *v1.CreatePositionRequest, opts ...grpc.CallOption) (*v1.Position, error) {
-	out := new(v1.Position)
+func (c *positionServiceClient) CreatePosition(ctx context.Context, in *v11.CreatePositionRequest, opts ...grpc.CallOption) (*v11.Position, error) {
+	out := new(v11.Position)
 	err := c.cc.Invoke(ctx, PositionService_CreatePosition_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -80,8 +80,8 @@ func (c *positionServiceClient) CreatePosition(ctx context.Context, in *v1.Creat
 	return out, nil
 }
 
-func (c *positionServiceClient) UpdatePosition(ctx context.Context, in *v1.UpdatePositionRequest, opts ...grpc.CallOption) (*v1.Position, error) {
-	out := new(v1.Position)
+func (c *positionServiceClient) UpdatePosition(ctx context.Context, in *v11.UpdatePositionRequest, opts ...grpc.CallOption) (*v11.Position, error) {
+	out := new(v11.Position)
 	err := c.cc.Invoke(ctx, PositionService_UpdatePosition_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -89,7 +89,7 @@ func (c *positionServiceClient) UpdatePosition(ctx context.Context, in *v1.Updat
 	return out, nil
 }
 
-func (c *positionServiceClient) DeletePosition(ctx context.Context, in *v1.DeletePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *positionServiceClient) DeletePosition(ctx context.Context, in *v11.DeletePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, PositionService_DeletePosition_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -103,15 +103,15 @@ func (c *positionServiceClient) DeletePosition(ctx context.Context, in *v1.Delet
 // for forward compatibility
 type PositionServiceServer interface {
 	// 查询职位列表
-	ListPosition(context.Context, *pagination.PagingRequest) (*v1.ListPositionResponse, error)
+	ListPosition(context.Context, *v1.PagingRequest) (*v11.ListPositionResponse, error)
 	// 查询职位详情
-	GetPosition(context.Context, *v1.GetPositionRequest) (*v1.Position, error)
+	GetPosition(context.Context, *v11.GetPositionRequest) (*v11.Position, error)
 	// 创建职位
-	CreatePosition(context.Context, *v1.CreatePositionRequest) (*v1.Position, error)
+	CreatePosition(context.Context, *v11.CreatePositionRequest) (*v11.Position, error)
 	// 更新职位
-	UpdatePosition(context.Context, *v1.UpdatePositionRequest) (*v1.Position, error)
+	UpdatePosition(context.Context, *v11.UpdatePositionRequest) (*v11.Position, error)
 	// 删除职位
-	DeletePosition(context.Context, *v1.DeletePositionRequest) (*emptypb.Empty, error)
+	DeletePosition(context.Context, *v11.DeletePositionRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedPositionServiceServer()
 }
 
@@ -119,19 +119,19 @@ type PositionServiceServer interface {
 type UnimplementedPositionServiceServer struct {
 }
 
-func (UnimplementedPositionServiceServer) ListPosition(context.Context, *pagination.PagingRequest) (*v1.ListPositionResponse, error) {
+func (UnimplementedPositionServiceServer) ListPosition(context.Context, *v1.PagingRequest) (*v11.ListPositionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListPosition not implemented")
 }
-func (UnimplementedPositionServiceServer) GetPosition(context.Context, *v1.GetPositionRequest) (*v1.Position, error) {
+func (UnimplementedPositionServiceServer) GetPosition(context.Context, *v11.GetPositionRequest) (*v11.Position, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPosition not implemented")
 }
-func (UnimplementedPositionServiceServer) CreatePosition(context.Context, *v1.CreatePositionRequest) (*v1.Position, error) {
+func (UnimplementedPositionServiceServer) CreatePosition(context.Context, *v11.CreatePositionRequest) (*v11.Position, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreatePosition not implemented")
 }
-func (UnimplementedPositionServiceServer) UpdatePosition(context.Context, *v1.UpdatePositionRequest) (*v1.Position, error) {
+func (UnimplementedPositionServiceServer) UpdatePosition(context.Context, *v11.UpdatePositionRequest) (*v11.Position, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePosition not implemented")
 }
-func (UnimplementedPositionServiceServer) DeletePosition(context.Context, *v1.DeletePositionRequest) (*emptypb.Empty, error) {
+func (UnimplementedPositionServiceServer) DeletePosition(context.Context, *v11.DeletePositionRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeletePosition not implemented")
 }
 func (UnimplementedPositionServiceServer) mustEmbedUnimplementedPositionServiceServer() {}
@@ -148,7 +148,7 @@ func RegisterPositionServiceServer(s grpc.ServiceRegistrar, srv PositionServiceS
 }
 
 func _PositionService_ListPosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(pagination.PagingRequest)
+	in := new(v1.PagingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -160,13 +160,13 @@ func _PositionService_ListPosition_Handler(srv interface{}, ctx context.Context,
 		FullMethod: PositionService_ListPosition_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PositionServiceServer).ListPosition(ctx, req.(*pagination.PagingRequest))
+		return srv.(PositionServiceServer).ListPosition(ctx, req.(*v1.PagingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _PositionService_GetPosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v1.GetPositionRequest)
+	in := new(v11.GetPositionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -178,13 +178,13 @@ func _PositionService_GetPosition_Handler(srv interface{}, ctx context.Context, 
 		FullMethod: PositionService_GetPosition_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PositionServiceServer).GetPosition(ctx, req.(*v1.GetPositionRequest))
+		return srv.(PositionServiceServer).GetPosition(ctx, req.(*v11.GetPositionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _PositionService_CreatePosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v1.CreatePositionRequest)
+	in := new(v11.CreatePositionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -196,13 +196,13 @@ func _PositionService_CreatePosition_Handler(srv interface{}, ctx context.Contex
 		FullMethod: PositionService_CreatePosition_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PositionServiceServer).CreatePosition(ctx, req.(*v1.CreatePositionRequest))
+		return srv.(PositionServiceServer).CreatePosition(ctx, req.(*v11.CreatePositionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _PositionService_UpdatePosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v1.UpdatePositionRequest)
+	in := new(v11.UpdatePositionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -214,13 +214,13 @@ func _PositionService_UpdatePosition_Handler(srv interface{}, ctx context.Contex
 		FullMethod: PositionService_UpdatePosition_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PositionServiceServer).UpdatePosition(ctx, req.(*v1.UpdatePositionRequest))
+		return srv.(PositionServiceServer).UpdatePosition(ctx, req.(*v11.UpdatePositionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _PositionService_DeletePosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v1.DeletePositionRequest)
+	in := new(v11.DeletePositionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -232,7 +232,7 @@ func _PositionService_DeletePosition_Handler(srv interface{}, ctx context.Contex
 		FullMethod: PositionService_DeletePosition_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PositionServiceServer).DeletePosition(ctx, req.(*v1.DeletePositionRequest))
+		return srv.(PositionServiceServer).DeletePosition(ctx, req.(*v11.DeletePositionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

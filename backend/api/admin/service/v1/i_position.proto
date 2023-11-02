@@ -7,7 +7,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
 import "user/service/v1/position.proto";
-import "common/pagination/pagination.proto";
+import "pagination/v1/pagination.proto";
 
 // 职位服务
 service PositionService {

@@ -8,12 +8,12 @@ package servicev1
 
 import (
 	context "context"
+	v1 "github.com/tx7do/kratos-bootstrap/gen/api/go/pagination/v1"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	pagination "kratos-monolithic-demo/gen/api/go/common/pagination"
-	v1 "kratos-monolithic-demo/gen/api/go/user/service/v1"
+	v11 "kratos-monolithic-demo/gen/api/go/user/service/v1"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -34,15 +34,15 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrganizationServiceClient interface {
 	// 查询部门列表
-	ListOrganization(ctx context.Context, in *pagination.PagingRequest, opts ...grpc.CallOption) (*v1.ListOrganizationResponse, error)
+	ListOrganization(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListOrganizationResponse, error)
 	// 查询部门详情
-	GetOrganization(ctx context.Context, in *v1.GetOrganizationRequest, opts ...grpc.CallOption) (*v1.Organization, error)
+	GetOrganization(ctx context.Context, in *v11.GetOrganizationRequest, opts ...grpc.CallOption) (*v11.Organization, error)
 	// 创建部门
-	CreateOrganization(ctx context.Context, in *v1.CreateOrganizationRequest, opts ...grpc.CallOption) (*v1.Organization, error)
+	CreateOrganization(ctx context.Context, in *v11.CreateOrganizationRequest, opts ...grpc.CallOption) (*v11.Organization, error)
 	// 更新部门
-	UpdateOrganization(ctx context.Context, in *v1.UpdateOrganizationRequest, opts ...grpc.CallOption) (*v1.Organization, error)
+	UpdateOrganization(ctx context.Context, in *v11.UpdateOrganizationRequest, opts ...grpc.CallOption) (*v11.Organization, error)
 	// 删除部门
-	DeleteOrganization(ctx context.Context, in *v1.DeleteOrganizationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	DeleteOrganization(ctx context.Context, in *v11.DeleteOrganizationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type organizationServiceClient struct {
@@ -53,8 +53,8 @@ func NewOrganizationServiceClient(cc grpc.ClientConnInterface) OrganizationServi
 	return &organizationServiceClient{cc}
 }
 
-func (c *organizationServiceClient) ListOrganization(ctx context.Context, in *pagination.PagingRequest, opts ...grpc.CallOption) (*v1.ListOrganizationResponse, error) {
-	out := new(v1.ListOrganizationResponse)
+func (c *organizationServiceClient) ListOrganization(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListOrganizationResponse, error) {
+	out := new(v11.ListOrganizationResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_ListOrganization_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -62,8 +62,8 @@ func (c *organizationServiceClient) ListOrganization(ctx context.Context, in *pa
 	return out, nil
 }
 
-func (c *organizationServiceClient) GetOrganization(ctx context.Context, in *v1.GetOrganizationRequest, opts ...grpc.CallOption) (*v1.Organization, error) {
-	out := new(v1.Organization)
+func (c *organizationServiceClient) GetOrganization(ctx context.Context, in *v11.GetOrganizationRequest, opts ...grpc.CallOption) (*v11.Organization, error) {
+	out := new(v11.Organization)
 	err := c.cc.Invoke(ctx, OrganizationService_GetOrganization_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -71,8 +71,8 @@ func (c *organizationServiceClient) GetOrganization(ctx context.Context, in *v1.
 	return out, nil
 }
 
-func (c *organizationServiceClient) CreateOrganization(ctx context.Context, in *v1.CreateOrganizationRequest, opts ...grpc.CallOption) (*v1.Organization, error) {
-	out := new(v1.Organization)
+func (c *organizationServiceClient) CreateOrganization(ctx context.Context, in *v11.CreateOrganizationRequest, opts ...grpc.CallOption) (*v11.Organization, error) {
+	out := new(v11.Organization)
 	err := c.cc.Invoke(ctx, OrganizationService_CreateOrganization_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -80,8 +80,8 @@ func (c *organizationServiceClient) CreateOrganization(ctx context.Context, in *
 	return out, nil
 }
 
-func (c *organizationServiceClient) UpdateOrganization(ctx context.Context, in *v1.UpdateOrganizationRequest, opts ...grpc.CallOption) (*v1.Organization, error) {
-	out := new(v1.Organization)
+func (c *organizationServiceClient) UpdateOrganization(ctx context.Context, in *v11.UpdateOrganizationRequest, opts ...grpc.CallOption) (*v11.Organization, error) {
+	out := new(v11.Organization)
 	err := c.cc.Invoke(ctx, OrganizationService_UpdateOrganization_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -89,7 +89,7 @@ func (c *organizationServiceClient) UpdateOrganization(ctx context.Context, in *
 	return out, nil
 }
 
-func (c *organizationServiceClient) DeleteOrganization(ctx context.Context, in *v1.DeleteOrganizationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *organizationServiceClient) DeleteOrganization(ctx context.Context, in *v11.DeleteOrganizationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, OrganizationService_DeleteOrganization_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -103,15 +103,15 @@ func (c *organizationServiceClient) DeleteOrganization(ctx context.Context, in *
 // for forward compatibility
 type OrganizationServiceServer interface {
 	// 查询部门列表
-	ListOrganization(context.Context, *pagination.PagingRequest) (*v1.ListOrganizationResponse, error)
+	ListOrganization(context.Context, *v1.PagingRequest) (*v11.ListOrganizationResponse, error)
 	// 查询部门详情
-	GetOrganization(context.Context, *v1.GetOrganizationRequest) (*v1.Organization, error)
+	GetOrganization(context.Context, *v11.GetOrganizationRequest) (*v11.Organization, error)
 	// 创建部门
-	CreateOrganization(context.Context, *v1.CreateOrganizationRequest) (*v1.Organization, error)
+	CreateOrganization(context.Context, *v11.CreateOrganizationRequest) (*v11.Organization, error)
 	// 更新部门
-	UpdateOrganization(context.Context, *v1.UpdateOrganizationRequest) (*v1.Organization, error)
+	UpdateOrganization(context.Context, *v11.UpdateOrganizationRequest) (*v11.Organization, error)
 	// 删除部门
-	DeleteOrganization(context.Context, *v1.DeleteOrganizationRequest) (*emptypb.Empty, error)
+	DeleteOrganization(context.Context, *v11.DeleteOrganizationRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
 
@@ -119,19 +119,19 @@ type OrganizationServiceServer interface {
 type UnimplementedOrganizationServiceServer struct {
 }
 
-func (UnimplementedOrganizationServiceServer) ListOrganization(context.Context, *pagination.PagingRequest) (*v1.ListOrganizationResponse, error) {
+func (UnimplementedOrganizationServiceServer) ListOrganization(context.Context, *v1.PagingRequest) (*v11.ListOrganizationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListOrganization not implemented")
 }
-func (UnimplementedOrganizationServiceServer) GetOrganization(context.Context, *v1.GetOrganizationRequest) (*v1.Organization, error) {
+func (UnimplementedOrganizationServiceServer) GetOrganization(context.Context, *v11.GetOrganizationRequest) (*v11.Organization, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrganization not implemented")
 }
-func (UnimplementedOrganizationServiceServer) CreateOrganization(context.Context, *v1.CreateOrganizationRequest) (*v1.Organization, error) {
+func (UnimplementedOrganizationServiceServer) CreateOrganization(context.Context, *v11.CreateOrganizationRequest) (*v11.Organization, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOrganization not implemented")
 }
-func (UnimplementedOrganizationServiceServer) UpdateOrganization(context.Context, *v1.UpdateOrganizationRequest) (*v1.Organization, error) {
+func (UnimplementedOrganizationServiceServer) UpdateOrganization(context.Context, *v11.UpdateOrganizationRequest) (*v11.Organization, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateOrganization not implemented")
 }
-func (UnimplementedOrganizationServiceServer) DeleteOrganization(context.Context, *v1.DeleteOrganizationRequest) (*emptypb.Empty, error) {
+func (UnimplementedOrganizationServiceServer) DeleteOrganization(context.Context, *v11.DeleteOrganizationRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteOrganization not implemented")
 }
 func (UnimplementedOrganizationServiceServer) mustEmbedUnimplementedOrganizationServiceServer() {}
@@ -148,7 +148,7 @@ func RegisterOrganizationServiceServer(s grpc.ServiceRegistrar, srv Organization
 }
 
 func _OrganizationService_ListOrganization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(pagination.PagingRequest)
+	in := new(v1.PagingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -160,13 +160,13 @@ func _OrganizationService_ListOrganization_Handler(srv interface{}, ctx context.
 		FullMethod: OrganizationService_ListOrganization_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrganizationServiceServer).ListOrganization(ctx, req.(*pagination.PagingRequest))
+		return srv.(OrganizationServiceServer).ListOrganization(ctx, req.(*v1.PagingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _OrganizationService_GetOrganization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v1.GetOrganizationRequest)
+	in := new(v11.GetOrganizationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -178,13 +178,13 @@ func _OrganizationService_GetOrganization_Handler(srv interface{}, ctx context.C
 		FullMethod: OrganizationService_GetOrganization_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrganizationServiceServer).GetOrganization(ctx, req.(*v1.GetOrganizationRequest))
+		return srv.(OrganizationServiceServer).GetOrganization(ctx, req.(*v11.GetOrganizationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _OrganizationService_CreateOrganization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v1.CreateOrganizationRequest)
+	in := new(v11.CreateOrganizationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -196,13 +196,13 @@ func _OrganizationService_CreateOrganization_Handler(srv interface{}, ctx contex
 		FullMethod: OrganizationService_CreateOrganization_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrganizationServiceServer).CreateOrganization(ctx, req.(*v1.CreateOrganizationRequest))
+		return srv.(OrganizationServiceServer).CreateOrganization(ctx, req.(*v11.CreateOrganizationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _OrganizationService_UpdateOrganization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v1.UpdateOrganizationRequest)
+	in := new(v11.UpdateOrganizationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -214,13 +214,13 @@ func _OrganizationService_UpdateOrganization_Handler(srv interface{}, ctx contex
 		FullMethod: OrganizationService_UpdateOrganization_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrganizationServiceServer).UpdateOrganization(ctx, req.(*v1.UpdateOrganizationRequest))
+		return srv.(OrganizationServiceServer).UpdateOrganization(ctx, req.(*v11.UpdateOrganizationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _OrganizationService_DeleteOrganization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v1.DeleteOrganizationRequest)
+	in := new(v11.DeleteOrganizationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -232,7 +232,7 @@ func _OrganizationService_DeleteOrganization_Handler(srv interface{}, ctx contex
 		FullMethod: OrganizationService_DeleteOrganization_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrganizationServiceServer).DeleteOrganization(ctx, req.(*v1.DeleteOrganizationRequest))
+		return srv.(OrganizationServiceServer).DeleteOrganization(ctx, req.(*v11.DeleteOrganizationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

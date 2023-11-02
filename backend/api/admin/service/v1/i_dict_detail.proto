@@ -6,7 +6,7 @@ import "gnostic/openapi/v3/annotations.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
-import "common/pagination/pagination.proto";
+import "pagination/v1/pagination.proto";
 import "system/service/v1/dict_detail.proto";
 
 // 数据字典详情服务

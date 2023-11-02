@@ -13,6 +13,7 @@ managed:
       - 'buf.build/kratos/apis'
       - 'buf.build/gnostic/gnostic'
       - 'buf.build/gogo/protobuf'
+      - 'buf.build/tx7do/pagination'
 
 plugins:
   # 使用go插件生成go代码

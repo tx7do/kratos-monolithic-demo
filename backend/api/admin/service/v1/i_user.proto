@@ -7,7 +7,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
 import "user/service/v1/user.proto";
-import "common/pagination/pagination.proto";
+import "pagination/v1/pagination.proto";
 
 // 用户管理服务
 service UserService {

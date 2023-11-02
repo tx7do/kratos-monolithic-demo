@@ -10,9 +10,9 @@ import (
 	context "context"
 	http "github.com/go-kratos/kratos/v2/transport/http"
 	binding "github.com/go-kratos/kratos/v2/transport/http/binding"
+	v1 "github.com/tx7do/kratos-bootstrap/gen/api/go/pagination/v1"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	pagination "kratos-monolithic-demo/gen/api/go/common/pagination"
-	v1 "kratos-monolithic-demo/gen/api/go/system/service/v1"
+	v11 "kratos-monolithic-demo/gen/api/go/system/service/v1"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -30,15 +30,15 @@ const OperationDictDetailServiceUpdateDictDetail = "/admin.service.v1.DictDetail
 
 type DictDetailServiceHTTPServer interface {
 	// CreateDictDetail 创建字典详情
-	CreateDictDetail(context.Context, *v1.CreateDictDetailRequest) (*v1.DictDetail, error)
+	CreateDictDetail(context.Context, *v11.CreateDictDetailRequest) (*v11.DictDetail, error)
 	// DeleteDictDetail 删除字典详情
-	DeleteDictDetail(context.Context, *v1.DeleteDictDetailRequest) (*emptypb.Empty, error)
+	DeleteDictDetail(context.Context, *v11.DeleteDictDetailRequest) (*emptypb.Empty, error)
 	// GetDictDetail 查询字典详情
-	GetDictDetail(context.Context, *v1.GetDictDetailRequest) (*v1.DictDetail, error)
+	GetDictDetail(context.Context, *v11.GetDictDetailRequest) (*v11.DictDetail, error)
 	// ListDictDetail 查询字典详情列表
-	ListDictDetail(context.Context, *pagination.PagingRequest) (*v1.ListDictDetailResponse, error)
+	ListDictDetail(context.Context, *v1.PagingRequest) (*v11.ListDictDetailResponse, error)
 	// UpdateDictDetail 更新字典详情
-	UpdateDictDetail(context.Context, *v1.UpdateDictDetailRequest) (*v1.DictDetail, error)
+	UpdateDictDetail(context.Context, *v11.UpdateDictDetailRequest) (*v11.DictDetail, error)
 }
 
 func RegisterDictDetailServiceHTTPServer(s *http.Server, srv DictDetailServiceHTTPServer) {
@@ -52,26 +52,26 @@ func RegisterDictDetailServiceHTTPServer(s *http.Server, srv DictDetailServiceHT
 
 func _DictDetailService_ListDictDetail0_HTTP_Handler(srv DictDetailServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in pagination.PagingRequest
+		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, OperationDictDetailServiceListDictDetail)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.ListDictDetail(ctx, req.(*pagination.PagingRequest))
+			return srv.ListDictDetail(ctx, req.(*v1.PagingRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*v1.ListDictDetailResponse)
+		reply := out.(*v11.ListDictDetailResponse)
 		return ctx.Result(200, reply)
 	}
 }
 
 func _DictDetailService_GetDictDetail0_HTTP_Handler(srv DictDetailServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in v1.GetDictDetailRequest
+		var in v11.GetDictDetailRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
@@ -80,20 +80,20 @@ func _DictDetailService_GetDictDetail0_HTTP_Handler(srv DictDetailServiceHTTPSer
 		}
 		http.SetOperation(ctx, OperationDictDetailServiceGetDictDetail)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetDictDetail(ctx, req.(*v1.GetDictDetailRequest))
+			return srv.GetDictDetail(ctx, req.(*v11.GetDictDetailRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*v1.DictDetail)
+		reply := out.(*v11.DictDetail)
 		return ctx.Result(200, reply)
 	}
 }
 
 func _DictDetailService_CreateDictDetail0_HTTP_Handler(srv DictDetailServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in v1.CreateDictDetailRequest
+		var in v11.CreateDictDetailRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
@@ -102,20 +102,20 @@ func _DictDetailService_CreateDictDetail0_HTTP_Handler(srv DictDetailServiceHTTP
 		}
 		http.SetOperation(ctx, OperationDictDetailServiceCreateDictDetail)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.CreateDictDetail(ctx, req.(*v1.CreateDictDetailRequest))
+			return srv.CreateDictDetail(ctx, req.(*v11.CreateDictDetailRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*v1.DictDetail)
+		reply := out.(*v11.DictDetail)
 		return ctx.Result(200, reply)
 	}
 }
 
 func _DictDetailService_UpdateDictDetail0_HTTP_Handler(srv DictDetailServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in v1.UpdateDictDetailRequest
+		var in v11.UpdateDictDetailRequest
 		if err := ctx.Bind(&in.Detail); err != nil {
 			return err
 		}
@@ -127,20 +127,20 @@ func _DictDetailService_UpdateDictDetail0_HTTP_Handler(srv DictDetailServiceHTTP
 		}
 		http.SetOperation(ctx, OperationDictDetailServiceUpdateDictDetail)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.UpdateDictDetail(ctx, req.(*v1.UpdateDictDetailRequest))
+			return srv.UpdateDictDetail(ctx, req.(*v11.UpdateDictDetailRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*v1.DictDetail)
+		reply := out.(*v11.DictDetail)
 		return ctx.Result(200, reply)
 	}
 }
 
 func _DictDetailService_DeleteDictDetail0_HTTP_Handler(srv DictDetailServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in v1.DeleteDictDetailRequest
+		var in v11.DeleteDictDetailRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
@@ -149,7 +149,7 @@ func _DictDetailService_DeleteDictDetail0_HTTP_Handler(srv DictDetailServiceHTTP
 		}
 		http.SetOperation(ctx, OperationDictDetailServiceDeleteDictDetail)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.DeleteDictDetail(ctx, req.(*v1.DeleteDictDetailRequest))
+			return srv.DeleteDictDetail(ctx, req.(*v11.DeleteDictDetailRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -161,11 +161,11 @@ func _DictDetailService_DeleteDictDetail0_HTTP_Handler(srv DictDetailServiceHTTP
 }
 
 type DictDetailServiceHTTPClient interface {
-	CreateDictDetail(ctx context.Context, req *v1.CreateDictDetailRequest, opts ...http.CallOption) (rsp *v1.DictDetail, err error)
-	DeleteDictDetail(ctx context.Context, req *v1.DeleteDictDetailRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	GetDictDetail(ctx context.Context, req *v1.GetDictDetailRequest, opts ...http.CallOption) (rsp *v1.DictDetail, err error)
-	ListDictDetail(ctx context.Context, req *pagination.PagingRequest, opts ...http.CallOption) (rsp *v1.ListDictDetailResponse, err error)
-	UpdateDictDetail(ctx context.Context, req *v1.UpdateDictDetailRequest, opts ...http.CallOption) (rsp *v1.DictDetail, err error)
+	CreateDictDetail(ctx context.Context, req *v11.CreateDictDetailRequest, opts ...http.CallOption) (rsp *v11.DictDetail, err error)
+	DeleteDictDetail(ctx context.Context, req *v11.DeleteDictDetailRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	GetDictDetail(ctx context.Context, req *v11.GetDictDetailRequest, opts ...http.CallOption) (rsp *v11.DictDetail, err error)
+	ListDictDetail(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListDictDetailResponse, err error)
+	UpdateDictDetail(ctx context.Context, req *v11.UpdateDictDetailRequest, opts ...http.CallOption) (rsp *v11.DictDetail, err error)
 }
 
 type DictDetailServiceHTTPClientImpl struct {
@@ -176,8 +176,8 @@ func NewDictDetailServiceHTTPClient(client *http.Client) DictDetailServiceHTTPCl
 	return &DictDetailServiceHTTPClientImpl{client}
 }
 
-func (c *DictDetailServiceHTTPClientImpl) CreateDictDetail(ctx context.Context, in *v1.CreateDictDetailRequest, opts ...http.CallOption) (*v1.DictDetail, error) {
-	var out v1.DictDetail
+func (c *DictDetailServiceHTTPClientImpl) CreateDictDetail(ctx context.Context, in *v11.CreateDictDetailRequest, opts ...http.CallOption) (*v11.DictDetail, error) {
+	var out v11.DictDetail
 	pattern := "/admin/v1/dict:details"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationDictDetailServiceCreateDictDetail))
@@ -189,7 +189,7 @@ func (c *DictDetailServiceHTTPClientImpl) CreateDictDetail(ctx context.Context, 
 	return &out, err
 }
 
-func (c *DictDetailServiceHTTPClientImpl) DeleteDictDetail(ctx context.Context, in *v1.DeleteDictDetailRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *DictDetailServiceHTTPClientImpl) DeleteDictDetail(ctx context.Context, in *v11.DeleteDictDetailRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/dict:details/{id}"
 	path := binding.EncodeURL(pattern, in, true)
@@ -202,8 +202,8 @@ func (c *DictDetailServiceHTTPClientImpl) DeleteDictDetail(ctx context.Context, 
 	return &out, err
 }
 
-func (c *DictDetailServiceHTTPClientImpl) GetDictDetail(ctx context.Context, in *v1.GetDictDetailRequest, opts ...http.CallOption) (*v1.DictDetail, error) {
-	var out v1.DictDetail
+func (c *DictDetailServiceHTTPClientImpl) GetDictDetail(ctx context.Context, in *v11.GetDictDetailRequest, opts ...http.CallOption) (*v11.DictDetail, error) {
+	var out v11.DictDetail
 	pattern := "/admin/v1/dict:details/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationDictDetailServiceGetDictDetail))
@@ -215,8 +215,8 @@ func (c *DictDetailServiceHTTPClientImpl) GetDictDetail(ctx context.Context, in 
 	return &out, err
 }
 
-func (c *DictDetailServiceHTTPClientImpl) ListDictDetail(ctx context.Context, in *pagination.PagingRequest, opts ...http.CallOption) (*v1.ListDictDetailResponse, error) {
-	var out v1.ListDictDetailResponse
+func (c *DictDetailServiceHTTPClientImpl) ListDictDetail(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListDictDetailResponse, error) {
+	var out v11.ListDictDetailResponse
 	pattern := "/admin/v1/dict:details"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationDictDetailServiceListDictDetail))
@@ -228,8 +228,8 @@ func (c *DictDetailServiceHTTPClientImpl) ListDictDetail(ctx context.Context, in
 	return &out, err
 }
 
-func (c *DictDetailServiceHTTPClientImpl) UpdateDictDetail(ctx context.Context, in *v1.UpdateDictDetailRequest, opts ...http.CallOption) (*v1.DictDetail, error) {
-	var out v1.DictDetail
+func (c *DictDetailServiceHTTPClientImpl) UpdateDictDetail(ctx context.Context, in *v11.UpdateDictDetailRequest, opts ...http.CallOption) (*v11.DictDetail, error) {
+	var out v11.DictDetail
 	pattern := "/admin/v1/dict:details/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationDictDetailServiceUpdateDictDetail))

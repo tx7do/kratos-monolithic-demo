@@ -8,11 +8,11 @@ package servicev1
 
 import (
 	context "context"
+	v1 "github.com/tx7do/kratos-bootstrap/gen/api/go/pagination/v1"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	pagination "kratos-monolithic-demo/gen/api/go/common/pagination"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -33,7 +33,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrganizationServiceClient interface {
 	// 查询部门列表
-	ListOrganization(ctx context.Context, in *pagination.PagingRequest, opts ...grpc.CallOption) (*ListOrganizationResponse, error)
+	ListOrganization(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListOrganizationResponse, error)
 	// 查询部门详情
 	GetOrganization(ctx context.Context, in *GetOrganizationRequest, opts ...grpc.CallOption) (*Organization, error)
 	// 创建部门
@@ -52,7 +52,7 @@ func NewOrganizationServiceClient(cc grpc.ClientConnInterface) OrganizationServi
 	return &organizationServiceClient{cc}
 }
 
-func (c *organizationServiceClient) ListOrganization(ctx context.Context, in *pagination.PagingRequest, opts ...grpc.CallOption) (*ListOrganizationResponse, error) {
+func (c *organizationServiceClient) ListOrganization(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListOrganizationResponse, error) {
 	out := new(ListOrganizationResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_ListOrganization_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -102,7 +102,7 @@ func (c *organizationServiceClient) DeleteOrganization(ctx context.Context, in *
 // for forward compatibility
 type OrganizationServiceServer interface {
 	// 查询部门列表
-	ListOrganization(context.Context, *pagination.PagingRequest) (*ListOrganizationResponse, error)
+	ListOrganization(context.Context, *v1.PagingRequest) (*ListOrganizationResponse, error)
 	// 查询部门详情
 	GetOrganization(context.Context, *GetOrganizationRequest) (*Organization, error)
 	// 创建部门
@@ -118,7 +118,7 @@ type OrganizationServiceServer interface {
 type UnimplementedOrganizationServiceServer struct {
 }
 
-func (UnimplementedOrganizationServiceServer) ListOrganization(context.Context, *pagination.PagingRequest) (*ListOrganizationResponse, error) {
+func (UnimplementedOrganizationServiceServer) ListOrganization(context.Context, *v1.PagingRequest) (*ListOrganizationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListOrganization not implemented")
 }
 func (UnimplementedOrganizationServiceServer) GetOrganization(context.Context, *GetOrganizationRequest) (*Organization, error) {
@@ -147,7 +147,7 @@ func RegisterOrganizationServiceServer(s grpc.ServiceRegistrar, srv Organization
 }
 
 func _OrganizationService_ListOrganization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(pagination.PagingRequest)
+	in := new(v1.PagingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -159,7 +159,7 @@ func _OrganizationService_ListOrganization_Handler(srv interface{}, ctx context.
 		FullMethod: OrganizationService_ListOrganization_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrganizationServiceServer).ListOrganization(ctx, req.(*pagination.PagingRequest))
+		return srv.(OrganizationServiceServer).ListOrganization(ctx, req.(*v1.PagingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

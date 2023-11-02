@@ -8,12 +8,12 @@ package servicev1
 
 import (
 	context "context"
+	v1 "github.com/tx7do/kratos-bootstrap/gen/api/go/pagination/v1"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	pagination "kratos-monolithic-demo/gen/api/go/common/pagination"
-	v1 "kratos-monolithic-demo/gen/api/go/system/service/v1"
+	v11 "kratos-monolithic-demo/gen/api/go/system/service/v1"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -34,15 +34,15 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DictDetailServiceClient interface {
 	// 查询字典详情列表
-	ListDictDetail(ctx context.Context, in *pagination.PagingRequest, opts ...grpc.CallOption) (*v1.ListDictDetailResponse, error)
+	ListDictDetail(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListDictDetailResponse, error)
 	// 查询字典详情
-	GetDictDetail(ctx context.Context, in *v1.GetDictDetailRequest, opts ...grpc.CallOption) (*v1.DictDetail, error)
+	GetDictDetail(ctx context.Context, in *v11.GetDictDetailRequest, opts ...grpc.CallOption) (*v11.DictDetail, error)
 	// 创建字典详情
-	CreateDictDetail(ctx context.Context, in *v1.CreateDictDetailRequest, opts ...grpc.CallOption) (*v1.DictDetail, error)
+	CreateDictDetail(ctx context.Context, in *v11.CreateDictDetailRequest, opts ...grpc.CallOption) (*v11.DictDetail, error)
 	// 更新字典详情
-	UpdateDictDetail(ctx context.Context, in *v1.UpdateDictDetailRequest, opts ...grpc.CallOption) (*v1.DictDetail, error)
+	UpdateDictDetail(ctx context.Context, in *v11.UpdateDictDetailRequest, opts ...grpc.CallOption) (*v11.DictDetail, error)
 	// 删除字典详情
-	DeleteDictDetail(ctx context.Context, in *v1.DeleteDictDetailRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	DeleteDictDetail(ctx context.Context, in *v11.DeleteDictDetailRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type dictDetailServiceClient struct {
@@ -53,8 +53,8 @@ func NewDictDetailServiceClient(cc grpc.ClientConnInterface) DictDetailServiceCl
 	return &dictDetailServiceClient{cc}
 }
 
-func (c *dictDetailServiceClient) ListDictDetail(ctx context.Context, in *pagination.PagingRequest, opts ...grpc.CallOption) (*v1.ListDictDetailResponse, error) {
-	out := new(v1.ListDictDetailResponse)
+func (c *dictDetailServiceClient) ListDictDetail(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListDictDetailResponse, error) {
+	out := new(v11.ListDictDetailResponse)
 	err := c.cc.Invoke(ctx, DictDetailService_ListDictDetail_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -62,8 +62,8 @@ func (c *dictDetailServiceClient) ListDictDetail(ctx context.Context, in *pagina
 	return out, nil
 }
 
-func (c *dictDetailServiceClient) GetDictDetail(ctx context.Context, in *v1.GetDictDetailRequest, opts ...grpc.CallOption) (*v1.DictDetail, error) {
-	out := new(v1.DictDetail)
+func (c *dictDetailServiceClient) GetDictDetail(ctx context.Context, in *v11.GetDictDetailRequest, opts ...grpc.CallOption) (*v11.DictDetail, error) {
+	out := new(v11.DictDetail)
 	err := c.cc.Invoke(ctx, DictDetailService_GetDictDetail_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -71,8 +71,8 @@ func (c *dictDetailServiceClient) GetDictDetail(ctx context.Context, in *v1.GetD
 	return out, nil
 }
 
-func (c *dictDetailServiceClient) CreateDictDetail(ctx context.Context, in *v1.CreateDictDetailRequest, opts ...grpc.CallOption) (*v1.DictDetail, error) {
-	out := new(v1.DictDetail)
+func (c *dictDetailServiceClient) CreateDictDetail(ctx context.Context, in *v11.CreateDictDetailRequest, opts ...grpc.CallOption) (*v11.DictDetail, error) {
+	out := new(v11.DictDetail)
 	err := c.cc.Invoke(ctx, DictDetailService_CreateDictDetail_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -80,8 +80,8 @@ func (c *dictDetailServiceClient) CreateDictDetail(ctx context.Context, in *v1.C
 	return out, nil
 }
 
-func (c *dictDetailServiceClient) UpdateDictDetail(ctx context.Context, in *v1.UpdateDictDetailRequest, opts ...grpc.CallOption) (*v1.DictDetail, error) {
-	out := new(v1.DictDetail)
+func (c *dictDetailServiceClient) UpdateDictDetail(ctx context.Context, in *v11.UpdateDictDetailRequest, opts ...grpc.CallOption) (*v11.DictDetail, error) {
+	out := new(v11.DictDetail)
 	err := c.cc.Invoke(ctx, DictDetailService_UpdateDictDetail_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -89,7 +89,7 @@ func (c *dictDetailServiceClient) UpdateDictDetail(ctx context.Context, in *v1.U
 	return out, nil
 }
 
-func (c *dictDetailServiceClient) DeleteDictDetail(ctx context.Context, in *v1.DeleteDictDetailRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *dictDetailServiceClient) DeleteDictDetail(ctx context.Context, in *v11.DeleteDictDetailRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, DictDetailService_DeleteDictDetail_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -103,15 +103,15 @@ func (c *dictDetailServiceClient) DeleteDictDetail(ctx context.Context, in *v1.D
 // for forward compatibility
 type DictDetailServiceServer interface {
 	// 查询字典详情列表
-	ListDictDetail(context.Context, *pagination.PagingRequest) (*v1.ListDictDetailResponse, error)
+	ListDictDetail(context.Context, *v1.PagingRequest) (*v11.ListDictDetailResponse, error)
 	// 查询字典详情
-	GetDictDetail(context.Context, *v1.GetDictDetailRequest) (*v1.DictDetail, error)
+	GetDictDetail(context.Context, *v11.GetDictDetailRequest) (*v11.DictDetail, error)
 	// 创建字典详情
-	CreateDictDetail(context.Context, *v1.CreateDictDetailRequest) (*v1.DictDetail, error)
+	CreateDictDetail(context.Context, *v11.CreateDictDetailRequest) (*v11.DictDetail, error)
 	// 更新字典详情
-	UpdateDictDetail(context.Context, *v1.UpdateDictDetailRequest) (*v1.DictDetail, error)
+	UpdateDictDetail(context.Context, *v11.UpdateDictDetailRequest) (*v11.DictDetail, error)
 	// 删除字典详情
-	DeleteDictDetail(context.Context, *v1.DeleteDictDetailRequest) (*emptypb.Empty, error)
+	DeleteDictDetail(context.Context, *v11.DeleteDictDetailRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedDictDetailServiceServer()
 }
 
@@ -119,19 +119,19 @@ type DictDetailServiceServer interface {
 type UnimplementedDictDetailServiceServer struct {
 }
 
-func (UnimplementedDictDetailServiceServer) ListDictDetail(context.Context, *pagination.PagingRequest) (*v1.ListDictDetailResponse, error) {
+func (UnimplementedDictDetailServiceServer) ListDictDetail(context.Context, *v1.PagingRequest) (*v11.ListDictDetailResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListDictDetail not implemented")
 }
-func (UnimplementedDictDetailServiceServer) GetDictDetail(context.Context, *v1.GetDictDetailRequest) (*v1.DictDetail, error) {
+func (UnimplementedDictDetailServiceServer) GetDictDetail(context.Context, *v11.GetDictDetailRequest) (*v11.DictDetail, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDictDetail not implemented")
 }
-func (UnimplementedDictDetailServiceServer) CreateDictDetail(context.Context, *v1.CreateDictDetailRequest) (*v1.DictDetail, error) {
+func (UnimplementedDictDetailServiceServer) CreateDictDetail(context.Context, *v11.CreateDictDetailRequest) (*v11.DictDetail, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateDictDetail not implemented")
 }
-func (UnimplementedDictDetailServiceServer) UpdateDictDetail(context.Context, *v1.UpdateDictDetailRequest) (*v1.DictDetail, error) {
+func (UnimplementedDictDetailServiceServer) UpdateDictDetail(context.Context, *v11.UpdateDictDetailRequest) (*v11.DictDetail, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateDictDetail not implemented")
 }
-func (UnimplementedDictDetailServiceServer) DeleteDictDetail(context.Context, *v1.DeleteDictDetailRequest) (*emptypb.Empty, error) {
+func (UnimplementedDictDetailServiceServer) DeleteDictDetail(context.Context, *v11.DeleteDictDetailRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteDictDetail not implemented")
 }
 func (UnimplementedDictDetailServiceServer) mustEmbedUnimplementedDictDetailServiceServer() {}
@@ -148,7 +148,7 @@ func RegisterDictDetailServiceServer(s grpc.ServiceRegistrar, srv DictDetailServ
 }
 
 func _DictDetailService_ListDictDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(pagination.PagingRequest)
+	in := new(v1.PagingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -160,13 +160,13 @@ func _DictDetailService_ListDictDetail_Handler(srv interface{}, ctx context.Cont
 		FullMethod: DictDetailService_ListDictDetail_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DictDetailServiceServer).ListDictDetail(ctx, req.(*pagination.PagingRequest))
+		return srv.(DictDetailServiceServer).ListDictDetail(ctx, req.(*v1.PagingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _DictDetailService_GetDictDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v1.GetDictDetailRequest)
+	in := new(v11.GetDictDetailRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -178,13 +178,13 @@ func _DictDetailService_GetDictDetail_Handler(srv interface{}, ctx context.Conte
 		FullMethod: DictDetailService_GetDictDetail_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DictDetailServiceServer).GetDictDetail(ctx, req.(*v1.GetDictDetailRequest))
+		return srv.(DictDetailServiceServer).GetDictDetail(ctx, req.(*v11.GetDictDetailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _DictDetailService_CreateDictDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v1.CreateDictDetailRequest)
+	in := new(v11.CreateDictDetailRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -196,13 +196,13 @@ func _DictDetailService_CreateDictDetail_Handler(srv interface{}, ctx context.Co
 		FullMethod: DictDetailService_CreateDictDetail_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DictDetailServiceServer).CreateDictDetail(ctx, req.(*v1.CreateDictDetailRequest))
+		return srv.(DictDetailServiceServer).CreateDictDetail(ctx, req.(*v11.CreateDictDetailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _DictDetailService_UpdateDictDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v1.UpdateDictDetailRequest)
+	in := new(v11.UpdateDictDetailRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -214,13 +214,13 @@ func _DictDetailService_UpdateDictDetail_Handler(srv interface{}, ctx context.Co
 		FullMethod: DictDetailService_UpdateDictDetail_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DictDetailServiceServer).UpdateDictDetail(ctx, req.(*v1.UpdateDictDetailRequest))
+		return srv.(DictDetailServiceServer).UpdateDictDetail(ctx, req.(*v11.UpdateDictDetailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _DictDetailService_DeleteDictDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v1.DeleteDictDetailRequest)
+	in := new(v11.DeleteDictDetailRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -232,7 +232,7 @@ func _DictDetailService_DeleteDictDetail_Handler(srv interface{}, ctx context.Co
 		FullMethod: DictDetailService_DeleteDictDetail_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DictDetailServiceServer).DeleteDictDetail(ctx, req.(*v1.DeleteDictDetailRequest))
+		return srv.(DictDetailServiceServer).DeleteDictDetail(ctx, req.(*v11.DeleteDictDetailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
