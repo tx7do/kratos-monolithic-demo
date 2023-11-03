@@ -11,6 +11,27 @@ ROOT_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 
 SRCS_MK := $(foreach dir, app, $(wildcard $(dir)/*/*/Makefile))
 
+# initialize develop environment
+init: plugin cli
+
+# install protoc plugin
+plugin:
+	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	@go install github.com/go-kratos/kratos/cmd/protoc-gen-go-http/v2@latest
+	@go install github.com/go-kratos/kratos/cmd/protoc-gen-go-errors/v2@latest
+	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
+	@go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest
+	@go install github.com/envoyproxy/protoc-gen-validate@latest
+
+# install cli tools
+cli:
+	@go install github.com/go-kratos/kratos/cmd/kratos/v2@latest
+	@go install github.com/google/gnostic@latest
+	@go install github.com/bufbuild/buf/cmd/buf@latest
+	@go install entgo.io/ent/cmd/ent@latest
+	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+
 # generate wire code
 wire:
 	$(foreach dir, $(dir $(realpath $(SRCS_MK))),\
@@ -18,7 +39,7 @@ wire:
       make wire;\
     )
 
-# generate code
+# generate code by go:generate
 gen:
 	$(foreach dir, $(dir $(realpath $(SRCS_MK))),\
       cd $(dir);\
@@ -39,21 +60,6 @@ api:
 # generate OpenAPI v3 docs.
 openapi:
 	buf generate --path api/admin/service/v1 --template api/admin/service/v1/buf.openapi.gen.yaml
-
-# initialize develop environment
-init:
-	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-	@go install github.com/go-kratos/kratos/cmd/protoc-gen-go-http/v2@latest
-	@go install github.com/go-kratos/kratos/cmd/protoc-gen-go-errors/v2@latest
-	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
-	@go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest
-	@go install github.com/envoyproxy/protoc-gen-validate@latest
-	@go install github.com/bufbuild/buf/cmd/buf@latest
-	@go install github.com/google/gnostic@latest
-	@go install entgo.io/ent/cmd/ent@latest
-	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-	@go install github.com/go-kratos/kratos/cmd/kratos/v2@latest
 
 # build all service applications
 build:
