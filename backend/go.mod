@@ -20,7 +20,7 @@ require (
 	github.com/tx7do/kratos-authn/middleware v1.0.0
 	github.com/tx7do/kratos-authz v1.0.0
 	github.com/tx7do/kratos-authz/middleware v1.0.0
-	github.com/tx7do/kratos-bootstrap v0.2.14
+	github.com/tx7do/kratos-bootstrap v0.2.16
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20231027101037-78256951ad49
 	github.com/tx7do/kratos-transport/transport/asynq v1.2.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20231030173426-d783a09b4405
@@ -31,7 +31,7 @@ require (
 require (
 	ariga.io/atlas v0.15.0 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
-	github.com/aliyun/alibaba-cloud-sdk-go v1.62.596 // indirect
+	github.com/aliyun/alibaba-cloud-sdk-go v1.62.600 // indirect
 	github.com/aliyun/aliyun-log-go-sdk v0.1.65 // indirect
 	github.com/apolloconfig/agollo/v4 v4.3.1 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
@@ -60,23 +60,23 @@ require (
 	github.com/go-kit/kit v0.13.0 // indirect
 	github.com/go-kit/log v0.2.1 // indirect
 	github.com/go-kratos/aegis v0.2.0 // indirect
-	github.com/go-kratos/kratos/contrib/config/apollo/v2 v2.0.0-20231023125239-6cdd81811e10 // indirect
-	github.com/go-kratos/kratos/contrib/config/consul/v2 v2.0.0-20231023125239-6cdd81811e10 // indirect
-	github.com/go-kratos/kratos/contrib/config/etcd/v2 v2.0.0-20231023125239-6cdd81811e10 // indirect
-	github.com/go-kratos/kratos/contrib/config/kubernetes/v2 v2.0.0-20231023125239-6cdd81811e10 // indirect
-	github.com/go-kratos/kratos/contrib/config/nacos/v2 v2.0.0-20231023125239-6cdd81811e10 // indirect
-	github.com/go-kratos/kratos/contrib/log/aliyun/v2 v2.0.0-20231023125239-6cdd81811e10 // indirect
-	github.com/go-kratos/kratos/contrib/log/fluent/v2 v2.0.0-20231023125239-6cdd81811e10 // indirect
-	github.com/go-kratos/kratos/contrib/log/logrus/v2 v2.0.0-20231023125239-6cdd81811e10 // indirect
-	github.com/go-kratos/kratos/contrib/log/tencent/v2 v2.0.0-20231023125239-6cdd81811e10 // indirect
-	github.com/go-kratos/kratos/contrib/log/zap/v2 v2.0.0-20231023125239-6cdd81811e10 // indirect
-	github.com/go-kratos/kratos/contrib/registry/consul/v2 v2.0.0-20231023125239-6cdd81811e10 // indirect
-	github.com/go-kratos/kratos/contrib/registry/etcd/v2 v2.0.0-20231023125239-6cdd81811e10 // indirect
-	github.com/go-kratos/kratos/contrib/registry/eureka/v2 v2.0.0-20231023125239-6cdd81811e10 // indirect
-	github.com/go-kratos/kratos/contrib/registry/kubernetes/v2 v2.0.0-20231023125239-6cdd81811e10 // indirect
-	github.com/go-kratos/kratos/contrib/registry/nacos/v2 v2.0.0-20231023125239-6cdd81811e10 // indirect
-	github.com/go-kratos/kratos/contrib/registry/servicecomb/v2 v2.0.0-20231023125239-6cdd81811e10 // indirect
-	github.com/go-kratos/kratos/contrib/registry/zookeeper/v2 v2.0.0-20231023125239-6cdd81811e10 // indirect
+	github.com/go-kratos/kratos/contrib/config/apollo/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
+	github.com/go-kratos/kratos/contrib/config/consul/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
+	github.com/go-kratos/kratos/contrib/config/etcd/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
+	github.com/go-kratos/kratos/contrib/config/kubernetes/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
+	github.com/go-kratos/kratos/contrib/config/nacos/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
+	github.com/go-kratos/kratos/contrib/log/aliyun/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
+	github.com/go-kratos/kratos/contrib/log/fluent/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
+	github.com/go-kratos/kratos/contrib/log/logrus/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
+	github.com/go-kratos/kratos/contrib/log/tencent/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
+	github.com/go-kratos/kratos/contrib/log/zap/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
+	github.com/go-kratos/kratos/contrib/registry/consul/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
+	github.com/go-kratos/kratos/contrib/registry/etcd/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
+	github.com/go-kratos/kratos/contrib/registry/eureka/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
+	github.com/go-kratos/kratos/contrib/registry/kubernetes/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
+	github.com/go-kratos/kratos/contrib/registry/nacos/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
+	github.com/go-kratos/kratos/contrib/registry/servicecomb/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
+	github.com/go-kratos/kratos/contrib/registry/zookeeper/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
 	github.com/go-logr/logr v1.3.0 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect

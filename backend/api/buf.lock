@@ -29,5 +29,5 @@ deps:
   - remote: buf.build
     owner: tx7do
     repository: pagination
-    commit: 060afbc0261b4b5baec37903fa7f2253
-    digest: shake256:d4033a52aaf9397018c397aabe8df6923352a034898e19100e005d4ac63dd8c6fb5227dceb65cb5ca119d6e79169d9e1f52869d7d171ef6da62ed66135ec051d
+    commit: 66a7080a8ac446d0abfb0250f17cad60
+    digest: shake256:cb27e819fe006fad3688c7f6c882a65ebd1511c26301fc498d652d2d3b203d6afc46346bf6173243afc854914f256cd3ac77c2c5c18638809b2d31197873bcd1

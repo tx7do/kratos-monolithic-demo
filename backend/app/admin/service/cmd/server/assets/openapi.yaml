@@ -55,7 +55,7 @@ paths:
                   description: 是否不分页
                   schema:
                     type: boolean
-                - name: field_mask
+                - name: fieldMask
                   in: query
                   description: 字段掩码
                   schema:
@@ -212,7 +212,7 @@ paths:
                   description: 是否不分页
                   schema:
                     type: boolean
-                - name: field_mask
+                - name: fieldMask
                   in: query
                   description: 字段掩码
                   schema:
@@ -427,7 +427,7 @@ paths:
                   description: 是否不分页
                   schema:
                     type: boolean
-                - name: field_mask
+                - name: fieldMask
                   in: query
                   description: 字段掩码
                   schema:
@@ -580,7 +580,7 @@ paths:
                   description: 是否不分页
                   schema:
                     type: boolean
-                - name: field_mask
+                - name: fieldMask
                   in: query
                   description: 字段掩码
                   schema:
@@ -748,7 +748,7 @@ paths:
                   description: 是否不分页
                   schema:
                     type: boolean
-                - name: field_mask
+                - name: fieldMask
                   in: query
                   description: 字段掩码
                   schema:
@@ -864,7 +864,7 @@ paths:
         post:
             tags:
                 - AuthenticationService
-            description: 后台登陆
+            description: 刷新认证令牌
             operationId: AuthenticationService_RefreshToken
             requestBody:
                 content:
@@ -922,7 +922,7 @@ paths:
                   description: 是否不分页
                   schema:
                     type: boolean
-                - name: field_mask
+                - name: fieldMask
                   in: query
                   description: 字段掩码
                   schema:
@@ -1090,7 +1090,7 @@ paths:
                   description: 是否不分页
                   schema:
                     type: boolean
-                - name: field_mask
+                - name: fieldMask
                   in: query
                   description: 字段掩码
                   schema:

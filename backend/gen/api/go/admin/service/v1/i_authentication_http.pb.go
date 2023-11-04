@@ -33,7 +33,7 @@ type AuthenticationServiceHTTPServer interface {
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	// Logout 登出
 	Logout(context.Context, *LogoutRequest) (*emptypb.Empty, error)
-	// RefreshToken 后台登陆
+	// RefreshToken 刷新认证令牌
 	RefreshToken(context.Context, *RefreshTokenRequest) (*LoginResponse, error)
 }
 

@@ -35,7 +35,7 @@ type AuthenticationServiceClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	// 登出
 	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// 后台登陆
+	// 刷新认证令牌
 	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	// 后台获取已经登陆的用户的数据
 	GetMe(ctx context.Context, in *GetMeRequest, opts ...grpc.CallOption) (*v1.User, error)
@@ -93,7 +93,7 @@ type AuthenticationServiceServer interface {
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	// 登出
 	Logout(context.Context, *LogoutRequest) (*emptypb.Empty, error)
-	// 后台登陆
+	// 刷新认证令牌
 	RefreshToken(context.Context, *RefreshTokenRequest) (*LoginResponse, error)
 	// 后台获取已经登陆的用户的数据
 	GetMe(context.Context, *GetMeRequest) (*v1.User, error)
