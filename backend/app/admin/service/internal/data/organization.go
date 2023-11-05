@@ -91,7 +91,7 @@ func (r *OrganizationRepo) Count(ctx context.Context, whereCond []func(s *sql.Se
 func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1.ListOrganizationResponse, error) {
 	builder := r.data.db.Client().Organization.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(r.data.db.Driver().Dialect(),
+	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
 		req.GetOrderBy(), organization.FieldCreateTime)

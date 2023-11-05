@@ -84,7 +84,7 @@ func (r *UserRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1.ListUserResponse, error) {
 	builder := r.data.db.Client().User.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(r.data.db.Driver().Dialect(),
+	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
 		req.GetOrderBy(), user.FieldCreateTime)
@@ -110,6 +110,9 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1
 	items := make([]*v1.User, 0, len(results))
 	for _, res := range results {
 		item := r.convertEntToProto(res)
+		if item.Password != nil {
+			item.Password = nil
+		}
 		items = append(items, item)
 	}
 
@@ -132,6 +135,9 @@ func (r *UserRepo) Get(ctx context.Context, req *v1.GetUserRequest) (*v1.User, e
 	}
 
 	u := r.convertEntToProto(ret)
+	if u.Password != nil {
+		u.Password = nil
+	}
 	return u, err
 }
 
@@ -169,6 +175,9 @@ func (r *UserRepo) Create(ctx context.Context, req *v1.CreateUserRequest) (*v1.U
 	}
 
 	u := r.convertEntToProto(ret)
+	if u.Password != nil {
+		u.Password = nil
+	}
 	return u, err
 }
 
@@ -204,6 +213,9 @@ func (r *UserRepo) Update(ctx context.Context, req *v1.UpdateUserRequest) (*v1.U
 	}
 
 	u := r.convertEntToProto(ret)
+	if u.Password != nil {
+		u.Password = nil
+	}
 	return u, err
 }
 
@@ -228,6 +240,9 @@ func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*v1.
 	}
 
 	u := r.convertEntToProto(ret)
+	if u.Password != nil {
+		u.Password = nil
+	}
 	return u, err
 }
 
@@ -248,6 +263,9 @@ func (r *UserRepo) VerifyPassword(ctx context.Context, req *v1.VerifyPasswordReq
 	}
 
 	u := r.convertEntToProto(ret)
+	if u.Password != nil {
+		u.Password = nil
+	}
 	return u, err
 }
 

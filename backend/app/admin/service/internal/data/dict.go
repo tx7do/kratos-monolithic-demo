@@ -62,7 +62,7 @@ func (r *DictRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 func (r *DictRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1.ListDictResponse, error) {
 	builder := r.data.db.Client().Dict.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(r.data.db.Driver().Dialect(),
+	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
 		req.GetOrderBy(), dict.FieldCreateTime)

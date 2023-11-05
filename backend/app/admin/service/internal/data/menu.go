@@ -112,7 +112,7 @@ func (r *MenuRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1.ListMenuResponse, error) {
 	builder := r.data.db.Client().Menu.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(r.data.db.Driver().Dialect(),
+	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
 		req.GetOrderBy(), menu.FieldCreateTime)

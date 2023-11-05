@@ -64,7 +64,7 @@ func (r *PositionRepo) Count(ctx context.Context, whereCond []func(s *sql.Select
 func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1.ListPositionResponse, error) {
 	builder := r.data.db.Client().Position.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(r.data.db.Driver().Dialect(),
+	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
 		req.GetOrderBy(), position.FieldCreateTime)

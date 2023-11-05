@@ -64,7 +64,7 @@ func (r *RoleRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1.ListRoleResponse, error) {
 	builder := r.data.db.Client().Role.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(r.data.db.Driver().Dialect(),
+	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
 		req.GetOrderBy(), role.FieldCreateTime)
