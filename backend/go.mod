@@ -22,7 +22,7 @@ require (
 	github.com/tx7do/kratos-authz/middleware v1.0.0
 	github.com/tx7do/kratos-bootstrap v0.2.18
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20231027101037-78256951ad49
-	github.com/tx7do/kratos-transport/transport/asynq v1.2.0
+	github.com/tx7do/kratos-transport/transport/asynq v1.2.2
 	google.golang.org/genproto/googleapis/api v0.0.0-20231030173426-d783a09b4405
 	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.0
@@ -155,7 +155,7 @@ require (
 	github.com/pierrec/lz4 v2.6.1+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/power-devops/perfstat v0.0.0-20221212215047-62379fc7944b // indirect
-	github.com/redis/go-redis/v9 v9.2.1 // indirect
+	github.com/redis/go-redis/v9 v9.3.0 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/robfig/cron/v3 v3.0.1 // indirect
 	github.com/rs/xid v1.5.0 // indirect
@@ -177,7 +177,7 @@ require (
 	github.com/tinylib/msgp v1.1.9 // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
-	github.com/tx7do/kratos-transport v1.1.0 // indirect
+	github.com/tx7do/kratos-transport v1.1.1 // indirect
 	github.com/vearutop/statigz v1.4.0 // indirect
 	github.com/yusufpapurcu/wmi v1.2.3 // indirect
 	github.com/zclconf/go-cty v1.14.1 // indirect
