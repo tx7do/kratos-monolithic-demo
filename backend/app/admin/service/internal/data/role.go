@@ -7,7 +7,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
 	entgo "github.com/tx7do/go-utils/entgo/query"
-	util "github.com/tx7do/go-utils/time"
+	util "github.com/tx7do/go-utils/timeutil"
 
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent"
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent/role"
@@ -67,7 +67,9 @@ func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), role.FieldCreateTime)
+		req.GetOrderBy(), role.FieldCreateTime,
+		req.GetFieldMask().GetPaths(),
+	)
 	if err != nil {
 		r.log.Errorf("解析条件发生错误[%s]", err.Error())
 		return nil, err
@@ -75,10 +77,6 @@ func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1
 
 	if querySelectors != nil {
 		builder.Modify(querySelectors...)
-	}
-
-	if req.GetFieldMask() != nil && len(req.GetFieldMask().GetPaths()) > 0 {
-		builder.Select(req.GetFieldMask().GetPaths()...)
 	}
 
 	results, err := builder.All(ctx)
