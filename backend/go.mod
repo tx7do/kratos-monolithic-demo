@@ -13,14 +13,14 @@ require (
 	github.com/google/wire v0.5.0
 	github.com/jackc/pgx/v4 v4.18.1
 	github.com/lib/pq v1.10.9
-	github.com/tx7do/go-utils v1.1.6
+	github.com/tx7do/go-utils v1.1.7
 	github.com/tx7do/go-utils/entgo v1.1.8
 	github.com/tx7do/kratos-authn v1.0.0
 	github.com/tx7do/kratos-authn/engine/jwt v1.0.0
 	github.com/tx7do/kratos-authn/middleware v1.0.0
 	github.com/tx7do/kratos-authz v1.0.0
 	github.com/tx7do/kratos-authz/middleware v1.0.0
-	github.com/tx7do/kratos-bootstrap v0.2.18
+	github.com/tx7do/kratos-bootstrap v0.2.20
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20231027101037-78256951ad49
 	github.com/tx7do/kratos-transport/transport/asynq v1.2.2
 	google.golang.org/genproto/googleapis/api v0.0.0-20231030173426-d783a09b4405
