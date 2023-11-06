@@ -34,7 +34,7 @@ service PositionService {
   }
 
   // 创建职位
-  rpc CreatePosition (user.service.v1.CreatePositionRequest) returns (user.service.v1.Position) {
+  rpc CreatePosition (user.service.v1.CreatePositionRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/admin/v1/positions"
       body: "*"
@@ -46,9 +46,9 @@ service PositionService {
   }
 
   // 更新职位
-  rpc UpdatePosition (user.service.v1.UpdatePositionRequest) returns (user.service.v1.Position) {
+  rpc UpdatePosition (user.service.v1.UpdatePositionRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/positions/{id}"
+      put: "/admin/v1/positions/{position.id}"
       body: "position"
     };
 

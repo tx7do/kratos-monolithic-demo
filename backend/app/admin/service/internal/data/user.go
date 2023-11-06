@@ -110,9 +110,6 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1
 	items := make([]*v1.User, 0, len(results))
 	for _, res := range results {
 		item := r.convertEntToProto(res)
-		if item.Password != nil {
-			item.Password = nil
-		}
 		items = append(items, item)
 	}
 
@@ -135,18 +132,11 @@ func (r *UserRepo) Get(ctx context.Context, req *v1.GetUserRequest) (*v1.User, e
 	}
 
 	u := r.convertEntToProto(ret)
-	if u.Password != nil {
-		u.Password = nil
-	}
+
 	return u, err
 }
 
-func (r *UserRepo) Create(ctx context.Context, req *v1.CreateUserRequest) (*v1.User, error) {
-	ph, err := crypto.HashPassword(req.GetPassword())
-	if err != nil {
-		return nil, err
-	}
-
+func (r *UserRepo) Create(ctx context.Context, req *v1.CreateUserRequest) error {
 	builder := r.data.db.Client().User.Create().
 		SetNillableUsername(req.User.UserName).
 		SetNillableNickName(req.User.NickName).
@@ -161,33 +151,29 @@ func (r *UserRepo) Create(ctx context.Context, req *v1.CreateUserRequest) (*v1.U
 		SetNillableStatus((*user.Status)(req.User.Status)).
 		SetNillableGender((*user.Gender)(req.User.Gender)).
 		SetCreateBy(req.GetOperatorId()).
-		SetPassword(ph).
 		SetCreateTime(time.Now())
 
+	if len(req.Password) > 0 {
+		cryptoPassword, err := crypto.HashPassword(req.GetPassword())
+		if err == nil {
+			builder.SetPassword(cryptoPassword)
+		}
+	}
 	if req.User.Authority != nil {
 		builder.SetAuthority((user.Authority)(req.User.Authority.String()))
 	}
 
-	ret, err := builder.Save(ctx)
+	err := builder.Exec(ctx)
 	if err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return nil, err
+		return err
 	}
 
-	u := r.convertEntToProto(ret)
-	if u.Password != nil {
-		u.Password = nil
-	}
-	return u, err
+	return nil
 }
 
-func (r *UserRepo) Update(ctx context.Context, req *v1.UpdateUserRequest) (*v1.User, error) {
-	cryptoPassword, err := crypto.HashPassword(req.GetPassword())
-	if err != nil {
-		return nil, err
-	}
-
-	builder := r.data.db.Client().User.UpdateOneID(req.Id).
+func (r *UserRepo) Update(ctx context.Context, req *v1.UpdateUserRequest) error {
+	builder := r.data.db.Client().User.UpdateOneID(req.User.Id).
 		SetNillableNickName(req.User.NickName).
 		SetNillableEmail(req.User.Email).
 		SetNillableRealName(req.User.RealName).
@@ -199,24 +185,25 @@ func (r *UserRepo) Update(ctx context.Context, req *v1.UpdateUserRequest) (*v1.U
 		SetNillableAvatar(req.User.Avatar).
 		SetNillableStatus((*user.Status)(req.User.Status)).
 		SetNillableGender((*user.Gender)(req.User.Gender)).
-		SetPassword(cryptoPassword).
 		SetUpdateTime(time.Now())
 
 	if req.User.Authority != nil {
 		builder.SetAuthority((user.Authority)(req.User.Authority.String()))
 	}
+	if len(req.Password) > 0 {
+		cryptoPassword, err := crypto.HashPassword(req.GetPassword())
+		if err == nil {
+			builder.SetPassword(cryptoPassword)
+		}
+	}
 
-	ret, err := builder.Save(ctx)
+	err := builder.Exec(ctx)
 	if err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
-		return nil, err
+		return err
 	}
 
-	u := r.convertEntToProto(ret)
-	if u.Password != nil {
-		u.Password = nil
-	}
-	return u, err
+	return nil
 }
 
 func (r *UserRepo) Delete(ctx context.Context, req *v1.DeleteUserRequest) (bool, error) {
@@ -240,9 +227,6 @@ func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*v1.
 	}
 
 	u := r.convertEntToProto(ret)
-	if u.Password != nil {
-		u.Password = nil
-	}
 	return u, err
 }
 
@@ -263,9 +247,6 @@ func (r *UserRepo) VerifyPassword(ctx context.Context, req *v1.VerifyPasswordReq
 	}
 
 	u := r.convertEntToProto(ret)
-	if u.Password != nil {
-		u.Password = nil
-	}
 	return u, err
 }
 

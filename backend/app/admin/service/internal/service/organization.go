@@ -38,12 +38,24 @@ func (s *OrganizationService) GetOrganization(ctx context.Context, req *v1.GetOr
 	return s.uc.Get(ctx, req)
 }
 
-func (s *OrganizationService) CreateOrganization(ctx context.Context, req *v1.CreateOrganizationRequest) (*v1.Organization, error) {
-	return s.uc.Create(ctx, req)
+func (s *OrganizationService) CreateOrganization(ctx context.Context, req *v1.CreateOrganizationRequest) (*emptypb.Empty, error) {
+	err := s.uc.Create(ctx, req)
+	if err != nil {
+
+		return nil, err
+	}
+
+	return &emptypb.Empty{}, nil
 }
 
-func (s *OrganizationService) UpdateOrganization(ctx context.Context, req *v1.UpdateOrganizationRequest) (*v1.Organization, error) {
-	return s.uc.Update(ctx, req)
+func (s *OrganizationService) UpdateOrganization(ctx context.Context, req *v1.UpdateOrganizationRequest) (*emptypb.Empty, error) {
+	err := s.uc.Update(ctx, req)
+	if err != nil {
+
+		return nil, err
+	}
+
+	return &emptypb.Empty{}, nil
 }
 
 func (s *OrganizationService) DeleteOrganization(ctx context.Context, req *v1.DeleteOrganizationRequest) (*emptypb.Empty, error) {

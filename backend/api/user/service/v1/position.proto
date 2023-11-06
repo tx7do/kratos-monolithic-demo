@@ -16,10 +16,10 @@ service PositionService {
   rpc GetPosition (GetPositionRequest) returns (Position) {}
 
   // 创建职位
-  rpc CreatePosition (CreatePositionRequest) returns (Position) {}
+  rpc CreatePosition (CreatePositionRequest) returns (google.protobuf.Empty) {}
 
   // 更新职位
-  rpc UpdatePosition (UpdatePositionRequest) returns (Position) {}
+  rpc UpdatePosition (UpdatePositionRequest) returns (google.protobuf.Empty) {}
 
   // 删除职位
   rpc DeletePosition (DeletePositionRequest) returns (google.protobuf.Empty) {}
@@ -63,9 +63,8 @@ message CreatePositionRequest {
 
 // 更新职位 - 请求
 message UpdatePositionRequest {
-  uint32 id = 1;
-  Position position = 2;
-  optional uint32 operatorId = 3 [json_name = "operatorId"];
+  Position position = 1;
+  optional uint32 operatorId = 2 [json_name = "operatorId"];
 }
 
 // 删除职位 - 请求

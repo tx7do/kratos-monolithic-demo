@@ -30,7 +30,7 @@ const OperationDictServiceUpdateDict = "/admin.service.v1.DictService/UpdateDict
 
 type DictServiceHTTPServer interface {
 	// CreateDict 创建字典
-	CreateDict(context.Context, *v11.CreateDictRequest) (*v11.Dict, error)
+	CreateDict(context.Context, *v11.CreateDictRequest) (*emptypb.Empty, error)
 	// DeleteDict 删除字典
 	DeleteDict(context.Context, *v11.DeleteDictRequest) (*emptypb.Empty, error)
 	// GetDict 查询字典
@@ -38,7 +38,7 @@ type DictServiceHTTPServer interface {
 	// ListDict 查询字典列表
 	ListDict(context.Context, *v1.PagingRequest) (*v11.ListDictResponse, error)
 	// UpdateDict 更新字典
-	UpdateDict(context.Context, *v11.UpdateDictRequest) (*v11.Dict, error)
+	UpdateDict(context.Context, *v11.UpdateDictRequest) (*emptypb.Empty, error)
 }
 
 func RegisterDictServiceHTTPServer(s *http.Server, srv DictServiceHTTPServer) {
@@ -46,7 +46,7 @@ func RegisterDictServiceHTTPServer(s *http.Server, srv DictServiceHTTPServer) {
 	r.GET("/admin/v1/dicts", _DictService_ListDict0_HTTP_Handler(srv))
 	r.GET("/admin/v1/dicts/{id}", _DictService_GetDict0_HTTP_Handler(srv))
 	r.POST("/admin/v1/dicts", _DictService_CreateDict0_HTTP_Handler(srv))
-	r.PUT("/admin/v1/dicts/{id}", _DictService_UpdateDict0_HTTP_Handler(srv))
+	r.PUT("/admin/v1/dicts/{dict.id}", _DictService_UpdateDict0_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/dicts/{id}", _DictService_DeleteDict0_HTTP_Handler(srv))
 }
 
@@ -108,7 +108,7 @@ func _DictService_CreateDict0_HTTP_Handler(srv DictServiceHTTPServer) func(ctx h
 		if err != nil {
 			return err
 		}
-		reply := out.(*v11.Dict)
+		reply := out.(*emptypb.Empty)
 		return ctx.Result(200, reply)
 	}
 }
@@ -133,7 +133,7 @@ func _DictService_UpdateDict0_HTTP_Handler(srv DictServiceHTTPServer) func(ctx h
 		if err != nil {
 			return err
 		}
-		reply := out.(*v11.Dict)
+		reply := out.(*emptypb.Empty)
 		return ctx.Result(200, reply)
 	}
 }
@@ -161,11 +161,11 @@ func _DictService_DeleteDict0_HTTP_Handler(srv DictServiceHTTPServer) func(ctx h
 }
 
 type DictServiceHTTPClient interface {
-	CreateDict(ctx context.Context, req *v11.CreateDictRequest, opts ...http.CallOption) (rsp *v11.Dict, err error)
+	CreateDict(ctx context.Context, req *v11.CreateDictRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	DeleteDict(ctx context.Context, req *v11.DeleteDictRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	GetDict(ctx context.Context, req *v11.GetDictRequest, opts ...http.CallOption) (rsp *v11.Dict, err error)
 	ListDict(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListDictResponse, err error)
-	UpdateDict(ctx context.Context, req *v11.UpdateDictRequest, opts ...http.CallOption) (rsp *v11.Dict, err error)
+	UpdateDict(ctx context.Context, req *v11.UpdateDictRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 }
 
 type DictServiceHTTPClientImpl struct {
@@ -176,8 +176,8 @@ func NewDictServiceHTTPClient(client *http.Client) DictServiceHTTPClient {
 	return &DictServiceHTTPClientImpl{client}
 }
 
-func (c *DictServiceHTTPClientImpl) CreateDict(ctx context.Context, in *v11.CreateDictRequest, opts ...http.CallOption) (*v11.Dict, error) {
-	var out v11.Dict
+func (c *DictServiceHTTPClientImpl) CreateDict(ctx context.Context, in *v11.CreateDictRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+	var out emptypb.Empty
 	pattern := "/admin/v1/dicts"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationDictServiceCreateDict))
@@ -228,9 +228,9 @@ func (c *DictServiceHTTPClientImpl) ListDict(ctx context.Context, in *v1.PagingR
 	return &out, err
 }
 
-func (c *DictServiceHTTPClientImpl) UpdateDict(ctx context.Context, in *v11.UpdateDictRequest, opts ...http.CallOption) (*v11.Dict, error) {
-	var out v11.Dict
-	pattern := "/admin/v1/dicts/{id}"
+func (c *DictServiceHTTPClientImpl) UpdateDict(ctx context.Context, in *v11.UpdateDictRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+	var out emptypb.Empty
+	pattern := "/admin/v1/dicts/{dict.id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationDictServiceUpdateDict))
 	opts = append(opts, http.PathTemplate(pattern))

@@ -38,9 +38,9 @@ type PositionServiceClient interface {
 	// 查询职位详情
 	GetPosition(ctx context.Context, in *v11.GetPositionRequest, opts ...grpc.CallOption) (*v11.Position, error)
 	// 创建职位
-	CreatePosition(ctx context.Context, in *v11.CreatePositionRequest, opts ...grpc.CallOption) (*v11.Position, error)
+	CreatePosition(ctx context.Context, in *v11.CreatePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 更新职位
-	UpdatePosition(ctx context.Context, in *v11.UpdatePositionRequest, opts ...grpc.CallOption) (*v11.Position, error)
+	UpdatePosition(ctx context.Context, in *v11.UpdatePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除职位
 	DeletePosition(ctx context.Context, in *v11.DeletePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -71,8 +71,8 @@ func (c *positionServiceClient) GetPosition(ctx context.Context, in *v11.GetPosi
 	return out, nil
 }
 
-func (c *positionServiceClient) CreatePosition(ctx context.Context, in *v11.CreatePositionRequest, opts ...grpc.CallOption) (*v11.Position, error) {
-	out := new(v11.Position)
+func (c *positionServiceClient) CreatePosition(ctx context.Context, in *v11.CreatePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, PositionService_CreatePosition_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -80,8 +80,8 @@ func (c *positionServiceClient) CreatePosition(ctx context.Context, in *v11.Crea
 	return out, nil
 }
 
-func (c *positionServiceClient) UpdatePosition(ctx context.Context, in *v11.UpdatePositionRequest, opts ...grpc.CallOption) (*v11.Position, error) {
-	out := new(v11.Position)
+func (c *positionServiceClient) UpdatePosition(ctx context.Context, in *v11.UpdatePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, PositionService_UpdatePosition_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -107,9 +107,9 @@ type PositionServiceServer interface {
 	// 查询职位详情
 	GetPosition(context.Context, *v11.GetPositionRequest) (*v11.Position, error)
 	// 创建职位
-	CreatePosition(context.Context, *v11.CreatePositionRequest) (*v11.Position, error)
+	CreatePosition(context.Context, *v11.CreatePositionRequest) (*emptypb.Empty, error)
 	// 更新职位
-	UpdatePosition(context.Context, *v11.UpdatePositionRequest) (*v11.Position, error)
+	UpdatePosition(context.Context, *v11.UpdatePositionRequest) (*emptypb.Empty, error)
 	// 删除职位
 	DeletePosition(context.Context, *v11.DeletePositionRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedPositionServiceServer()
@@ -125,10 +125,10 @@ func (UnimplementedPositionServiceServer) ListPosition(context.Context, *v1.Pagi
 func (UnimplementedPositionServiceServer) GetPosition(context.Context, *v11.GetPositionRequest) (*v11.Position, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPosition not implemented")
 }
-func (UnimplementedPositionServiceServer) CreatePosition(context.Context, *v11.CreatePositionRequest) (*v11.Position, error) {
+func (UnimplementedPositionServiceServer) CreatePosition(context.Context, *v11.CreatePositionRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreatePosition not implemented")
 }
-func (UnimplementedPositionServiceServer) UpdatePosition(context.Context, *v11.UpdatePositionRequest) (*v11.Position, error) {
+func (UnimplementedPositionServiceServer) UpdatePosition(context.Context, *v11.UpdatePositionRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePosition not implemented")
 }
 func (UnimplementedPositionServiceServer) DeletePosition(context.Context, *v11.DeletePositionRequest) (*emptypb.Empty, error) {

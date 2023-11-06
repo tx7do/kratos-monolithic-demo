@@ -159,7 +159,7 @@ func (r *OrganizationRepo) Get(ctx context.Context, req *v1.GetOrganizationReque
 	return r.convertEntToProto(ret), err
 }
 
-func (r *OrganizationRepo) Create(ctx context.Context, req *v1.CreateOrganizationRequest) (*v1.Organization, error) {
+func (r *OrganizationRepo) Create(ctx context.Context, req *v1.CreateOrganizationRequest) error {
 	builder := r.data.db.Client().Organization.Create().
 		SetNillableName(req.Org.Name).
 		SetNillableParentID(req.Org.ParentId).
@@ -169,17 +169,18 @@ func (r *OrganizationRepo) Create(ctx context.Context, req *v1.CreateOrganizatio
 		SetCreateTime(time.Now()).
 		SetCreateBy(req.GetOperatorId())
 
-	ret, err := builder.Save(ctx)
+	err := builder.Exec(ctx)
 	if err != nil {
-		return nil, err
+		r.log.Errorf("insert one data failed: %s", err.Error())
+		return err
 	}
 
-	return r.convertEntToProto(ret), err
+	return err
 }
 
-func (r *OrganizationRepo) Update(ctx context.Context, req *v1.UpdateOrganizationRequest) (*v1.Organization, error) {
+func (r *OrganizationRepo) Update(ctx context.Context, req *v1.UpdateOrganizationRequest) error {
 
-	builder := r.data.db.Client().Organization.UpdateOneID(req.Id).
+	builder := r.data.db.Client().Organization.UpdateOneID(req.Org.Id).
 		SetNillableName(req.Org.Name).
 		SetNillableParentID(req.Org.ParentId).
 		SetNillableOrderNo(req.Org.OrderNo).
@@ -187,12 +188,13 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *v1.UpdateOrganizatio
 		SetNillableStatus((*organization.Status)(req.Org.Status)).
 		SetUpdateTime(time.Now())
 
-	ret, err := builder.Save(ctx)
+	err := builder.Exec(ctx)
 	if err != nil {
-		return nil, err
+		r.log.Errorf("update one data failed: %s", err.Error())
+		return err
 	}
 
-	return r.convertEntToProto(ret), err
+	return err
 }
 
 func (r *OrganizationRepo) Delete(ctx context.Context, req *v1.DeleteOrganizationRequest) (bool, error) {

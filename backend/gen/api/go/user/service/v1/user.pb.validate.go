@@ -583,6 +583,8 @@ func (m *CreateUserRequest) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for OperatorId
+
 	if all {
 		switch v := interface{}(m.GetUser()).(type) {
 		case interface{ ValidateAll() error }:
@@ -611,8 +613,6 @@ func (m *CreateUserRequest) validate(all bool) error {
 			}
 		}
 	}
-
-	// no validation rules for OperatorId
 
 	// no validation rules for Password
 
@@ -718,7 +718,7 @@ func (m *UpdateUserRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
+	// no validation rules for OperatorId
 
 	if all {
 		switch v := interface{}(m.GetUser()).(type) {
@@ -748,8 +748,6 @@ func (m *UpdateUserRequest) validate(all bool) error {
 			}
 		}
 	}
-
-	// no validation rules for OperatorId
 
 	// no validation rules for Password
 

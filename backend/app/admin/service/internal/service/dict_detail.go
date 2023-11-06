@@ -49,24 +49,24 @@ func (s *DictDetailService) GetDictDetail(ctx context.Context, req *systemV1.Get
 	return ret, nil
 }
 
-func (s *DictDetailService) CreateDictDetail(ctx context.Context, req *systemV1.CreateDictDetailRequest) (*systemV1.DictDetail, error) {
-	ret, err := s.uc.Create(ctx, req)
+func (s *DictDetailService) CreateDictDetail(ctx context.Context, req *systemV1.CreateDictDetailRequest) (*emptypb.Empty, error) {
+	err := s.uc.Create(ctx, req)
 	if err != nil {
 		// s.log.Info(err)
 		return nil, err
 	}
 
-	return ret, nil
+	return &emptypb.Empty{}, nil
 }
 
-func (s *DictDetailService) UpdateDictDetail(ctx context.Context, req *systemV1.UpdateDictDetailRequest) (*systemV1.DictDetail, error) {
-	ret, err := s.uc.Update(ctx, req)
+func (s *DictDetailService) UpdateDictDetail(ctx context.Context, req *systemV1.UpdateDictDetailRequest) (*emptypb.Empty, error) {
+	err := s.uc.Update(ctx, req)
 	if err != nil {
 
 		return nil, err
 	}
 
-	return ret, nil
+	return &emptypb.Empty{}, nil
 }
 
 func (s *DictDetailService) DeleteDictDetail(ctx context.Context, req *systemV1.DeleteDictDetailRequest) (*emptypb.Empty, error) {

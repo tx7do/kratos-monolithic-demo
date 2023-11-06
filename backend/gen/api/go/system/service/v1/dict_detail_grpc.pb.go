@@ -38,9 +38,9 @@ type DictDetailServiceClient interface {
 	// 查询字典详情
 	GetDictDetail(ctx context.Context, in *GetDictDetailRequest, opts ...grpc.CallOption) (*DictDetail, error)
 	// 创建字典详情
-	CreateDictDetail(ctx context.Context, in *CreateDictDetailRequest, opts ...grpc.CallOption) (*DictDetail, error)
+	CreateDictDetail(ctx context.Context, in *CreateDictDetailRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 更新字典详情
-	UpdateDictDetail(ctx context.Context, in *UpdateDictDetailRequest, opts ...grpc.CallOption) (*DictDetail, error)
+	UpdateDictDetail(ctx context.Context, in *UpdateDictDetailRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除字典详情
 	DeleteDictDetail(ctx context.Context, in *DeleteDictDetailRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetDictDetailByCode(ctx context.Context, in *GetDictDetailRequest, opts ...grpc.CallOption) (*DictDetail, error)
@@ -72,8 +72,8 @@ func (c *dictDetailServiceClient) GetDictDetail(ctx context.Context, in *GetDict
 	return out, nil
 }
 
-func (c *dictDetailServiceClient) CreateDictDetail(ctx context.Context, in *CreateDictDetailRequest, opts ...grpc.CallOption) (*DictDetail, error) {
-	out := new(DictDetail)
+func (c *dictDetailServiceClient) CreateDictDetail(ctx context.Context, in *CreateDictDetailRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, DictDetailService_CreateDictDetail_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -81,8 +81,8 @@ func (c *dictDetailServiceClient) CreateDictDetail(ctx context.Context, in *Crea
 	return out, nil
 }
 
-func (c *dictDetailServiceClient) UpdateDictDetail(ctx context.Context, in *UpdateDictDetailRequest, opts ...grpc.CallOption) (*DictDetail, error) {
-	out := new(DictDetail)
+func (c *dictDetailServiceClient) UpdateDictDetail(ctx context.Context, in *UpdateDictDetailRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, DictDetailService_UpdateDictDetail_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -117,9 +117,9 @@ type DictDetailServiceServer interface {
 	// 查询字典详情
 	GetDictDetail(context.Context, *GetDictDetailRequest) (*DictDetail, error)
 	// 创建字典详情
-	CreateDictDetail(context.Context, *CreateDictDetailRequest) (*DictDetail, error)
+	CreateDictDetail(context.Context, *CreateDictDetailRequest) (*emptypb.Empty, error)
 	// 更新字典详情
-	UpdateDictDetail(context.Context, *UpdateDictDetailRequest) (*DictDetail, error)
+	UpdateDictDetail(context.Context, *UpdateDictDetailRequest) (*emptypb.Empty, error)
 	// 删除字典详情
 	DeleteDictDetail(context.Context, *DeleteDictDetailRequest) (*emptypb.Empty, error)
 	GetDictDetailByCode(context.Context, *GetDictDetailRequest) (*DictDetail, error)
@@ -136,10 +136,10 @@ func (UnimplementedDictDetailServiceServer) ListDictDetail(context.Context, *v1.
 func (UnimplementedDictDetailServiceServer) GetDictDetail(context.Context, *GetDictDetailRequest) (*DictDetail, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDictDetail not implemented")
 }
-func (UnimplementedDictDetailServiceServer) CreateDictDetail(context.Context, *CreateDictDetailRequest) (*DictDetail, error) {
+func (UnimplementedDictDetailServiceServer) CreateDictDetail(context.Context, *CreateDictDetailRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateDictDetail not implemented")
 }
-func (UnimplementedDictDetailServiceServer) UpdateDictDetail(context.Context, *UpdateDictDetailRequest) (*DictDetail, error) {
+func (UnimplementedDictDetailServiceServer) UpdateDictDetail(context.Context, *UpdateDictDetailRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateDictDetail not implemented")
 }
 func (UnimplementedDictDetailServiceServer) DeleteDictDetail(context.Context, *DeleteDictDetailRequest) (*emptypb.Empty, error) {

@@ -38,9 +38,9 @@ type RoleServiceClient interface {
 	// 查询角色详情
 	GetRole(ctx context.Context, in *v11.GetRoleRequest, opts ...grpc.CallOption) (*v11.Role, error)
 	// 创建角色
-	CreateRole(ctx context.Context, in *v11.CreateRoleRequest, opts ...grpc.CallOption) (*v11.Role, error)
+	CreateRole(ctx context.Context, in *v11.CreateRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 更新角色
-	UpdateRole(ctx context.Context, in *v11.UpdateRoleRequest, opts ...grpc.CallOption) (*v11.Role, error)
+	UpdateRole(ctx context.Context, in *v11.UpdateRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除角色
 	DeleteRole(ctx context.Context, in *v11.DeleteRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -71,8 +71,8 @@ func (c *roleServiceClient) GetRole(ctx context.Context, in *v11.GetRoleRequest,
 	return out, nil
 }
 
-func (c *roleServiceClient) CreateRole(ctx context.Context, in *v11.CreateRoleRequest, opts ...grpc.CallOption) (*v11.Role, error) {
-	out := new(v11.Role)
+func (c *roleServiceClient) CreateRole(ctx context.Context, in *v11.CreateRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, RoleService_CreateRole_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -80,8 +80,8 @@ func (c *roleServiceClient) CreateRole(ctx context.Context, in *v11.CreateRoleRe
 	return out, nil
 }
 
-func (c *roleServiceClient) UpdateRole(ctx context.Context, in *v11.UpdateRoleRequest, opts ...grpc.CallOption) (*v11.Role, error) {
-	out := new(v11.Role)
+func (c *roleServiceClient) UpdateRole(ctx context.Context, in *v11.UpdateRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, RoleService_UpdateRole_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -107,9 +107,9 @@ type RoleServiceServer interface {
 	// 查询角色详情
 	GetRole(context.Context, *v11.GetRoleRequest) (*v11.Role, error)
 	// 创建角色
-	CreateRole(context.Context, *v11.CreateRoleRequest) (*v11.Role, error)
+	CreateRole(context.Context, *v11.CreateRoleRequest) (*emptypb.Empty, error)
 	// 更新角色
-	UpdateRole(context.Context, *v11.UpdateRoleRequest) (*v11.Role, error)
+	UpdateRole(context.Context, *v11.UpdateRoleRequest) (*emptypb.Empty, error)
 	// 删除角色
 	DeleteRole(context.Context, *v11.DeleteRoleRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedRoleServiceServer()
@@ -125,10 +125,10 @@ func (UnimplementedRoleServiceServer) ListRole(context.Context, *v1.PagingReques
 func (UnimplementedRoleServiceServer) GetRole(context.Context, *v11.GetRoleRequest) (*v11.Role, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRole not implemented")
 }
-func (UnimplementedRoleServiceServer) CreateRole(context.Context, *v11.CreateRoleRequest) (*v11.Role, error) {
+func (UnimplementedRoleServiceServer) CreateRole(context.Context, *v11.CreateRoleRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateRole not implemented")
 }
-func (UnimplementedRoleServiceServer) UpdateRole(context.Context, *v11.UpdateRoleRequest) (*v11.Role, error) {
+func (UnimplementedRoleServiceServer) UpdateRole(context.Context, *v11.UpdateRoleRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateRole not implemented")
 }
 func (UnimplementedRoleServiceServer) DeleteRole(context.Context, *v11.DeleteRoleRequest) (*emptypb.Empty, error) {

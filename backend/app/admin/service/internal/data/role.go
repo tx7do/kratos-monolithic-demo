@@ -103,24 +103,6 @@ func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1
 	}, err
 }
 
-func (r *RoleRepo) Create(ctx context.Context, req *v1.CreateRoleRequest) (*v1.Role, error) {
-	ret, err := r.data.db.Client().Role.Create().
-		SetNillableName(req.Role.Name).
-		SetNillableParentID(req.Role.ParentId).
-		SetNillableOrderNo(req.Role.OrderNo).
-		SetNillableCode(req.Role.Code).
-		SetNillableStatus((*role.Status)(req.Role.Status)).
-		SetNillableRemark(req.Role.Remark).
-		SetCreateBy(req.GetOperatorId()).
-		SetCreateTime(time.Now()).
-		Save(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	return r.convertEntToProto(ret), err
-}
-
 func (r *RoleRepo) Get(ctx context.Context, req *v1.GetRoleRequest) (*v1.Role, error) {
 	ret, err := r.data.db.Client().Role.Get(ctx, req.GetId())
 	if err != nil && !ent.IsNotFound(err) {
@@ -130,8 +112,27 @@ func (r *RoleRepo) Get(ctx context.Context, req *v1.GetRoleRequest) (*v1.Role, e
 	return r.convertEntToProto(ret), err
 }
 
-func (r *RoleRepo) Update(ctx context.Context, req *v1.UpdateRoleRequest) (*v1.Role, error) {
-	builder := r.data.db.Client().Role.UpdateOneID(req.Id).
+func (r *RoleRepo) Create(ctx context.Context, req *v1.CreateRoleRequest) error {
+	err := r.data.db.Client().Role.Create().
+		SetNillableName(req.Role.Name).
+		SetNillableParentID(req.Role.ParentId).
+		SetNillableOrderNo(req.Role.OrderNo).
+		SetNillableCode(req.Role.Code).
+		SetNillableStatus((*role.Status)(req.Role.Status)).
+		SetNillableRemark(req.Role.Remark).
+		SetCreateBy(req.GetOperatorId()).
+		SetCreateTime(time.Now()).
+		Exec(ctx)
+	if err != nil {
+		r.log.Errorf("insert one data failed: %s", err.Error())
+		return err
+	}
+
+	return err
+}
+
+func (r *RoleRepo) Update(ctx context.Context, req *v1.UpdateRoleRequest) error {
+	builder := r.data.db.Client().Role.UpdateOneID(req.Role.Id).
 		SetNillableName(req.Role.Name).
 		SetNillableParentID(req.Role.ParentId).
 		SetNillableOrderNo(req.Role.OrderNo).
@@ -140,12 +141,13 @@ func (r *RoleRepo) Update(ctx context.Context, req *v1.UpdateRoleRequest) (*v1.R
 		SetNillableStatus((*role.Status)(req.Role.Status)).
 		SetUpdateTime(time.Now())
 
-	ret, err := builder.Save(ctx)
+	err := builder.Exec(ctx)
 	if err != nil {
-		return nil, err
+		r.log.Errorf("update one data failed: %s", err.Error())
+		return err
 	}
 
-	return r.convertEntToProto(ret), err
+	return err
 }
 
 func (r *RoleRepo) Delete(ctx context.Context, req *v1.DeleteRoleRequest) (bool, error) {

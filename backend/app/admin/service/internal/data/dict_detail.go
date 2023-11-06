@@ -64,7 +64,7 @@ func (r *DictDetailRepo) Count(ctx context.Context, whereCond []func(s *sql.Sele
 func (r *DictDetailRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1.ListDictDetailResponse, error) {
 	builder := r.data.db.Client().DictDetail.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(r.data.db.Driver().Dialect(),
+	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
 		req.GetOrderBy(), dictdetail.FieldCreateTime)
@@ -114,38 +114,38 @@ func (r *DictDetailRepo) Get(ctx context.Context, req *v1.GetDictDetailRequest) 
 	return r.convertEntToProto(ret), err
 }
 
-func (r *DictDetailRepo) Create(ctx context.Context, req *v1.CreateDictDetailRequest) (*v1.DictDetail, error) {
-	ret, err := r.data.db.Client().DictDetail.Create().
+func (r *DictDetailRepo) Create(ctx context.Context, req *v1.CreateDictDetailRequest) error {
+	err := r.data.db.Client().DictDetail.Create().
 		SetNillableDictID(req.Detail.DictId).
 		SetNillableOrderNo(req.Detail.OrderNo).
 		SetNillableLabel(req.Detail.Label).
 		SetNillableValue(req.Detail.Value).
 		SetCreateBy(req.GetOperatorId()).
 		SetCreateTime(time.Now()).
-		Save(ctx)
+		Exec(ctx)
 	if err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return nil, err
+		return err
 	}
 
-	return r.convertEntToProto(ret), err
+	return err
 }
 
-func (r *DictDetailRepo) Update(ctx context.Context, req *v1.UpdateDictDetailRequest) (*v1.DictDetail, error) {
-	builder := r.data.db.Client().DictDetail.UpdateOneID(req.Id).
+func (r *DictDetailRepo) Update(ctx context.Context, req *v1.UpdateDictDetailRequest) error {
+	builder := r.data.db.Client().DictDetail.UpdateOneID(req.Detail.Id).
 		SetNillableDictID(req.Detail.DictId).
 		SetNillableOrderNo(req.Detail.OrderNo).
 		SetNillableLabel(req.Detail.Label).
 		SetNillableValue(req.Detail.Value).
 		SetUpdateTime(time.Now())
 
-	ret, err := builder.Save(ctx)
+	err := builder.Exec(ctx)
 	if err != nil {
-		r.log.Errorf("insert one data failed: %s", err.Error())
-		return nil, err
+		r.log.Errorf("update one data failed: %s", err.Error())
+		return err
 	}
 
-	return r.convertEntToProto(ret), err
+	return err
 }
 
 func (r *DictDetailRepo) Delete(ctx context.Context, req *v1.DeleteDictDetailRequest) (bool, error) {

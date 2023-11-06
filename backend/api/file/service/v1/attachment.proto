@@ -15,10 +15,10 @@ service AttachmentService {
   rpc GetAttachment (GetAttachmentRequest) returns (Attachment) {}
 
   // 创建附件
-  rpc CreateAttachment (CreateAttachmentRequest) returns (Attachment) {}
+  rpc CreateAttachment (CreateAttachmentRequest) returns (google.protobuf.Empty) {}
 
   // 更新附件
-  rpc UpdateAttachment (UpdateAttachmentRequest) returns (Attachment) {}
+  rpc UpdateAttachment (UpdateAttachmentRequest) returns (google.protobuf.Empty) {}
 
   // 删除附件
   rpc DeleteAttachment (DeleteAttachmentRequest) returns (google.protobuf.Empty) {}

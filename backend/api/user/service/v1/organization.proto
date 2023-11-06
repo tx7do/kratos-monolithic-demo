@@ -16,10 +16,10 @@ service OrganizationService {
   rpc GetOrganization (GetOrganizationRequest) returns (Organization) {}
 
   // 创建部门
-  rpc CreateOrganization (CreateOrganizationRequest) returns (Organization) {}
+  rpc CreateOrganization (CreateOrganizationRequest) returns (google.protobuf.Empty) {}
 
   // 更新部门
-  rpc UpdateOrganization (UpdateOrganizationRequest) returns (Organization) {}
+  rpc UpdateOrganization (UpdateOrganizationRequest) returns (google.protobuf.Empty) {}
 
   // 删除部门
   rpc DeleteOrganization (DeleteOrganizationRequest) returns (google.protobuf.Empty) {}
@@ -56,15 +56,14 @@ message GetOrganizationRequest {
 
 // 创建部门 - 请求
 message CreateOrganizationRequest {
-  Organization org = 1;
-  optional uint32 operatorId = 2 [json_name = "operatorId"];
+  optional uint32 operatorId = 1 [json_name = "operatorId"];
+  Organization org = 2;
 }
 
 // 更新部门 - 请求
 message UpdateOrganizationRequest {
-  uint32 id = 1;
+  optional uint32 operatorId = 1 [json_name = "operatorId"];
   Organization org = 2;
-  optional uint32 operatorId = 3 [json_name = "operatorId"];
 }
 
 // 删除部门 - 请求

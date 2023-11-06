@@ -12,12 +12,16 @@ import "pagination/v1/pagination.proto";
 service MenuService {
   // 查询菜单列表
   rpc ListMenu (pagination.PagingRequest) returns (ListMenuResponse) {}
+
   // 查询菜单详情
   rpc GetMenu (GetMenuRequest) returns (Menu) {}
+
   // 创建菜单
-  rpc CreateMenu (CreateMenuRequest) returns (Menu) {}
+  rpc CreateMenu (CreateMenuRequest) returns (google.protobuf.Empty) {}
+
   // 更新菜单
-  rpc UpdateMenu (UpdateMenuRequest) returns (Menu) {}
+  rpc UpdateMenu (UpdateMenuRequest) returns (google.protobuf.Empty) {}
+
   // 删除菜单
   rpc DeleteMenu (DeleteMenuRequest) returns (google.protobuf.Empty) {}
 }
@@ -96,8 +100,7 @@ message CreateMenuRequest {
 
 // 更新菜单 - 请求
 message UpdateMenuRequest {
-  int32 id = 1;
-  Menu menu = 2;
+  Menu menu = 1;
   optional uint32 operatorId = 3;
 }
 

@@ -50,18 +50,24 @@ func (s *MenuService) GetMenu(ctx context.Context, req *systemV1.GetMenuRequest)
 	return ret, nil
 }
 
-func (s *MenuService) CreateMenu(ctx context.Context, req *systemV1.CreateMenuRequest) (*systemV1.Menu, error) {
-	return s.uc.Create(ctx, req)
-}
-
-func (s *MenuService) UpdateMenu(ctx context.Context, req *systemV1.UpdateMenuRequest) (*systemV1.Menu, error) {
-	ret, err := s.uc.Update(ctx, req)
+func (s *MenuService) CreateMenu(ctx context.Context, req *systemV1.CreateMenuRequest) (*emptypb.Empty, error) {
+	err := s.uc.Create(ctx, req)
 	if err != nil {
 
 		return nil, err
 	}
 
-	return ret, nil
+	return &emptypb.Empty{}, nil
+}
+
+func (s *MenuService) UpdateMenu(ctx context.Context, req *systemV1.UpdateMenuRequest) (*emptypb.Empty, error) {
+	err := s.uc.Update(ctx, req)
+	if err != nil {
+
+		return nil, err
+	}
+
+	return &emptypb.Empty{}, nil
 }
 
 func (s *MenuService) DeleteMenu(ctx context.Context, req *systemV1.DeleteMenuRequest) (*emptypb.Empty, error) {

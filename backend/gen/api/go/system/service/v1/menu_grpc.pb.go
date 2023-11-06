@@ -37,9 +37,9 @@ type MenuServiceClient interface {
 	// 查询菜单详情
 	GetMenu(ctx context.Context, in *GetMenuRequest, opts ...grpc.CallOption) (*Menu, error)
 	// 创建菜单
-	CreateMenu(ctx context.Context, in *CreateMenuRequest, opts ...grpc.CallOption) (*Menu, error)
+	CreateMenu(ctx context.Context, in *CreateMenuRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 更新菜单
-	UpdateMenu(ctx context.Context, in *UpdateMenuRequest, opts ...grpc.CallOption) (*Menu, error)
+	UpdateMenu(ctx context.Context, in *UpdateMenuRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除菜单
 	DeleteMenu(ctx context.Context, in *DeleteMenuRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -70,8 +70,8 @@ func (c *menuServiceClient) GetMenu(ctx context.Context, in *GetMenuRequest, opt
 	return out, nil
 }
 
-func (c *menuServiceClient) CreateMenu(ctx context.Context, in *CreateMenuRequest, opts ...grpc.CallOption) (*Menu, error) {
-	out := new(Menu)
+func (c *menuServiceClient) CreateMenu(ctx context.Context, in *CreateMenuRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, MenuService_CreateMenu_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -79,8 +79,8 @@ func (c *menuServiceClient) CreateMenu(ctx context.Context, in *CreateMenuReques
 	return out, nil
 }
 
-func (c *menuServiceClient) UpdateMenu(ctx context.Context, in *UpdateMenuRequest, opts ...grpc.CallOption) (*Menu, error) {
-	out := new(Menu)
+func (c *menuServiceClient) UpdateMenu(ctx context.Context, in *UpdateMenuRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, MenuService_UpdateMenu_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -106,9 +106,9 @@ type MenuServiceServer interface {
 	// 查询菜单详情
 	GetMenu(context.Context, *GetMenuRequest) (*Menu, error)
 	// 创建菜单
-	CreateMenu(context.Context, *CreateMenuRequest) (*Menu, error)
+	CreateMenu(context.Context, *CreateMenuRequest) (*emptypb.Empty, error)
 	// 更新菜单
-	UpdateMenu(context.Context, *UpdateMenuRequest) (*Menu, error)
+	UpdateMenu(context.Context, *UpdateMenuRequest) (*emptypb.Empty, error)
 	// 删除菜单
 	DeleteMenu(context.Context, *DeleteMenuRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedMenuServiceServer()
@@ -124,10 +124,10 @@ func (UnimplementedMenuServiceServer) ListMenu(context.Context, *v1.PagingReques
 func (UnimplementedMenuServiceServer) GetMenu(context.Context, *GetMenuRequest) (*Menu, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMenu not implemented")
 }
-func (UnimplementedMenuServiceServer) CreateMenu(context.Context, *CreateMenuRequest) (*Menu, error) {
+func (UnimplementedMenuServiceServer) CreateMenu(context.Context, *CreateMenuRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateMenu not implemented")
 }
-func (UnimplementedMenuServiceServer) UpdateMenu(context.Context, *UpdateMenuRequest) (*Menu, error) {
+func (UnimplementedMenuServiceServer) UpdateMenu(context.Context, *UpdateMenuRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateMenu not implemented")
 }
 func (UnimplementedMenuServiceServer) DeleteMenu(context.Context, *DeleteMenuRequest) (*emptypb.Empty, error) {

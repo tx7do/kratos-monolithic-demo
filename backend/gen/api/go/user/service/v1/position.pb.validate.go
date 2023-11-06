@@ -571,8 +571,6 @@ func (m *UpdatePositionRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
-
 	if all {
 		switch v := interface{}(m.GetPosition()).(type) {
 		case interface{ ValidateAll() error }:

@@ -34,7 +34,7 @@ service DictDetailService {
   }
 
   // 创建字典详情
-  rpc CreateDictDetail (system.service.v1.CreateDictDetailRequest) returns (system.service.v1.DictDetail) {
+  rpc CreateDictDetail (system.service.v1.CreateDictDetailRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/admin/v1/dict:details"
       body: "*"
@@ -46,9 +46,9 @@ service DictDetailService {
   }
 
   // 更新字典详情
-  rpc UpdateDictDetail (system.service.v1.UpdateDictDetailRequest) returns (system.service.v1.DictDetail) {
+  rpc UpdateDictDetail (system.service.v1.UpdateDictDetailRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/dict:details/{id}"
+      put: "/admin/v1/dict:details/{detail.id}"
       body: "detail"
     };
 

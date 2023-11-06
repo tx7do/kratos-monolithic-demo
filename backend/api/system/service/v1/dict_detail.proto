@@ -16,10 +16,10 @@ service DictDetailService {
   rpc GetDictDetail (GetDictDetailRequest) returns (DictDetail) {}
 
   // 创建字典详情
-  rpc CreateDictDetail (CreateDictDetailRequest) returns (DictDetail) {}
+  rpc CreateDictDetail (CreateDictDetailRequest) returns (google.protobuf.Empty) {}
 
   // 更新字典详情
-  rpc UpdateDictDetail (UpdateDictDetailRequest) returns (DictDetail) {}
+  rpc UpdateDictDetail (UpdateDictDetailRequest) returns (google.protobuf.Empty) {}
 
   // 删除字典详情
   rpc DeleteDictDetail (DeleteDictDetailRequest) returns (google.protobuf.Empty) {}
@@ -64,9 +64,8 @@ message CreateDictDetailRequest {
 
 // 更新字典详情 - 请求
 message UpdateDictDetailRequest {
-  uint32 id = 1;
-  DictDetail detail = 2;
-  optional uint32 operatorId = 3;
+  DictDetail detail = 1;
+  optional uint32 operatorId = 2;
 }
 
 // 删除字典详情 - 请求

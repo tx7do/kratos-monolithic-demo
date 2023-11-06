@@ -37,9 +37,9 @@ type AttachmentServiceClient interface {
 	// 获取附件数据
 	GetAttachment(ctx context.Context, in *GetAttachmentRequest, opts ...grpc.CallOption) (*Attachment, error)
 	// 创建附件
-	CreateAttachment(ctx context.Context, in *CreateAttachmentRequest, opts ...grpc.CallOption) (*Attachment, error)
+	CreateAttachment(ctx context.Context, in *CreateAttachmentRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 更新附件
-	UpdateAttachment(ctx context.Context, in *UpdateAttachmentRequest, opts ...grpc.CallOption) (*Attachment, error)
+	UpdateAttachment(ctx context.Context, in *UpdateAttachmentRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除附件
 	DeleteAttachment(ctx context.Context, in *DeleteAttachmentRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -70,8 +70,8 @@ func (c *attachmentServiceClient) GetAttachment(ctx context.Context, in *GetAtta
 	return out, nil
 }
 
-func (c *attachmentServiceClient) CreateAttachment(ctx context.Context, in *CreateAttachmentRequest, opts ...grpc.CallOption) (*Attachment, error) {
-	out := new(Attachment)
+func (c *attachmentServiceClient) CreateAttachment(ctx context.Context, in *CreateAttachmentRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, AttachmentService_CreateAttachment_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -79,8 +79,8 @@ func (c *attachmentServiceClient) CreateAttachment(ctx context.Context, in *Crea
 	return out, nil
 }
 
-func (c *attachmentServiceClient) UpdateAttachment(ctx context.Context, in *UpdateAttachmentRequest, opts ...grpc.CallOption) (*Attachment, error) {
-	out := new(Attachment)
+func (c *attachmentServiceClient) UpdateAttachment(ctx context.Context, in *UpdateAttachmentRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, AttachmentService_UpdateAttachment_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -106,9 +106,9 @@ type AttachmentServiceServer interface {
 	// 获取附件数据
 	GetAttachment(context.Context, *GetAttachmentRequest) (*Attachment, error)
 	// 创建附件
-	CreateAttachment(context.Context, *CreateAttachmentRequest) (*Attachment, error)
+	CreateAttachment(context.Context, *CreateAttachmentRequest) (*emptypb.Empty, error)
 	// 更新附件
-	UpdateAttachment(context.Context, *UpdateAttachmentRequest) (*Attachment, error)
+	UpdateAttachment(context.Context, *UpdateAttachmentRequest) (*emptypb.Empty, error)
 	// 删除附件
 	DeleteAttachment(context.Context, *DeleteAttachmentRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedAttachmentServiceServer()
@@ -124,10 +124,10 @@ func (UnimplementedAttachmentServiceServer) ListAttachment(context.Context, *v1.
 func (UnimplementedAttachmentServiceServer) GetAttachment(context.Context, *GetAttachmentRequest) (*Attachment, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAttachment not implemented")
 }
-func (UnimplementedAttachmentServiceServer) CreateAttachment(context.Context, *CreateAttachmentRequest) (*Attachment, error) {
+func (UnimplementedAttachmentServiceServer) CreateAttachment(context.Context, *CreateAttachmentRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAttachment not implemented")
 }
-func (UnimplementedAttachmentServiceServer) UpdateAttachment(context.Context, *UpdateAttachmentRequest) (*Attachment, error) {
+func (UnimplementedAttachmentServiceServer) UpdateAttachment(context.Context, *UpdateAttachmentRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAttachment not implemented")
 }
 func (UnimplementedAttachmentServiceServer) DeleteAttachment(context.Context, *DeleteAttachmentRequest) (*emptypb.Empty, error) {

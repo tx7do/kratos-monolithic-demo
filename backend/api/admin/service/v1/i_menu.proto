@@ -34,7 +34,7 @@ service MenuService {
   }
 
   // 创建菜单
-  rpc CreateMenu (system.service.v1.CreateMenuRequest) returns (system.service.v1.Menu) {
+  rpc CreateMenu (system.service.v1.CreateMenuRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/admin/v1/menus"
       body: "*"
@@ -46,9 +46,9 @@ service MenuService {
   }
 
   // 更新菜单
-  rpc UpdateMenu (system.service.v1.UpdateMenuRequest) returns (system.service.v1.Menu) {
+  rpc UpdateMenu (system.service.v1.UpdateMenuRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/menus/{id}"
+      put: "/admin/v1/menus/{menu.id}"
       body: "menu"
     };
 

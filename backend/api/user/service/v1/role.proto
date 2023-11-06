@@ -16,10 +16,10 @@ service RoleService {
   rpc GetRole (GetRoleRequest) returns (Role) {}
 
   // 创建角色
-  rpc CreateRole (CreateRoleRequest) returns (Role) {}
+  rpc CreateRole (CreateRoleRequest) returns (google.protobuf.Empty) {}
 
   // 更新角色
-  rpc UpdateRole (UpdateRoleRequest) returns (Role) {}
+  rpc UpdateRole (UpdateRoleRequest) returns (google.protobuf.Empty) {}
 
   // 删除角色
   rpc DeleteRole (DeleteRoleRequest) returns (google.protobuf.Empty) {}
@@ -63,9 +63,8 @@ message CreateRoleRequest {
 
 // 更新角色 - 请求
 message UpdateRoleRequest {
-  uint32 id = 1;
-  Role role = 2;
-  optional uint32 operatorId = 3 [json_name = "operatorId"];
+  Role role = 1;
+  optional uint32 operatorId = 2 [json_name = "operatorId"];
 }
 
 // 删除角色 - 请求

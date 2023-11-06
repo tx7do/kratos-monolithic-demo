@@ -37,9 +37,9 @@ type DictServiceClient interface {
 	// 查询字典
 	GetDict(ctx context.Context, in *GetDictRequest, opts ...grpc.CallOption) (*Dict, error)
 	// 创建字典
-	CreateDict(ctx context.Context, in *CreateDictRequest, opts ...grpc.CallOption) (*Dict, error)
+	CreateDict(ctx context.Context, in *CreateDictRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 更新字典
-	UpdateDict(ctx context.Context, in *UpdateDictRequest, opts ...grpc.CallOption) (*Dict, error)
+	UpdateDict(ctx context.Context, in *UpdateDictRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除字典
 	DeleteDict(ctx context.Context, in *DeleteDictRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -70,8 +70,8 @@ func (c *dictServiceClient) GetDict(ctx context.Context, in *GetDictRequest, opt
 	return out, nil
 }
 
-func (c *dictServiceClient) CreateDict(ctx context.Context, in *CreateDictRequest, opts ...grpc.CallOption) (*Dict, error) {
-	out := new(Dict)
+func (c *dictServiceClient) CreateDict(ctx context.Context, in *CreateDictRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, DictService_CreateDict_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -79,8 +79,8 @@ func (c *dictServiceClient) CreateDict(ctx context.Context, in *CreateDictReques
 	return out, nil
 }
 
-func (c *dictServiceClient) UpdateDict(ctx context.Context, in *UpdateDictRequest, opts ...grpc.CallOption) (*Dict, error) {
-	out := new(Dict)
+func (c *dictServiceClient) UpdateDict(ctx context.Context, in *UpdateDictRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, DictService_UpdateDict_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -106,9 +106,9 @@ type DictServiceServer interface {
 	// 查询字典
 	GetDict(context.Context, *GetDictRequest) (*Dict, error)
 	// 创建字典
-	CreateDict(context.Context, *CreateDictRequest) (*Dict, error)
+	CreateDict(context.Context, *CreateDictRequest) (*emptypb.Empty, error)
 	// 更新字典
-	UpdateDict(context.Context, *UpdateDictRequest) (*Dict, error)
+	UpdateDict(context.Context, *UpdateDictRequest) (*emptypb.Empty, error)
 	// 删除字典
 	DeleteDict(context.Context, *DeleteDictRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedDictServiceServer()
@@ -124,10 +124,10 @@ func (UnimplementedDictServiceServer) ListDict(context.Context, *v1.PagingReques
 func (UnimplementedDictServiceServer) GetDict(context.Context, *GetDictRequest) (*Dict, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDict not implemented")
 }
-func (UnimplementedDictServiceServer) CreateDict(context.Context, *CreateDictRequest) (*Dict, error) {
+func (UnimplementedDictServiceServer) CreateDict(context.Context, *CreateDictRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateDict not implemented")
 }
-func (UnimplementedDictServiceServer) UpdateDict(context.Context, *UpdateDictRequest) (*Dict, error) {
+func (UnimplementedDictServiceServer) UpdateDict(context.Context, *UpdateDictRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateDict not implemented")
 }
 func (UnimplementedDictServiceServer) DeleteDict(context.Context, *DeleteDictRequest) (*emptypb.Empty, error) {

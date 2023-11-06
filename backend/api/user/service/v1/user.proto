@@ -16,10 +16,10 @@ service UserService {
   rpc GetUser (GetUserRequest) returns (User) {}
 
   // 创建用户
-  rpc CreateUser (CreateUserRequest) returns (User) {}
+  rpc CreateUser (CreateUserRequest) returns (google.protobuf.Empty) {}
 
   // 更新用户
-  rpc UpdateUser (UpdateUserRequest) returns (User) {}
+  rpc UpdateUser (UpdateUserRequest) returns (google.protobuf.Empty) {}
 
   // 删除用户
   rpc DeleteUser (DeleteUserRequest) returns (google.protobuf.Empty) {}
@@ -103,17 +103,16 @@ message GetUserByUserNameRequest {
 
 // 创建用户 - 请求
 message CreateUserRequest {
-  User user = 1;
-  uint32 operatorId = 2;
+  uint32 operatorId = 1;
+  User user = 2;
   string password = 3;
 }
 
 // 更新用户 - 请求
 message UpdateUserRequest {
-  uint32 id = 1;
+  uint32 operatorId = 1;
   User user = 2;
-  uint32 operatorId = 3;
-  string password = 4;
+  string password = 3;
 }
 
 // 删除用户 - 请求

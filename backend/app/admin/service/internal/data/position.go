@@ -103,24 +103,6 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 	}, err
 }
 
-func (r *PositionRepo) Create(ctx context.Context, req *v1.CreatePositionRequest) (*v1.Position, error) {
-	ret, err := r.data.db.Client().Position.Create().
-		SetNillableName(req.Position.Name).
-		SetNillableParentID(req.Position.ParentId).
-		SetNillableOrderNo(req.Position.OrderNo).
-		SetNillableCode(req.Position.Code).
-		SetNillableStatus((*position.Status)(req.Position.Status)).
-		SetNillableRemark(req.Position.Remark).
-		SetCreateBy(req.GetOperatorId()).
-		SetCreateTime(time.Now()).
-		Save(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	return r.convertEntToProto(ret), err
-}
-
 func (r *PositionRepo) Get(ctx context.Context, req *v1.GetPositionRequest) (*v1.Position, error) {
 	ret, err := r.data.db.Client().Position.Get(ctx, req.GetId())
 	if err != nil && !ent.IsNotFound(err) {
@@ -130,8 +112,27 @@ func (r *PositionRepo) Get(ctx context.Context, req *v1.GetPositionRequest) (*v1
 	return r.convertEntToProto(ret), err
 }
 
-func (r *PositionRepo) Update(ctx context.Context, req *v1.UpdatePositionRequest) (*v1.Position, error) {
-	builder := r.data.db.Client().Position.UpdateOneID(req.Id).
+func (r *PositionRepo) Create(ctx context.Context, req *v1.CreatePositionRequest) error {
+	err := r.data.db.Client().Position.Create().
+		SetNillableName(req.Position.Name).
+		SetNillableParentID(req.Position.ParentId).
+		SetNillableOrderNo(req.Position.OrderNo).
+		SetNillableCode(req.Position.Code).
+		SetNillableStatus((*position.Status)(req.Position.Status)).
+		SetNillableRemark(req.Position.Remark).
+		SetCreateBy(req.GetOperatorId()).
+		SetCreateTime(time.Now()).
+		Exec(ctx)
+	if err != nil {
+		r.log.Errorf("insert one data failed: %s", err.Error())
+		return err
+	}
+
+	return err
+}
+
+func (r *PositionRepo) Update(ctx context.Context, req *v1.UpdatePositionRequest) error {
+	builder := r.data.db.Client().Position.UpdateOneID(req.Position.Id).
 		SetNillableName(req.Position.Name).
 		SetNillableParentID(req.Position.ParentId).
 		SetNillableOrderNo(req.Position.OrderNo).
@@ -140,12 +141,13 @@ func (r *PositionRepo) Update(ctx context.Context, req *v1.UpdatePositionRequest
 		SetNillableStatus((*position.Status)(req.Position.Status)).
 		SetUpdateTime(time.Now())
 
-	ret, err := builder.Save(ctx)
+	err := builder.Exec(ctx)
 	if err != nil {
-		return nil, err
+		r.log.Errorf("update one data failed: %s", err.Error())
+		return err
 	}
 
-	return r.convertEntToProto(ret), err
+	return err
 }
 
 func (r *PositionRepo) Delete(ctx context.Context, req *v1.DeletePositionRequest) (bool, error) {

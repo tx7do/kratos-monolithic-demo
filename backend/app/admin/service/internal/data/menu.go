@@ -170,7 +170,7 @@ func (r *MenuRepo) Get(ctx context.Context, req *v1.GetMenuRequest) (*v1.Menu, e
 	return r.convertEntToProto(ret), err
 }
 
-func (r *MenuRepo) Create(ctx context.Context, req *v1.CreateMenuRequest) (*v1.Menu, error) {
+func (r *MenuRepo) Create(ctx context.Context, req *v1.CreateMenuRequest) error {
 	builder := r.data.db.Client().Menu.Create().
 		SetNillableName(req.Menu.Name).
 		SetNillableStatus((*menu.Status)(req.Menu.Status)).
@@ -190,17 +190,17 @@ func (r *MenuRepo) Create(ctx context.Context, req *v1.CreateMenuRequest) (*v1.M
 		builder.SetType((menu.Type)(req.Menu.Type.String()))
 	}
 
-	ret, err := builder.Save(ctx)
+	err := builder.Exec(ctx)
 	if err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return nil, err
+		return err
 	}
 
-	return r.convertEntToProto(ret), nil
+	return nil
 }
 
-func (r *MenuRepo) Update(ctx context.Context, req *v1.UpdateMenuRequest) (*v1.Menu, error) {
-	builder := r.data.db.Client().Menu.UpdateOneID(req.Id).
+func (r *MenuRepo) Update(ctx context.Context, req *v1.UpdateMenuRequest) error {
+	builder := r.data.db.Client().Menu.UpdateOneID(req.Menu.Id).
 		SetNillableName(req.Menu.Name).
 		SetNillableStatus((*menu.Status)(req.Menu.Status)).
 		SetNillableParentID(req.Menu.ParentId).
@@ -221,13 +221,13 @@ func (r *MenuRepo) Update(ctx context.Context, req *v1.UpdateMenuRequest) (*v1.M
 		builder.SetType((menu.Type)(req.Menu.Type.String()))
 	}
 
-	ret, err := builder.Save(ctx)
+	err := builder.Exec(ctx)
 	if err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
-		return nil, err
+		return err
 	}
 
-	return r.convertEntToProto(ret), nil
+	return nil
 }
 
 func (r *MenuRepo) Delete(ctx context.Context, req *v1.DeleteMenuRequest) (bool, error) {

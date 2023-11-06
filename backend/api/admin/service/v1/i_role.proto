@@ -34,7 +34,7 @@ service RoleService {
   }
 
   // 创建角色
-  rpc CreateRole (user.service.v1.CreateRoleRequest) returns (user.service.v1.Role) {
+  rpc CreateRole (user.service.v1.CreateRoleRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/admin/v1/roles"
       body: "*"
@@ -46,9 +46,9 @@ service RoleService {
   }
 
   // 更新角色
-  rpc UpdateRole (user.service.v1.UpdateRoleRequest) returns (user.service.v1.Role) {
+  rpc UpdateRole (user.service.v1.UpdateRoleRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/roles/{id}"
+      put: "/admin/v1/roles/{role.id}"
       body: "role"
     };
 

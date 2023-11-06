@@ -36,12 +36,24 @@ func (s *PositionService) GetPosition(ctx context.Context, req *userV1.GetPositi
 	return s.uc.Get(ctx, req)
 }
 
-func (s *PositionService) CreatePosition(ctx context.Context, req *userV1.CreatePositionRequest) (*userV1.Position, error) {
-	return s.uc.Create(ctx, req)
+func (s *PositionService) CreatePosition(ctx context.Context, req *userV1.CreatePositionRequest) (*emptypb.Empty, error) {
+	err := s.uc.Create(ctx, req)
+	if err != nil {
+
+		return nil, err
+	}
+
+	return &emptypb.Empty{}, nil
 }
 
-func (s *PositionService) UpdatePosition(ctx context.Context, req *userV1.UpdatePositionRequest) (*userV1.Position, error) {
-	return s.uc.Update(ctx, req)
+func (s *PositionService) UpdatePosition(ctx context.Context, req *userV1.UpdatePositionRequest) (*emptypb.Empty, error) {
+	err := s.uc.Update(ctx, req)
+	if err != nil {
+
+		return nil, err
+	}
+
+	return &emptypb.Empty{}, nil
 }
 
 func (s *PositionService) DeletePosition(ctx context.Context, req *userV1.DeletePositionRequest) (*emptypb.Empty, error) {
@@ -49,5 +61,6 @@ func (s *PositionService) DeletePosition(ctx context.Context, req *userV1.Delete
 	if err != nil {
 		return nil, err
 	}
+
 	return &emptypb.Empty{}, nil
 }

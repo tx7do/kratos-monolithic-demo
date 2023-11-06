@@ -30,7 +30,7 @@ const OperationOrganizationServiceUpdateOrganization = "/admin.service.v1.Organi
 
 type OrganizationServiceHTTPServer interface {
 	// CreateOrganization 创建部门
-	CreateOrganization(context.Context, *v11.CreateOrganizationRequest) (*v11.Organization, error)
+	CreateOrganization(context.Context, *v11.CreateOrganizationRequest) (*emptypb.Empty, error)
 	// DeleteOrganization 删除部门
 	DeleteOrganization(context.Context, *v11.DeleteOrganizationRequest) (*emptypb.Empty, error)
 	// GetOrganization 查询部门详情
@@ -38,7 +38,7 @@ type OrganizationServiceHTTPServer interface {
 	// ListOrganization 查询部门列表
 	ListOrganization(context.Context, *v1.PagingRequest) (*v11.ListOrganizationResponse, error)
 	// UpdateOrganization 更新部门
-	UpdateOrganization(context.Context, *v11.UpdateOrganizationRequest) (*v11.Organization, error)
+	UpdateOrganization(context.Context, *v11.UpdateOrganizationRequest) (*emptypb.Empty, error)
 }
 
 func RegisterOrganizationServiceHTTPServer(s *http.Server, srv OrganizationServiceHTTPServer) {
@@ -46,7 +46,7 @@ func RegisterOrganizationServiceHTTPServer(s *http.Server, srv OrganizationServi
 	r.GET("/admin/v1/orgs", _OrganizationService_ListOrganization0_HTTP_Handler(srv))
 	r.GET("/admin/v1/orgs/{id}", _OrganizationService_GetOrganization0_HTTP_Handler(srv))
 	r.POST("/admin/v1/orgs", _OrganizationService_CreateOrganization0_HTTP_Handler(srv))
-	r.PUT("/admin/v1/orgs/{id}", _OrganizationService_UpdateOrganization0_HTTP_Handler(srv))
+	r.PUT("/admin/v1/orgs/{org.id}", _OrganizationService_UpdateOrganization0_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/orgs/{id}", _OrganizationService_DeleteOrganization0_HTTP_Handler(srv))
 }
 
@@ -108,7 +108,7 @@ func _OrganizationService_CreateOrganization0_HTTP_Handler(srv OrganizationServi
 		if err != nil {
 			return err
 		}
-		reply := out.(*v11.Organization)
+		reply := out.(*emptypb.Empty)
 		return ctx.Result(200, reply)
 	}
 }
@@ -133,7 +133,7 @@ func _OrganizationService_UpdateOrganization0_HTTP_Handler(srv OrganizationServi
 		if err != nil {
 			return err
 		}
-		reply := out.(*v11.Organization)
+		reply := out.(*emptypb.Empty)
 		return ctx.Result(200, reply)
 	}
 }
@@ -161,11 +161,11 @@ func _OrganizationService_DeleteOrganization0_HTTP_Handler(srv OrganizationServi
 }
 
 type OrganizationServiceHTTPClient interface {
-	CreateOrganization(ctx context.Context, req *v11.CreateOrganizationRequest, opts ...http.CallOption) (rsp *v11.Organization, err error)
+	CreateOrganization(ctx context.Context, req *v11.CreateOrganizationRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	DeleteOrganization(ctx context.Context, req *v11.DeleteOrganizationRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	GetOrganization(ctx context.Context, req *v11.GetOrganizationRequest, opts ...http.CallOption) (rsp *v11.Organization, err error)
 	ListOrganization(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListOrganizationResponse, err error)
-	UpdateOrganization(ctx context.Context, req *v11.UpdateOrganizationRequest, opts ...http.CallOption) (rsp *v11.Organization, err error)
+	UpdateOrganization(ctx context.Context, req *v11.UpdateOrganizationRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 }
 
 type OrganizationServiceHTTPClientImpl struct {
@@ -176,8 +176,8 @@ func NewOrganizationServiceHTTPClient(client *http.Client) OrganizationServiceHT
 	return &OrganizationServiceHTTPClientImpl{client}
 }
 
-func (c *OrganizationServiceHTTPClientImpl) CreateOrganization(ctx context.Context, in *v11.CreateOrganizationRequest, opts ...http.CallOption) (*v11.Organization, error) {
-	var out v11.Organization
+func (c *OrganizationServiceHTTPClientImpl) CreateOrganization(ctx context.Context, in *v11.CreateOrganizationRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+	var out emptypb.Empty
 	pattern := "/admin/v1/orgs"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationOrganizationServiceCreateOrganization))
@@ -228,9 +228,9 @@ func (c *OrganizationServiceHTTPClientImpl) ListOrganization(ctx context.Context
 	return &out, err
 }
 
-func (c *OrganizationServiceHTTPClientImpl) UpdateOrganization(ctx context.Context, in *v11.UpdateOrganizationRequest, opts ...http.CallOption) (*v11.Organization, error) {
-	var out v11.Organization
-	pattern := "/admin/v1/orgs/{id}"
+func (c *OrganizationServiceHTTPClientImpl) UpdateOrganization(ctx context.Context, in *v11.UpdateOrganizationRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+	var out emptypb.Empty
+	pattern := "/admin/v1/orgs/{org.id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationOrganizationServiceUpdateOrganization))
 	opts = append(opts, http.PathTemplate(pattern))

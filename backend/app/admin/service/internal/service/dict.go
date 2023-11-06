@@ -49,22 +49,22 @@ func (s *DictService) GetDict(ctx context.Context, req *systemV1.GetDictRequest)
 	return ret, nil
 }
 
-func (s *DictService) CreateDict(ctx context.Context, req *systemV1.CreateDictRequest) (*systemV1.Dict, error) {
-	ret, err := s.uc.Create(ctx, req)
+func (s *DictService) CreateDict(ctx context.Context, req *systemV1.CreateDictRequest) (*emptypb.Empty, error) {
+	err := s.uc.Create(ctx, req)
 	if err != nil {
 		return nil, err
 	}
 
-	return ret, nil
+	return &emptypb.Empty{}, nil
 }
 
-func (s *DictService) UpdateDict(ctx context.Context, req *systemV1.UpdateDictRequest) (*systemV1.Dict, error) {
-	ret, err := s.uc.Update(ctx, req)
+func (s *DictService) UpdateDict(ctx context.Context, req *systemV1.UpdateDictRequest) (*emptypb.Empty, error) {
+	err := s.uc.Update(ctx, req)
 	if err != nil {
 		return nil, err
 	}
 
-	return ret, nil
+	return &emptypb.Empty{}, nil
 }
 
 func (s *DictService) DeleteDict(ctx context.Context, req *systemV1.DeleteDictRequest) (*emptypb.Empty, error) {

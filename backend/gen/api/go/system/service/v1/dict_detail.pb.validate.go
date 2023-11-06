@@ -575,8 +575,6 @@ func (m *UpdateDictDetailRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
-
 	if all {
 		switch v := interface{}(m.GetDetail()).(type) {
 		case interface{ ValidateAll() error }:

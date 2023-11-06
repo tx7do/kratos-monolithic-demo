@@ -34,7 +34,7 @@ service OrganizationService {
   }
 
   // 创建部门
-  rpc CreateOrganization (user.service.v1.CreateOrganizationRequest) returns (user.service.v1.Organization) {
+  rpc CreateOrganization (user.service.v1.CreateOrganizationRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/admin/v1/orgs"
       body: "*"
@@ -46,9 +46,9 @@ service OrganizationService {
   }
 
   // 更新部门
-  rpc UpdateOrganization (user.service.v1.UpdateOrganizationRequest) returns (user.service.v1.Organization) {
+  rpc UpdateOrganization (user.service.v1.UpdateOrganizationRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/orgs/{id}"
+      put: "/admin/v1/orgs/{org.id}"
       body: "org"
     };
 

@@ -38,9 +38,9 @@ type OrganizationServiceClient interface {
 	// 查询部门详情
 	GetOrganization(ctx context.Context, in *v11.GetOrganizationRequest, opts ...grpc.CallOption) (*v11.Organization, error)
 	// 创建部门
-	CreateOrganization(ctx context.Context, in *v11.CreateOrganizationRequest, opts ...grpc.CallOption) (*v11.Organization, error)
+	CreateOrganization(ctx context.Context, in *v11.CreateOrganizationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 更新部门
-	UpdateOrganization(ctx context.Context, in *v11.UpdateOrganizationRequest, opts ...grpc.CallOption) (*v11.Organization, error)
+	UpdateOrganization(ctx context.Context, in *v11.UpdateOrganizationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除部门
 	DeleteOrganization(ctx context.Context, in *v11.DeleteOrganizationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -71,8 +71,8 @@ func (c *organizationServiceClient) GetOrganization(ctx context.Context, in *v11
 	return out, nil
 }
 
-func (c *organizationServiceClient) CreateOrganization(ctx context.Context, in *v11.CreateOrganizationRequest, opts ...grpc.CallOption) (*v11.Organization, error) {
-	out := new(v11.Organization)
+func (c *organizationServiceClient) CreateOrganization(ctx context.Context, in *v11.CreateOrganizationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, OrganizationService_CreateOrganization_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -80,8 +80,8 @@ func (c *organizationServiceClient) CreateOrganization(ctx context.Context, in *
 	return out, nil
 }
 
-func (c *organizationServiceClient) UpdateOrganization(ctx context.Context, in *v11.UpdateOrganizationRequest, opts ...grpc.CallOption) (*v11.Organization, error) {
-	out := new(v11.Organization)
+func (c *organizationServiceClient) UpdateOrganization(ctx context.Context, in *v11.UpdateOrganizationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, OrganizationService_UpdateOrganization_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -107,9 +107,9 @@ type OrganizationServiceServer interface {
 	// 查询部门详情
 	GetOrganization(context.Context, *v11.GetOrganizationRequest) (*v11.Organization, error)
 	// 创建部门
-	CreateOrganization(context.Context, *v11.CreateOrganizationRequest) (*v11.Organization, error)
+	CreateOrganization(context.Context, *v11.CreateOrganizationRequest) (*emptypb.Empty, error)
 	// 更新部门
-	UpdateOrganization(context.Context, *v11.UpdateOrganizationRequest) (*v11.Organization, error)
+	UpdateOrganization(context.Context, *v11.UpdateOrganizationRequest) (*emptypb.Empty, error)
 	// 删除部门
 	DeleteOrganization(context.Context, *v11.DeleteOrganizationRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
@@ -125,10 +125,10 @@ func (UnimplementedOrganizationServiceServer) ListOrganization(context.Context, 
 func (UnimplementedOrganizationServiceServer) GetOrganization(context.Context, *v11.GetOrganizationRequest) (*v11.Organization, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrganization not implemented")
 }
-func (UnimplementedOrganizationServiceServer) CreateOrganization(context.Context, *v11.CreateOrganizationRequest) (*v11.Organization, error) {
+func (UnimplementedOrganizationServiceServer) CreateOrganization(context.Context, *v11.CreateOrganizationRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOrganization not implemented")
 }
-func (UnimplementedOrganizationServiceServer) UpdateOrganization(context.Context, *v11.UpdateOrganizationRequest) (*v11.Organization, error) {
+func (UnimplementedOrganizationServiceServer) UpdateOrganization(context.Context, *v11.UpdateOrganizationRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateOrganization not implemented")
 }
 func (UnimplementedOrganizationServiceServer) DeleteOrganization(context.Context, *v11.DeleteOrganizationRequest) (*emptypb.Empty, error) {

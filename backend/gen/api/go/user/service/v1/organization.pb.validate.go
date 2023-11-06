@@ -601,8 +601,6 @@ func (m *UpdateOrganizationRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
-
 	if all {
 		switch v := interface{}(m.GetOrg()).(type) {
 		case interface{ ValidateAll() error }:

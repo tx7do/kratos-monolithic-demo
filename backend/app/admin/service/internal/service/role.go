@@ -36,12 +36,24 @@ func (s *RoleService) GetRole(ctx context.Context, req *userV1.GetRoleRequest) (
 	return s.uc.Get(ctx, req)
 }
 
-func (s *RoleService) CreateRole(ctx context.Context, req *userV1.CreateRoleRequest) (*userV1.Role, error) {
-	return s.uc.Create(ctx, req)
+func (s *RoleService) CreateRole(ctx context.Context, req *userV1.CreateRoleRequest) (*emptypb.Empty, error) {
+	err := s.uc.Create(ctx, req)
+	if err != nil {
+
+		return nil, err
+	}
+
+	return &emptypb.Empty{}, nil
 }
 
-func (s *RoleService) UpdateRole(ctx context.Context, req *userV1.UpdateRoleRequest) (*userV1.Role, error) {
-	return s.uc.Update(ctx, req)
+func (s *RoleService) UpdateRole(ctx context.Context, req *userV1.UpdateRoleRequest) (*emptypb.Empty, error) {
+	err := s.uc.Update(ctx, req)
+	if err != nil {
+
+		return nil, err
+	}
+
+	return &emptypb.Empty{}, nil
 }
 
 func (s *RoleService) DeleteRole(ctx context.Context, req *userV1.DeleteRoleRequest) (*emptypb.Empty, error) {

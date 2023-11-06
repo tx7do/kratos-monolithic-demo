@@ -112,34 +112,34 @@ func (r *DictRepo) Get(ctx context.Context, req *v1.GetDictRequest) (*v1.Dict, e
 	return r.convertEntToProto(ret), err
 }
 
-func (r *DictRepo) Create(ctx context.Context, req *v1.CreateDictRequest) (*v1.Dict, error) {
-	ret, err := r.data.db.Client().Dict.Create().
+func (r *DictRepo) Create(ctx context.Context, req *v1.CreateDictRequest) error {
+	err := r.data.db.Client().Dict.Create().
 		SetNillableName(req.Dict.Name).
 		SetNillableDescription(req.Dict.Description).
 		SetCreateBy(req.GetOperatorId()).
 		SetCreateTime(time.Now()).
-		Save(ctx)
+		Exec(ctx)
 	if err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return nil, err
+		return err
 	}
 
-	return r.convertEntToProto(ret), err
+	return err
 }
 
-func (r *DictRepo) Update(ctx context.Context, req *v1.UpdateDictRequest) (*v1.Dict, error) {
-	builder := r.data.db.Client().Dict.UpdateOneID(req.Id).
+func (r *DictRepo) Update(ctx context.Context, req *v1.UpdateDictRequest) error {
+	builder := r.data.db.Client().Dict.UpdateOneID(req.Dict.Id).
 		SetNillableName(req.Dict.Name).
 		SetNillableDescription(req.Dict.Description).
 		SetUpdateTime(time.Now())
 
-	ret, err := builder.Save(ctx)
+	err := builder.Exec(ctx)
 	if err != nil {
-		r.log.Errorf("insert one data failed: %s", err.Error())
-		return nil, err
+		r.log.Errorf("update one data failed: %s", err.Error())
+		return err
 	}
 
-	return r.convertEntToProto(ret), err
+	return err
 }
 
 func (r *DictRepo) Delete(ctx context.Context, req *v1.DeleteDictRequest) (bool, error) {

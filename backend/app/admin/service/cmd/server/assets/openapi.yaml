@@ -84,10 +84,36 @@ paths:
             responses:
                 "200":
                     description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/DictDetail'
+                    content: {}
+            security:
+                - OAuth2PasswordBearer: []
+    /admin/v1/dict:details/{detail.id}:
+        put:
+            tags:
+                - DictDetailService
+            description: 更新字典详情
+            operationId: DictDetailService_UpdateDictDetail
+            parameters:
+                - name: detail.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/DictDetail'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
             security:
                 - OAuth2PasswordBearer: []
     /admin/v1/dict:details/{id}:
@@ -107,38 +133,6 @@ paths:
                   in: query
                   schema:
                     type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/DictDetail'
-            security:
-                - OAuth2PasswordBearer: []
-        put:
-            tags:
-                - DictDetailService
-            description: 更新字典详情
-            operationId: DictDetailService_UpdateDictDetail
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/DictDetail'
-                required: true
             responses:
                 "200":
                     description: OK
@@ -241,10 +235,36 @@ paths:
             responses:
                 "200":
                     description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Dict'
+                    content: {}
+            security:
+                - OAuth2PasswordBearer: []
+    /admin/v1/dicts/{dict.id}:
+        put:
+            tags:
+                - DictService
+            description: 更新字典
+            operationId: DictService_UpdateDict
+            parameters:
+                - name: dict.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Dict'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
             security:
                 - OAuth2PasswordBearer: []
     /admin/v1/dicts/{id}:
@@ -264,38 +284,6 @@ paths:
                   in: query
                   schema:
                     type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Dict'
-            security:
-                - OAuth2PasswordBearer: []
-        put:
-            tags:
-                - DictService
-            description: 更新字典
-            operationId: DictService_UpdateDict
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/Dict'
-                required: true
             responses:
                 "200":
                     description: OK
@@ -456,10 +444,7 @@ paths:
             responses:
                 "200":
                     description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Menu'
+                    content: {}
             security:
                 - OAuth2PasswordBearer: []
     /admin/v1/menus/{id}:
@@ -475,38 +460,6 @@ paths:
                   schema:
                     type: integer
                     format: int32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Menu'
-            security:
-                - OAuth2PasswordBearer: []
-        put:
-            tags:
-                - MenuService
-            description: 更新菜单
-            operationId: MenuService_UpdateMenu
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: int32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/Menu'
-                required: true
             responses:
                 "200":
                     description: OK
@@ -533,6 +486,35 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+            security:
+                - OAuth2PasswordBearer: []
+    /admin/v1/menus/{menu.id}:
+        put:
+            tags:
+                - MenuService
+            description: 更新菜单
+            operationId: MenuService_UpdateMenu
+            parameters:
+                - name: menu.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Menu'
+                required: true
             responses:
                 "200":
                     description: OK
@@ -609,10 +591,7 @@ paths:
             responses:
                 "200":
                     description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Organization'
+                    content: {}
             security:
                 - OAuth2PasswordBearer: []
     /admin/v1/orgs/{id}:
@@ -628,38 +607,6 @@ paths:
                   schema:
                     type: integer
                     format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Organization'
-            security:
-                - OAuth2PasswordBearer: []
-        put:
-            tags:
-                - OrganizationService
-            description: 更新部门
-            operationId: OrganizationService_UpdateOrganization
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/Organization'
-                required: true
             responses:
                 "200":
                     description: OK
@@ -686,6 +633,35 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+            security:
+                - OAuth2PasswordBearer: []
+    /admin/v1/orgs/{org.id}:
+        put:
+            tags:
+                - OrganizationService
+            description: 更新部门
+            operationId: OrganizationService_UpdateOrganization
+            parameters:
+                - name: org.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Organization'
+                required: true
             responses:
                 "200":
                     description: OK
@@ -777,10 +753,7 @@ paths:
             responses:
                 "200":
                     description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Position'
+                    content: {}
             security:
                 - OAuth2PasswordBearer: []
     /admin/v1/positions/{id}:
@@ -796,38 +769,6 @@ paths:
                   schema:
                     type: integer
                     format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Position'
-            security:
-                - OAuth2PasswordBearer: []
-        put:
-            tags:
-                - PositionService
-            description: 更新职位
-            operationId: PositionService_UpdatePosition
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/Position'
-                required: true
             responses:
                 "200":
                     description: OK
@@ -854,6 +795,35 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+            security:
+                - OAuth2PasswordBearer: []
+    /admin/v1/positions/{position.id}:
+        put:
+            tags:
+                - PositionService
+            description: 更新职位
+            operationId: PositionService_UpdatePosition
+            parameters:
+                - name: position.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Position'
+                required: true
             responses:
                 "200":
                     description: OK
@@ -951,10 +921,7 @@ paths:
             responses:
                 "200":
                     description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Role'
+                    content: {}
             security:
                 - OAuth2PasswordBearer: []
     /admin/v1/roles/{id}:
@@ -970,38 +937,6 @@ paths:
                   schema:
                     type: integer
                     format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Role'
-            security:
-                - OAuth2PasswordBearer: []
-        put:
-            tags:
-                - RoleService
-            description: 更新角色
-            operationId: RoleService_UpdateRole
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/Role'
-                required: true
             responses:
                 "200":
                     description: OK
@@ -1028,6 +963,35 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+            security:
+                - OAuth2PasswordBearer: []
+    /admin/v1/roles/{role.id}:
+        put:
+            tags:
+                - RoleService
+            description: 更新角色
+            operationId: RoleService_UpdateRole
+            parameters:
+                - name: role.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Role'
+                required: true
             responses:
                 "200":
                     description: OK
@@ -1129,10 +1093,7 @@ paths:
             responses:
                 "200":
                     description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/User'
+                    content: {}
             security:
                 - OAuth2PasswordBearer: []
     /admin/v1/users/{id}:
@@ -1148,42 +1109,6 @@ paths:
                   schema:
                     type: integer
                     format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/User'
-            security:
-                - OAuth2PasswordBearer: []
-        put:
-            tags:
-                - UserService
-            description: 更新用户
-            operationId: UserService_UpdateUser
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: password
-                  in: query
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/User'
-                required: true
             responses:
                 "200":
                     description: OK
@@ -1210,6 +1135,39 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+            security:
+                - OAuth2PasswordBearer: []
+    /admin/v1/users/{user.id}:
+        put:
+            tags:
+                - UserService
+            description: 更新用户
+            operationId: UserService_UpdateUser
+            parameters:
+                - name: user.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: password
+                  in: query
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
+                required: true
             responses:
                 "200":
                     description: OK
@@ -1248,11 +1206,11 @@ components:
         CreateOrganizationRequest:
             type: object
             properties:
-                org:
-                    $ref: '#/components/schemas/Organization'
                 operatorId:
                     type: integer
                     format: uint32
+                org:
+                    $ref: '#/components/schemas/Organization'
             description: 创建部门 - 请求
         CreatePositionRequest:
             type: object

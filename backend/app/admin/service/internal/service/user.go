@@ -44,7 +44,7 @@ func (s *UserService) GetUserByUserName(ctx context.Context, req *userV1.GetUser
 	return s.uc.GetUserByUserName(ctx, req.GetUserName())
 }
 
-func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequest) (*userV1.User, error) {
+func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequest) (*emptypb.Empty, error) {
 	authInfo, err := auth.FromContext(ctx)
 	if err != nil {
 		s.log.Errorf("[%d] 用户认证失败[%s]", authInfo, err.Error())
@@ -61,11 +61,11 @@ func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequ
 		req.User.Authority = userV1.UserAuthority_CUSTOMER_USER.Enum()
 	}
 
-	ret, err := s.uc.Create(ctx, req)
-	return ret, err
+	err = s.uc.Create(ctx, req)
+	return &emptypb.Empty{}, nil
 }
 
-func (s *UserService) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequest) (*userV1.User, error) {
+func (s *UserService) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequest) (*emptypb.Empty, error) {
 	authInfo, err := auth.FromContext(ctx)
 	if err != nil {
 		s.log.Errorf("[%d] 用户认证失败[%s]", authInfo, err.Error())
@@ -78,8 +78,8 @@ func (s *UserService) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequ
 
 	req.OperatorId = authInfo.UserId
 
-	ret, err := s.uc.Update(ctx, req)
-	return ret, err
+	err = s.uc.Update(ctx, req)
+	return &emptypb.Empty{}, nil
 }
 
 func (s *UserService) DeleteUser(ctx context.Context, req *userV1.DeleteUserRequest) (*emptypb.Empty, error) {
