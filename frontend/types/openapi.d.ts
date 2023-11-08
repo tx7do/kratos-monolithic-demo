@@ -11,11 +11,13 @@ export interface paths {
     /** @description 创建字典详情 */
     post: operations["DictDetailService_CreateDictDetail"];
   };
+  "/admin/v1/dict:details/{detail.id}": {
+    /** @description 更新字典详情 */
+    put: operations["DictDetailService_UpdateDictDetail"];
+  };
   "/admin/v1/dict:details/{id}": {
     /** @description 查询字典详情 */
     get: operations["DictDetailService_GetDictDetail"];
-    /** @description 更新字典详情 */
-    put: operations["DictDetailService_UpdateDictDetail"];
     /** @description 删除字典详情 */
     delete: operations["DictDetailService_DeleteDictDetail"];
   };
@@ -25,11 +27,13 @@ export interface paths {
     /** @description 创建字典 */
     post: operations["DictService_CreateDict"];
   };
+  "/admin/v1/dicts/{dict.id}": {
+    /** @description 更新字典 */
+    put: operations["DictService_UpdateDict"];
+  };
   "/admin/v1/dicts/{id}": {
     /** @description 查询字典 */
     get: operations["DictService_GetDict"];
-    /** @description 更新字典 */
-    put: operations["DictService_UpdateDict"];
     /** @description 删除字典 */
     delete: operations["DictService_DeleteDict"];
   };
@@ -54,10 +58,12 @@ export interface paths {
   "/admin/v1/menus/{id}": {
     /** @description 查询菜单详情 */
     get: operations["MenuService_GetMenu"];
-    /** @description 更新菜单 */
-    put: operations["MenuService_UpdateMenu"];
     /** @description 删除菜单 */
     delete: operations["MenuService_DeleteMenu"];
+  };
+  "/admin/v1/menus/{menu.id}": {
+    /** @description 更新菜单 */
+    put: operations["MenuService_UpdateMenu"];
   };
   "/admin/v1/orgs": {
     /** @description 查询部门列表 */
@@ -68,10 +74,12 @@ export interface paths {
   "/admin/v1/orgs/{id}": {
     /** @description 查询部门详情 */
     get: operations["OrganizationService_GetOrganization"];
-    /** @description 更新部门 */
-    put: operations["OrganizationService_UpdateOrganization"];
     /** @description 删除部门 */
     delete: operations["OrganizationService_DeleteOrganization"];
+  };
+  "/admin/v1/orgs/{org.id}": {
+    /** @description 更新部门 */
+    put: operations["OrganizationService_UpdateOrganization"];
   };
   "/admin/v1/perm-codes": {
     /** @description 查询权限码列表 */
@@ -86,13 +94,15 @@ export interface paths {
   "/admin/v1/positions/{id}": {
     /** @description 查询职位详情 */
     get: operations["PositionService_GetPosition"];
-    /** @description 更新职位 */
-    put: operations["PositionService_UpdatePosition"];
     /** @description 删除职位 */
     delete: operations["PositionService_DeletePosition"];
   };
+  "/admin/v1/positions/{position.id}": {
+    /** @description 更新职位 */
+    put: operations["PositionService_UpdatePosition"];
+  };
   "/admin/v1/refresh_token": {
-    /** @description 后台登陆 */
+    /** @description 刷新认证令牌 */
     post: operations["AuthenticationService_RefreshToken"];
   };
   "/admin/v1/roles": {
@@ -104,10 +114,12 @@ export interface paths {
   "/admin/v1/roles/{id}": {
     /** @description 查询角色详情 */
     get: operations["RoleService_GetRole"];
-    /** @description 更新角色 */
-    put: operations["RoleService_UpdateRole"];
     /** @description 删除角色 */
     delete: operations["RoleService_DeleteRole"];
+  };
+  "/admin/v1/roles/{role.id}": {
+    /** @description 更新角色 */
+    put: operations["RoleService_UpdateRole"];
   };
   "/admin/v1/routes": {
     /** @description 查询路由列表 */
@@ -122,10 +134,12 @@ export interface paths {
   "/admin/v1/users/{id}": {
     /** @description 获取用户数据 */
     get: operations["UserService_GetUser"];
-    /** @description 更新用户 */
-    put: operations["UserService_UpdateUser"];
     /** @description 删除用户 */
     delete: operations["UserService_DeleteUser"];
+  };
+  "/admin/v1/users/{user.id}": {
+    /** @description 更新用户 */
+    put: operations["UserService_UpdateUser"];
   };
 }
 
@@ -153,9 +167,9 @@ export interface components {
     };
     /** @description 创建部门 - 请求 */
     CreateOrganizationRequest: {
-      org?: components["schemas"]["Organization"];
       /** Format: uint32 */
       operatorId?: number;
+      org?: components["schemas"]["Organization"];
     };
     /** @description 创建职位 - 请求 */
     CreatePositionRequest: {
@@ -497,7 +511,9 @@ export interface components {
        * @description 创建者ID
        */
       creatorId?: number;
+      /** @description 登录名 */
       userName?: string;
+      /** @description 昵称 */
       nickName?: string;
       /** @description 真实姓名 */
       realName?: string;
@@ -511,6 +527,7 @@ export interface components {
       gender?: string;
       /** @description 住址 */
       address?: string;
+      /** @description 个人描述 */
       description?: string;
       /** @description 最后登录时间 */
       lastLoginTime?: string;
@@ -570,7 +587,8 @@ export interface operations {
         orderBy?: string[];
         /** @description 是否不分页 */
         nopaging?: boolean;
-        field_mask?: string;
+        /** @description 字段掩码 */
+        fieldMask?: string;
       };
     };
     responses: {
@@ -593,7 +611,29 @@ export interface operations {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["DictDetail"];
+        };
+      };
+    };
+  };
+  /** @description 更新字典详情 */
+  DictDetailService_UpdateDictDetail: {
+    parameters: {
+      query?: {
+        operatorId?: number;
+      };
+      path: {
+        "detail.id": string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["DictDetail"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
         };
       };
     };
@@ -606,30 +646,6 @@ export interface operations {
       };
       path: {
         id: number;
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["DictDetail"];
-        };
-      };
-    };
-  };
-  /** @description 更新字典详情 */
-  DictDetailService_UpdateDictDetail: {
-    parameters: {
-      query?: {
-        operatorId?: number;
-      };
-      path: {
-        id: number;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["DictDetail"];
       };
     };
     responses: {
@@ -675,7 +691,8 @@ export interface operations {
         orderBy?: string[];
         /** @description 是否不分页 */
         nopaging?: boolean;
-        field_mask?: string;
+        /** @description 字段掩码 */
+        fieldMask?: string;
       };
     };
     responses: {
@@ -698,7 +715,29 @@ export interface operations {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["Dict"];
+        };
+      };
+    };
+  };
+  /** @description 更新字典 */
+  DictService_UpdateDict: {
+    parameters: {
+      query?: {
+        operatorId?: number;
+      };
+      path: {
+        "dict.id": string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["Dict"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
         };
       };
     };
@@ -711,30 +750,6 @@ export interface operations {
       };
       path: {
         id: number;
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Dict"];
-        };
-      };
-    };
-  };
-  /** @description 更新字典 */
-  DictService_UpdateDict: {
-    parameters: {
-      query?: {
-        operatorId?: number;
-      };
-      path: {
-        id: number;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["Dict"];
       };
     };
     responses: {
@@ -827,7 +842,8 @@ export interface operations {
         orderBy?: string[];
         /** @description 是否不分页 */
         nopaging?: boolean;
-        field_mask?: string;
+        /** @description 字段掩码 */
+        fieldMask?: string;
       };
     };
     responses: {
@@ -850,7 +866,6 @@ export interface operations {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["Menu"];
         };
       };
     };
@@ -860,30 +875,6 @@ export interface operations {
     parameters: {
       path: {
         id: number;
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Menu"];
-        };
-      };
-    };
-  };
-  /** @description 更新菜单 */
-  MenuService_UpdateMenu: {
-    parameters: {
-      query?: {
-        operatorId?: number;
-      };
-      path: {
-        id: number;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["Menu"];
       };
     };
     responses: {
@@ -913,6 +904,29 @@ export interface operations {
       };
     };
   };
+  /** @description 更新菜单 */
+  MenuService_UpdateMenu: {
+    parameters: {
+      query?: {
+        operatorId?: number;
+      };
+      path: {
+        "menu.id": string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["Menu"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+        };
+      };
+    };
+  };
   /** @description 查询部门列表 */
   OrganizationService_ListOrganization: {
     parameters: {
@@ -929,7 +943,8 @@ export interface operations {
         orderBy?: string[];
         /** @description 是否不分页 */
         nopaging?: boolean;
-        field_mask?: string;
+        /** @description 字段掩码 */
+        fieldMask?: string;
       };
     };
     responses: {
@@ -952,7 +967,6 @@ export interface operations {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["Organization"];
         };
       };
     };
@@ -973,30 +987,6 @@ export interface operations {
       };
     };
   };
-  /** @description 更新部门 */
-  OrganizationService_UpdateOrganization: {
-    parameters: {
-      query?: {
-        operatorId?: number;
-      };
-      path: {
-        id: number;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["Organization"];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Organization"];
-        };
-      };
-    };
-  };
   /** @description 删除部门 */
   OrganizationService_DeleteOrganization: {
     parameters: {
@@ -1005,6 +995,29 @@ export interface operations {
       };
       path: {
         id: number;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+        };
+      };
+    };
+  };
+  /** @description 更新部门 */
+  OrganizationService_UpdateOrganization: {
+    parameters: {
+      query?: {
+        operatorId?: number;
+      };
+      path: {
+        "org.id": string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["Organization"];
       };
     };
     responses: {
@@ -1042,7 +1055,8 @@ export interface operations {
         orderBy?: string[];
         /** @description 是否不分页 */
         nopaging?: boolean;
-        field_mask?: string;
+        /** @description 字段掩码 */
+        fieldMask?: string;
       };
     };
     responses: {
@@ -1065,7 +1079,6 @@ export interface operations {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["Position"];
         };
       };
     };
@@ -1075,30 +1088,6 @@ export interface operations {
     parameters: {
       path: {
         id: number;
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Position"];
-        };
-      };
-    };
-  };
-  /** @description 更新职位 */
-  PositionService_UpdatePosition: {
-    parameters: {
-      query?: {
-        operatorId?: number;
-      };
-      path: {
-        id: number;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["Position"];
       };
     };
     responses: {
@@ -1128,7 +1117,30 @@ export interface operations {
       };
     };
   };
-  /** @description 后台登陆 */
+  /** @description 更新职位 */
+  PositionService_UpdatePosition: {
+    parameters: {
+      query?: {
+        operatorId?: number;
+      };
+      path: {
+        "position.id": string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["Position"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+        };
+      };
+    };
+  };
+  /** @description 刷新认证令牌 */
   AuthenticationService_RefreshToken: {
     requestBody: {
       content: {
@@ -1160,7 +1172,8 @@ export interface operations {
         orderBy?: string[];
         /** @description 是否不分页 */
         nopaging?: boolean;
-        field_mask?: string;
+        /** @description 字段掩码 */
+        fieldMask?: string;
       };
     };
     responses: {
@@ -1183,7 +1196,6 @@ export interface operations {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["Role"];
         };
       };
     };
@@ -1204,30 +1216,6 @@ export interface operations {
       };
     };
   };
-  /** @description 更新角色 */
-  RoleService_UpdateRole: {
-    parameters: {
-      query?: {
-        operatorId?: number;
-      };
-      path: {
-        id: number;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["Role"];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Role"];
-        };
-      };
-    };
-  };
   /** @description 删除角色 */
   RoleService_DeleteRole: {
     parameters: {
@@ -1236,6 +1224,29 @@ export interface operations {
       };
       path: {
         id: number;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+        };
+      };
+    };
+  };
+  /** @description 更新角色 */
+  RoleService_UpdateRole: {
+    parameters: {
+      query?: {
+        operatorId?: number;
+      };
+      path: {
+        "role.id": string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["Role"];
       };
     };
     responses: {
@@ -1273,7 +1284,8 @@ export interface operations {
         orderBy?: string[];
         /** @description 是否不分页 */
         nopaging?: boolean;
-        field_mask?: string;
+        /** @description 字段掩码 */
+        fieldMask?: string;
       };
     };
     responses: {
@@ -1302,7 +1314,6 @@ export interface operations {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["User"];
         };
       };
     };
@@ -1323,31 +1334,6 @@ export interface operations {
       };
     };
   };
-  /** @description 更新用户 */
-  UserService_UpdateUser: {
-    parameters: {
-      query?: {
-        operatorId?: number;
-        password?: string;
-      };
-      path: {
-        id: number;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["User"];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["User"];
-        };
-      };
-    };
-  };
   /** @description 删除用户 */
   UserService_DeleteUser: {
     parameters: {
@@ -1356,6 +1342,32 @@ export interface operations {
       };
       path: {
         id: number;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+        };
+      };
+    };
+  };
+  /** @description 更新用户 */
+  UserService_UpdateUser: {
+    parameters: {
+      query?: {
+        operatorId?: number;
+        password?: string;
+        updateMask?: string;
+        allowMissing?: boolean;
+      };
+      path: {
+        "user.id": string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["User"];
       };
     };
     responses: {

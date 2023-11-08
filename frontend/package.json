@@ -26,7 +26,8 @@
     "test:br": "npx http-server dist --cors --brotli -c-1",
     "reinstall": "rimraf pnpm-lock.yaml && rimraf package.lock.json && rimraf node_modules && npm run bootstrap",
     "prepare": "",
-    "gen:icon": "esno ./build/generate/icon/index.ts"
+    "gen:icon": "esno ./build/generate/icon/index.ts",
+    "openapi": "npx openapi-typescript http://localhost:7788/docs/openapi.yaml --output ./types/openapi.d.ts"
   },
   "dependencies": {
     "@ant-design/colors": "^6.0.0",
