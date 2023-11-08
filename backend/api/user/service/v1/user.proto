@@ -4,6 +4,8 @@ package user.service.v1;
 
 import "gnostic/openapi/v3/annotations.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/api/field_behavior.proto";
 
 import "pagination/v1/pagination.proto";
 
@@ -60,15 +62,15 @@ message User {
   optional uint32 positionId = 5 [json_name = "positionId", (gnostic.openapi.v3.property) = {description: "岗位ID"}];  // 岗位ID
   optional uint32 creatorId = 6 [json_name = "creatorId", (gnostic.openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
 
-  optional string userName = 10; // 登录名
-  optional string nickName = 11; // 昵称
+  optional string userName = 10 [json_name = "userName", (gnostic.openapi.v3.property) = {description: "登录名"}]; // 登录名
+  optional string nickName = 11 [json_name = "nickName", (gnostic.openapi.v3.property) = {description: "昵称"}]; // 昵称
   optional string realName = 12 [json_name = "realName", (gnostic.openapi.v3.property) = {description: "真实姓名"}];  // 真实姓名
   optional string avatar = 13 [json_name = "avatar", (gnostic.openapi.v3.property) = {description: "头像"}];  // 头像
   optional string email = 14 [json_name = "email", (gnostic.openapi.v3.property) = {description: "邮箱"}]; // 邮箱
   optional string phone = 15 [json_name = "phone", (gnostic.openapi.v3.property) = {description: "手机号"}]; // 手机号
   optional string gender = 16 [json_name = "gender", (gnostic.openapi.v3.property) = {description: "性别"}];  // 性别
   optional string address = 17 [json_name = "address", (gnostic.openapi.v3.property) = {description: "住址"}]; // 住址
-  optional string description = 18; // 个人描述
+  optional string description = 18 [json_name = "description", (gnostic.openapi.v3.property) = {description: "个人描述"}]; // 个人描述
 
   optional int64 lastLoginTime = 20 [json_name = "lastLoginTime", (gnostic.openapi.v3.property) = {description: "最后登录时间"}];  // 最后登录时间
   optional string lastLoginIp = 21 [json_name = "lastLoginIp", (gnostic.openapi.v3.property) = {description: "最后登录IP"}];  // 最后登录IP
@@ -110,9 +112,31 @@ message CreateUserRequest {
 
 // 更新用户 - 请求
 message UpdateUserRequest {
-  uint32 operatorId = 1;
-  User user = 2;
+  uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ];
+
+  User user = 2 [
+    (google.api.field_behavior) = REQUIRED,
+    (gnostic.openapi.v3.property) = {description: "用户的数据"},
+    json_name = "user"
+  ];
+
   string password = 3;
+
+  google.protobuf.FieldMask update_mask = 4 [
+    (gnostic.openapi.v3.property) = {
+      description: "要更新的字段列表",
+      example: {yaml : "id,realName,userName"}
+    },
+    json_name = "updateMask"
+  ];
+
+  bool allow_missing = 5 [
+    (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增，并且在这种情况下`updateMask`字段将会被忽略。"},
+    json_name = "allowMissing"
+  ];
 }
 
 // 删除用户 - 请求

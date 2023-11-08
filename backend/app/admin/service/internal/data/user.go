@@ -2,13 +2,16 @@ package data
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-utils/crypto"
 	entgo "github.com/tx7do/go-utils/entgo/query"
-	util "github.com/tx7do/go-utils/timeutil"
+	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
+	"github.com/tx7do/go-utils/fieldmaskutil"
+	timeUtil "github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
 
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent"
@@ -61,9 +64,9 @@ func (r *UserRepo) convertEntToProto(in *ent.User) *v1.User {
 		LastLoginTime: in.LastLoginTime,
 		LastLoginIp:   in.LastLoginIP,
 		Status:        (*string)(in.Status),
-		CreateTime:    util.TimeToTimeString(in.CreateTime),
-		UpdateTime:    util.TimeToTimeString(in.UpdateTime),
-		DeleteTime:    util.TimeToTimeString(in.DeleteTime),
+		CreateTime:    timeUtil.TimeToTimeString(in.CreateTime),
+		UpdateTime:    timeUtil.TimeToTimeString(in.UpdateTime),
+		DeleteTime:    timeUtil.TimeToTimeString(in.DeleteTime),
 	}
 }
 
@@ -171,6 +174,12 @@ func (r *UserRepo) Create(ctx context.Context, req *v1.CreateUserRequest) error 
 }
 
 func (r *UserRepo) Update(ctx context.Context, req *v1.UpdateUserRequest) error {
+	req.UpdateMask.Normalize()
+	if !req.UpdateMask.IsValid(req.User) {
+		return errors.New("invalid field mask")
+	}
+	fieldmaskutil.Filter(req.GetUser(), req.UpdateMask.GetPaths())
+
 	builder := r.data.db.Client().User.UpdateOneID(req.User.Id).
 		SetNillableNickName(req.User.NickName).
 		SetNillableEmail(req.User.Email).
@@ -193,6 +202,12 @@ func (r *UserRepo) Update(ctx context.Context, req *v1.UpdateUserRequest) error 
 		if err == nil {
 			builder.SetPassword(cryptoPassword)
 		}
+	}
+
+	nilPaths := fieldmaskutil.NilValuePaths(req.User, req.GetUpdateMask().GetPaths())
+	_, nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
+	if nilUpdater != nil {
+		builder.Modify(nilUpdater)
 	}
 
 	err := builder.Exec(ctx)

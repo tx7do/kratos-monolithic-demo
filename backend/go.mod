@@ -13,8 +13,9 @@ require (
 	github.com/google/wire v0.5.0
 	github.com/jackc/pgx/v4 v4.18.1
 	github.com/lib/pq v1.10.9
-	github.com/tx7do/go-utils v1.1.7
-	github.com/tx7do/go-utils/entgo v1.1.8
+	github.com/stretchr/testify v1.8.4
+	github.com/tx7do/go-utils v1.1.8
+	github.com/tx7do/go-utils/entgo v1.1.9
 	github.com/tx7do/kratos-authn v1.0.0
 	github.com/tx7do/kratos-authn/engine/jwt v1.0.0
 	github.com/tx7do/kratos-authn/middleware v1.0.0
@@ -23,6 +24,7 @@ require (
 	github.com/tx7do/kratos-bootstrap v0.2.20
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20231027101037-78256951ad49
 	github.com/tx7do/kratos-transport/transport/asynq v1.2.2
+	google.golang.org/genproto v0.0.0-20231030173426-d783a09b4405
 	google.golang.org/genproto/googleapis/api v0.0.0-20231030173426-d783a09b4405
 	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.0
@@ -154,6 +156,7 @@ require (
 	github.com/philhofer/fwd v1.1.2 // indirect
 	github.com/pierrec/lz4 v2.6.1+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/power-devops/perfstat v0.0.0-20221212215047-62379fc7944b // indirect
 	github.com/redis/go-redis/v9 v9.3.0 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
@@ -209,7 +212,6 @@ require (
 	golang.org/x/time v0.4.0 // indirect
 	golang.org/x/tools v0.14.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
-	google.golang.org/genproto v0.0.0-20231030173426-d783a09b4405 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20231030173426-d783a09b4405 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
