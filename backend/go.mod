@@ -6,26 +6,26 @@ require (
 	entgo.io/contrib v0.4.5
 	entgo.io/ent v0.12.4
 	github.com/go-kratos/kratos/v2 v2.7.1
-	github.com/go-redis/redis/v8 v8.11.5
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/google/gnostic v0.7.0
 	github.com/google/wire v0.5.0
 	github.com/jackc/pgx/v4 v4.18.1
 	github.com/lib/pq v1.10.9
+	github.com/redis/go-redis/v9 v9.3.0
 	github.com/stretchr/testify v1.8.4
 	github.com/tx7do/go-utils v1.1.8
-	github.com/tx7do/go-utils/entgo v1.1.9
+	github.com/tx7do/go-utils/entgo v1.1.10
 	github.com/tx7do/kratos-authn v1.0.0
 	github.com/tx7do/kratos-authn/engine/jwt v1.0.0
 	github.com/tx7do/kratos-authn/middleware v1.0.0
 	github.com/tx7do/kratos-authz v1.0.0
 	github.com/tx7do/kratos-authz/middleware v1.0.0
-	github.com/tx7do/kratos-bootstrap v0.2.20
+	github.com/tx7do/kratos-bootstrap v0.2.21
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20231027101037-78256951ad49
 	github.com/tx7do/kratos-transport/transport/asynq v1.2.2
-	google.golang.org/genproto v0.0.0-20231030173426-d783a09b4405
-	google.golang.org/genproto/googleapis/api v0.0.0-20231030173426-d783a09b4405
+	google.golang.org/genproto v0.0.0-20231106174013-bbf56f31fb17
+	google.golang.org/genproto/googleapis/api v0.0.0-20231106174013-bbf56f31fb17
 	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.0
 )
@@ -33,7 +33,7 @@ require (
 require (
 	ariga.io/atlas v0.15.0 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
-	github.com/aliyun/alibaba-cloud-sdk-go v1.62.600 // indirect
+	github.com/aliyun/alibaba-cloud-sdk-go v1.62.606 // indirect
 	github.com/aliyun/aliyun-log-go-sdk v0.1.65 // indirect
 	github.com/apolloconfig/agollo/v4 v4.3.1 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
@@ -62,23 +62,23 @@ require (
 	github.com/go-kit/kit v0.13.0 // indirect
 	github.com/go-kit/log v0.2.1 // indirect
 	github.com/go-kratos/aegis v0.2.0 // indirect
-	github.com/go-kratos/kratos/contrib/config/apollo/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
-	github.com/go-kratos/kratos/contrib/config/consul/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
-	github.com/go-kratos/kratos/contrib/config/etcd/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
-	github.com/go-kratos/kratos/contrib/config/kubernetes/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
-	github.com/go-kratos/kratos/contrib/config/nacos/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
-	github.com/go-kratos/kratos/contrib/log/aliyun/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
-	github.com/go-kratos/kratos/contrib/log/fluent/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
-	github.com/go-kratos/kratos/contrib/log/logrus/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
-	github.com/go-kratos/kratos/contrib/log/tencent/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
-	github.com/go-kratos/kratos/contrib/log/zap/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
-	github.com/go-kratos/kratos/contrib/registry/consul/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
-	github.com/go-kratos/kratos/contrib/registry/etcd/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
-	github.com/go-kratos/kratos/contrib/registry/eureka/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
-	github.com/go-kratos/kratos/contrib/registry/kubernetes/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
-	github.com/go-kratos/kratos/contrib/registry/nacos/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
-	github.com/go-kratos/kratos/contrib/registry/servicecomb/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
-	github.com/go-kratos/kratos/contrib/registry/zookeeper/v2 v2.0.0-20231102162905-3fc8fb7a0a0b // indirect
+	github.com/go-kratos/kratos/contrib/config/apollo/v2 v2.0.0-20231113102135-421dbc7dae0f // indirect
+	github.com/go-kratos/kratos/contrib/config/consul/v2 v2.0.0-20231113102135-421dbc7dae0f // indirect
+	github.com/go-kratos/kratos/contrib/config/etcd/v2 v2.0.0-20231113102135-421dbc7dae0f // indirect
+	github.com/go-kratos/kratos/contrib/config/kubernetes/v2 v2.0.0-20231113102135-421dbc7dae0f // indirect
+	github.com/go-kratos/kratos/contrib/config/nacos/v2 v2.0.0-20231113102135-421dbc7dae0f // indirect
+	github.com/go-kratos/kratos/contrib/log/aliyun/v2 v2.0.0-20231113102135-421dbc7dae0f // indirect
+	github.com/go-kratos/kratos/contrib/log/fluent/v2 v2.0.0-20231113102135-421dbc7dae0f // indirect
+	github.com/go-kratos/kratos/contrib/log/logrus/v2 v2.0.0-20231113102135-421dbc7dae0f // indirect
+	github.com/go-kratos/kratos/contrib/log/tencent/v2 v2.0.0-20231113102135-421dbc7dae0f // indirect
+	github.com/go-kratos/kratos/contrib/log/zap/v2 v2.0.0-20231113102135-421dbc7dae0f // indirect
+	github.com/go-kratos/kratos/contrib/registry/consul/v2 v2.0.0-20231113102135-421dbc7dae0f // indirect
+	github.com/go-kratos/kratos/contrib/registry/etcd/v2 v2.0.0-20231113102135-421dbc7dae0f // indirect
+	github.com/go-kratos/kratos/contrib/registry/eureka/v2 v2.0.0-20231113102135-421dbc7dae0f // indirect
+	github.com/go-kratos/kratos/contrib/registry/kubernetes/v2 v2.0.0-20231113102135-421dbc7dae0f // indirect
+	github.com/go-kratos/kratos/contrib/registry/nacos/v2 v2.0.0-20231113102135-421dbc7dae0f // indirect
+	github.com/go-kratos/kratos/contrib/registry/servicecomb/v2 v2.0.0-20231113102135-421dbc7dae0f // indirect
+	github.com/go-kratos/kratos/contrib/registry/zookeeper/v2 v2.0.0-20231113102135-421dbc7dae0f // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
 	github.com/go-logr/logr v1.3.0 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
@@ -88,8 +88,6 @@ require (
 	github.com/go-openapi/jsonreference v0.20.2 // indirect
 	github.com/go-openapi/swag v0.22.4 // indirect
 	github.com/go-playground/form/v4 v4.2.1 // indirect
-	github.com/go-redis/redis/extra/rediscmd/v8 v8.11.5 // indirect
-	github.com/go-redis/redis/extra/redisotel/v8 v8.11.5 // indirect
 	github.com/go-zookeeper/zk v1.0.3 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
@@ -103,7 +101,7 @@ require (
 	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/gorilla/websocket v1.5.1 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.18.0 // indirect
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.18.1 // indirect
 	github.com/hashicorp/consul/api v1.26.1 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
@@ -131,7 +129,7 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/karlseguin/ccache/v2 v2.0.8 // indirect
 	github.com/klauspost/compress v1.17.2 // indirect
-	github.com/klauspost/cpuid/v2 v2.2.5 // indirect
+	github.com/klauspost/cpuid/v2 v2.2.6 // indirect
 	github.com/lufia/plan9stats v0.0.0-20231016141302-07b5767bb0ed // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
@@ -158,7 +156,8 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/power-devops/perfstat v0.0.0-20221212215047-62379fc7944b // indirect
-	github.com/redis/go-redis/v9 v9.3.0 // indirect
+	github.com/redis/go-redis/extra/rediscmd/v9 v9.0.5 // indirect
+	github.com/redis/go-redis/extra/redisotel/v9 v9.0.5 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/robfig/cron/v3 v3.0.1 // indirect
 	github.com/rs/xid v1.5.0 // indirect
@@ -187,32 +186,32 @@ require (
 	go.etcd.io/etcd/api/v3 v3.5.10 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.10 // indirect
 	go.etcd.io/etcd/client/v3 v3.5.10 // indirect
-	go.opentelemetry.io/otel v1.19.0 // indirect
-	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.19.0 // indirect
-	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.19.0 // indirect
-	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.19.0 // indirect
-	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.19.0 // indirect
-	go.opentelemetry.io/otel/exporters/zipkin v1.19.0 // indirect
-	go.opentelemetry.io/otel/metric v1.19.0 // indirect
-	go.opentelemetry.io/otel/sdk v1.19.0 // indirect
-	go.opentelemetry.io/otel/trace v1.19.0 // indirect
+	go.opentelemetry.io/otel v1.20.0 // indirect
+	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.20.0 // indirect
+	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.20.0 // indirect
+	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.20.0 // indirect
+	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.20.0 // indirect
+	go.opentelemetry.io/otel/exporters/zipkin v1.20.0 // indirect
+	go.opentelemetry.io/otel/metric v1.20.0 // indirect
+	go.opentelemetry.io/otel/sdk v1.20.0 // indirect
+	go.opentelemetry.io/otel/trace v1.20.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.0.0 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.26.0 // indirect
-	golang.org/x/crypto v0.14.0 // indirect
-	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
+	golang.org/x/crypto v0.15.0 // indirect
+	golang.org/x/exp v0.0.0-20231110203233-9a3e6036ecaa // indirect
 	golang.org/x/mod v0.14.0 // indirect
-	golang.org/x/net v0.17.0 // indirect
-	golang.org/x/oauth2 v0.13.0 // indirect
+	golang.org/x/net v0.18.0 // indirect
+	golang.org/x/oauth2 v0.14.0 // indirect
 	golang.org/x/sync v0.5.0 // indirect
 	golang.org/x/sys v0.14.0 // indirect
-	golang.org/x/term v0.13.0 // indirect
+	golang.org/x/term v0.14.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/time v0.4.0 // indirect
-	golang.org/x/tools v0.14.0 // indirect
+	golang.org/x/tools v0.15.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20231030173426-d783a09b4405 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20231106174013-bbf56f31fb17 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect

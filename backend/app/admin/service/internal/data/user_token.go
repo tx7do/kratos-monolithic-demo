@@ -11,8 +11,8 @@ import (
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/go-redis/redis/v8"
 	"github.com/gofrs/uuid"
+	"github.com/redis/go-redis/v9"
 
 	userV1 "kratos-monolithic-demo/gen/api/go/user/service/v1"
 )

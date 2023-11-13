@@ -8,7 +8,7 @@ import (
 	"github.com/tx7do/kratos-authz/engine/noop"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/go-redis/redis/v8"
+	"github.com/redis/go-redis/v9"
 
 	"github.com/tx7do/go-utils/entgo"
 	"github.com/tx7do/kratos-bootstrap"
