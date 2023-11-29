@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	entgo.io/contrib v0.4.5
-	entgo.io/ent v0.12.4
+	entgo.io/ent v0.12.5
 	github.com/go-kratos/kratos/v2 v2.7.1
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/gofrs/uuid v4.4.0+incompatible
@@ -15,7 +15,7 @@ require (
 	github.com/redis/go-redis/v9 v9.3.0
 	github.com/stretchr/testify v1.8.4
 	github.com/tx7do/go-utils v1.1.8
-	github.com/tx7do/go-utils/entgo v1.1.10
+	github.com/tx7do/go-utils/entgo v1.1.11
 	github.com/tx7do/kratos-authn v1.0.0
 	github.com/tx7do/kratos-authn/engine/jwt v1.0.0
 	github.com/tx7do/kratos-authn/middleware v1.0.0
