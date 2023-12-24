@@ -174,11 +174,13 @@ func (r *UserRepo) Create(ctx context.Context, req *v1.CreateUserRequest) error 
 }
 
 func (r *UserRepo) Update(ctx context.Context, req *v1.UpdateUserRequest) error {
-	req.UpdateMask.Normalize()
-	if !req.UpdateMask.IsValid(req.User) {
-		return errors.New("invalid field mask")
+	if req.UpdateMask != nil {
+		req.UpdateMask.Normalize()
+		if !req.UpdateMask.IsValid(req.User) {
+			return errors.New("invalid field mask")
+		}
+		fieldmaskutil.Filter(req.GetUser(), req.UpdateMask.GetPaths())
 	}
-	fieldmaskutil.Filter(req.GetUser(), req.UpdateMask.GetPaths())
 
 	builder := r.data.db.Client().User.UpdateOneID(req.User.Id).
 		SetNillableNickName(req.User.NickName).
@@ -204,10 +206,12 @@ func (r *UserRepo) Update(ctx context.Context, req *v1.UpdateUserRequest) error 
 		}
 	}
 
-	nilPaths := fieldmaskutil.NilValuePaths(req.User, req.GetUpdateMask().GetPaths())
-	_, nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
-	if nilUpdater != nil {
-		builder.Modify(nilUpdater)
+	if req.UpdateMask != nil {
+		nilPaths := fieldmaskutil.NilValuePaths(req.User, req.GetUpdateMask().GetPaths())
+		_, nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
+		if nilUpdater != nil {
+			builder.Modify(nilUpdater)
+		}
 	}
 
 	err := builder.Exec(ctx)

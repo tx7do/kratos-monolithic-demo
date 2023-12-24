@@ -10,7 +10,7 @@ sudo apt update && sudo apt upgrade
 ## 安装工具软件
 ####################################
 
-sudo apt install epel-release htop wget unzip -y
+sudo apt install htop wget unzip -y
 
 ####################################
 ## 安装PM2
