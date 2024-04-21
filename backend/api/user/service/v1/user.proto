@@ -5,6 +5,7 @@ package user.service.v1;
 import "gnostic/openapi/v3/annotations.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
 import "google/api/field_behavior.proto";
 
 import "pagination/v1/pagination.proto";
@@ -84,9 +85,9 @@ message User {
     default: {string: "CUSTOMER_USER"}
   }]; // 权限
 
-  optional string createTime = 30;// 创建时间
-  optional string updateTime = 31;// 更新时间
-  optional string deleteTime = 32;// 删除时间
+  optional google.protobuf.Timestamp create_time = 30 [json_name = "createTime"];
+  optional google.protobuf.Timestamp update_time = 31 [json_name = "updateTime"];
+  optional google.protobuf.Timestamp delete_time = 32 [json_name = "deleteTime"];
 }
 
 // 获取用户列表 - 答复

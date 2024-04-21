@@ -39,9 +39,9 @@ func (r *DictRepo) convertEntToProto(in *ent.Dict) *v1.Dict {
 		Name:        in.Name,
 		Description: in.Description,
 		CreatorId:   in.CreateBy,
-		CreateTime:  util.TimeToTimeString(in.CreateTime),
-		UpdateTime:  util.TimeToTimeString(in.UpdateTime),
-		DeleteTime:  util.TimeToTimeString(in.DeleteTime),
+		CreateTime:  util.TimeToTimestamppb(in.CreateTime),
+		UpdateTime:  util.TimeToTimestamppb(in.UpdateTime),
+		DeleteTime:  util.TimeToTimestamppb(in.DeleteTime),
 	}
 }
 

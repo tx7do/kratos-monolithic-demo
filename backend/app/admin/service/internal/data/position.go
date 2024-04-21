@@ -41,9 +41,9 @@ func (r *PositionRepo) convertEntToProto(in *ent.Position) *v1.Position {
 		OrderNo:    &in.OrderNo,
 		ParentId:   &in.ParentID,
 		Status:     (*string)(in.Status),
-		CreateTime: util.TimeToTimeString(in.CreateTime),
-		UpdateTime: util.TimeToTimeString(in.UpdateTime),
-		DeleteTime: util.TimeToTimeString(in.DeleteTime),
+		CreateTime: util.TimeToTimestamppb(in.CreateTime),
+		UpdateTime: util.TimeToTimestamppb(in.UpdateTime),
+		DeleteTime: util.TimeToTimestamppb(in.DeleteTime),
 	}
 }
 

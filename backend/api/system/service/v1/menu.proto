@@ -5,6 +5,7 @@ package system.service.v1;
 import "gnostic/openapi/v3/annotations.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
 
 import "pagination/v1/pagination.proto";
 
@@ -76,9 +77,9 @@ message Menu {
   optional string currentActiveMenu = 22;
   optional string redirect = 23;
 
-  optional string createTime = 30;
-  optional string updateTime = 31;
-  optional string deleteTime = 32;
+  optional google.protobuf.Timestamp create_time = 30 [json_name = "createTime"];
+  optional google.protobuf.Timestamp update_time = 31 [json_name = "updateTime"];
+  optional google.protobuf.Timestamp delete_time = 32 [json_name = "deleteTime"];
 }
 
 // 查询菜单列表 - 回应

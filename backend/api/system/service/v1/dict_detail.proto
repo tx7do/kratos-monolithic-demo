@@ -4,6 +4,7 @@ package system.service.v1;
 
 import "gnostic/openapi/v3/annotations.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
 
 import "pagination/v1/pagination.proto";
 
@@ -39,9 +40,9 @@ message DictDetail {
   optional uint32 creatorId = 10 [(gnostic.openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
   optional uint32 creatorName = 11 [(gnostic.openapi.v3.property) = {description: "创建者名字"}]; // 创建者名字
 
-  optional string createTime = 20;// 创建时间
-  optional string updateTime = 21;// 更新时间
-  optional string deleteTime = 22;// 删除时间
+  optional google.protobuf.Timestamp create_time = 30 [json_name = "createTime"];
+  optional google.protobuf.Timestamp update_time = 31 [json_name = "updateTime"];
+  optional google.protobuf.Timestamp delete_time = 32 [json_name = "deleteTime"];
 }
 
 // 查询字典详情列表 - 答复

@@ -62,9 +62,9 @@ func (r *MenuRepo) convertEntToProto(in *ent.Menu) *v1.Menu {
 		Redirect:          in.Redirect,
 		Type:              menuType,
 		Status:            (*string)(in.Status),
-		CreateTime:        util.TimeToTimeString(in.CreateTime),
-		UpdateTime:        util.TimeToTimeString(in.UpdateTime),
-		DeleteTime:        util.TimeToTimeString(in.DeleteTime),
+		CreateTime:        util.TimeToTimestamppb(in.CreateTime),
+		UpdateTime:        util.TimeToTimestamppb(in.UpdateTime),
+		DeleteTime:        util.TimeToTimestamppb(in.DeleteTime),
 	}
 }
 

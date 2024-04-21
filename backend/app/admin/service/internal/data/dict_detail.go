@@ -41,9 +41,9 @@ func (r *DictDetailRepo) convertEntToProto(in *ent.DictDetail) *v1.DictDetail {
 		Label:      in.Label,
 		Value:      in.Value,
 		CreatorId:  in.CreateBy,
-		CreateTime: util.TimeToTimeString(in.CreateTime),
-		UpdateTime: util.TimeToTimeString(in.UpdateTime),
-		DeleteTime: util.TimeToTimeString(in.DeleteTime),
+		CreateTime: util.TimeToTimestamppb(in.CreateTime),
+		UpdateTime: util.TimeToTimestamppb(in.UpdateTime),
+		DeleteTime: util.TimeToTimestamppb(in.DeleteTime),
 	}
 }
 
