@@ -64,9 +64,9 @@ func (r *UserRepo) convertEntToProto(in *ent.User) *v1.User {
 		LastLoginTime: in.LastLoginTime,
 		LastLoginIp:   in.LastLoginIP,
 		Status:        (*string)(in.Status),
-		CreateTime:    timeUtil.TimeToTimeString(in.CreateTime),
-		UpdateTime:    timeUtil.TimeToTimeString(in.UpdateTime),
-		DeleteTime:    timeUtil.TimeToTimeString(in.DeleteTime),
+		CreateTime:    timeUtil.TimeToTimestamppb(in.CreateTime),
+		UpdateTime:    timeUtil.TimeToTimestamppb(in.UpdateTime),
+		DeleteTime:    timeUtil.TimeToTimestamppb(in.DeleteTime),
 	}
 }
 
