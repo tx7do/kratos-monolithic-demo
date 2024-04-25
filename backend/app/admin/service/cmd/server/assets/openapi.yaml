@@ -68,8 +68,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ListDictDetailResponse'
-            security:
-                - OAuth2PasswordBearer: []
         post:
             tags:
                 - DictDetailService
@@ -85,8 +83,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/dict:details/{detail.id}:
         put:
             tags:
@@ -114,8 +110,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/dict:details/{id}:
         get:
             tags:
@@ -140,8 +134,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/DictDetail'
-            security:
-                - OAuth2PasswordBearer: []
         delete:
             tags:
                 - DictDetailService
@@ -163,8 +155,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/dicts:
         get:
             tags:
@@ -219,8 +209,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ListDictResponse'
-            security:
-                - OAuth2PasswordBearer: []
         post:
             tags:
                 - DictService
@@ -236,8 +224,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/dicts/{dict.id}:
         put:
             tags:
@@ -265,8 +251,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/dicts/{id}:
         get:
             tags:
@@ -291,8 +275,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Dict'
-            security:
-                - OAuth2PasswordBearer: []
         delete:
             tags:
                 - DictService
@@ -314,8 +296,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/login:
         post:
             tags:
@@ -335,6 +315,8 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/LoginResponse'
+            security:
+                - {}
     /admin/v1/logout:
         post:
             tags:
@@ -351,8 +333,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/me:
         get:
             tags:
@@ -372,8 +352,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/User'
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/menus:
         get:
             tags:
@@ -428,8 +406,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ListMenuResponse'
-            security:
-                - OAuth2PasswordBearer: []
         post:
             tags:
                 - MenuService
@@ -445,8 +421,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/menus/{id}:
         get:
             tags:
@@ -467,8 +441,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Menu'
-            security:
-                - OAuth2PasswordBearer: []
         delete:
             tags:
                 - MenuService
@@ -490,8 +462,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/menus/{menu.id}:
         put:
             tags:
@@ -519,8 +489,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/orgs:
         get:
             tags:
@@ -575,8 +543,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ListOrganizationResponse'
-            security:
-                - OAuth2PasswordBearer: []
         post:
             tags:
                 - OrganizationService
@@ -592,8 +558,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/orgs/{id}:
         get:
             tags:
@@ -614,8 +578,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Organization'
-            security:
-                - OAuth2PasswordBearer: []
         delete:
             tags:
                 - OrganizationService
@@ -637,8 +599,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/orgs/{org.id}:
         put:
             tags:
@@ -666,8 +626,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/perm-codes:
         get:
             tags:
@@ -681,8 +639,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ListPermissionCodeResponse'
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/positions:
         get:
             tags:
@@ -737,8 +693,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ListPositionResponse'
-            security:
-                - OAuth2PasswordBearer: []
         post:
             tags:
                 - PositionService
@@ -754,8 +708,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/positions/{id}:
         get:
             tags:
@@ -776,8 +728,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Position'
-            security:
-                - OAuth2PasswordBearer: []
         delete:
             tags:
                 - PositionService
@@ -799,8 +749,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/positions/{position.id}:
         put:
             tags:
@@ -828,8 +776,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/refresh_token:
         post:
             tags:
@@ -849,8 +795,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/LoginResponse'
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/roles:
         get:
             tags:
@@ -905,8 +849,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ListRoleResponse'
-            security:
-                - OAuth2PasswordBearer: []
         post:
             tags:
                 - RoleService
@@ -922,8 +864,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/roles/{id}:
         get:
             tags:
@@ -944,8 +884,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Role'
-            security:
-                - OAuth2PasswordBearer: []
         delete:
             tags:
                 - RoleService
@@ -967,8 +905,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/roles/{role.id}:
         put:
             tags:
@@ -996,8 +932,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/routes:
         get:
             tags:
@@ -1011,8 +945,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ListRouteResponse'
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/users:
         get:
             tags:
@@ -1067,8 +999,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ListUserResponse'
-            security:
-                - OAuth2PasswordBearer: []
         post:
             tags:
                 - UserService
@@ -1094,8 +1024,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/users/{id}:
         get:
             tags:
@@ -1116,8 +1044,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/User'
-            security:
-                - OAuth2PasswordBearer: []
         delete:
             tags:
                 - UserService
@@ -1139,8 +1065,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
     /admin/v1/users/{user.id}:
         put:
             tags:
@@ -1181,8 +1105,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-            security:
-                - OAuth2PasswordBearer: []
 components:
     schemas:
         CreateDictDetailRequest:
@@ -1825,6 +1747,8 @@ components:
                     tokenUrl: /admin/v1/login
                     refreshUrl: /admin/v1/refresh_token
                     scopes: {}
+security:
+    - OAuth2PasswordBearer: []
 tags:
     - name: AuthenticationService
       description: 用户后台登陆认证服务

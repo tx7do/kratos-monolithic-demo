@@ -16,20 +16,12 @@ service DictDetailService {
     option (google.api.http) = {
       get: "/admin/v1/dict:details"
     };
-
-    option(gnostic.openapi.v3.operation) = {
-      security: [{additional_properties: [{name: "OAuth2PasswordBearer"; value: {}}]}]
-    };
   }
 
   // 查询字典详情
   rpc GetDictDetail (system.service.v1.GetDictDetailRequest) returns (system.service.v1.DictDetail) {
     option (google.api.http) = {
       get: "/admin/v1/dict:details/{id}"
-    };
-
-    option(gnostic.openapi.v3.operation) = {
-      security: [{additional_properties: [{name: "OAuth2PasswordBearer"; value: {}}]}]
     };
   }
 
@@ -39,10 +31,6 @@ service DictDetailService {
       post: "/admin/v1/dict:details"
       body: "*"
     };
-
-    option(gnostic.openapi.v3.operation) = {
-      security: [{additional_properties: [{name: "OAuth2PasswordBearer"; value: {}}]}]
-    };
   }
 
   // 更新字典详情
@@ -51,20 +39,12 @@ service DictDetailService {
       put: "/admin/v1/dict:details/{detail.id}"
       body: "detail"
     };
-
-    option(gnostic.openapi.v3.operation) = {
-      security: [{additional_properties: [{name: "OAuth2PasswordBearer"; value: {}}]}]
-    };
   }
 
   // 删除字典详情
   rpc DeleteDictDetail (system.service.v1.DeleteDictDetailRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete: "/admin/v1/dict:details/{id}"
-    };
-
-    option(gnostic.openapi.v3.operation) = {
-      security: [{additional_properties: [{name: "OAuth2PasswordBearer"; value: {}}]}]
     };
   }
 }

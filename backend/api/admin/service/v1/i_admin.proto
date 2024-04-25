@@ -19,6 +19,17 @@ option (gnostic.openapi.v3.document) = {
       url: "https://github.com/tx7do/kratos-monolithic-demo/blob/master/LICENSE";
     }
   }
+
+  security: [
+    {
+      additional_properties: [
+        {
+          name: "OAuth2PasswordBearer"; value: {}
+        }
+      ]
+    }
+  ]
+
   components: {
     security_schemes: {
       additional_properties: [
