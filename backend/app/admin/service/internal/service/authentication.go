@@ -34,6 +34,10 @@ func NewAuthenticationService(logger log.Logger, uc *data.UserRepo, utuc *data.U
 
 // Login 登陆
 func (s *AuthenticationService) Login(ctx context.Context, req *adminV1.LoginRequest) (*adminV1.LoginResponse, error) {
+	if req.GetGrantType() != adminV1.GrantType_password.String() {
+		return nil, adminV1.ErrorInvalidToken("非法的授权类型")
+	}
+
 	var user *userV1.User
 	var err error
 	if user, err = s.uc.VerifyPassword(ctx, &userV1.VerifyPasswordRequest{
@@ -49,7 +53,7 @@ func (s *AuthenticationService) Login(ctx context.Context, req *adminV1.LoginReq
 	}
 
 	return &adminV1.LoginResponse{
-		TokenType:    "bearer",
+		TokenType:    adminV1.TokenType_bearer.String(),
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 	}, nil
@@ -67,7 +71,7 @@ func (s *AuthenticationService) Logout(ctx context.Context, req *adminV1.LogoutR
 func (s *AuthenticationService) GetMe(ctx context.Context, req *adminV1.GetMeRequest) (*userV1.User, error) {
 	authInfo, err := auth.FromContext(ctx)
 	if err != nil {
-		s.log.Errorf("[%d] 用户认证失败[%s]", authInfo, err.Error())
+		s.log.Errorf("[%v] 用户认证失败[%s]", authInfo, err.Error())
 		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
 	}
 
@@ -82,8 +86,12 @@ func (s *AuthenticationService) GetMe(ctx context.Context, req *adminV1.GetMeReq
 func (s *AuthenticationService) RefreshToken(ctx context.Context, req *adminV1.RefreshTokenRequest) (*adminV1.LoginResponse, error) {
 	authInfo, err := auth.FromContext(ctx)
 	if err != nil {
-		s.log.Errorf("[%d] 用户认证失败[%s]", authInfo, err.Error())
+		s.log.Errorf("[%v] 用户认证失败[%s]", authInfo, err.Error())
 		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
+	}
+
+	if req.GetGrantType() != adminV1.GrantType_refresh_token.String() {
+		return nil, adminV1.ErrorInvalidToken("非法的授权类型")
 	}
 
 	refreshToken := s.utuc.GetRefreshToken(ctx, authInfo.UserId)
@@ -97,7 +105,7 @@ func (s *AuthenticationService) RefreshToken(ctx context.Context, req *adminV1.R
 	}
 
 	return &adminV1.LoginResponse{
-		TokenType:    "bearer",
+		TokenType:    adminV1.TokenType_bearer.String(),
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 	}, nil

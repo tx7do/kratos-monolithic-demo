@@ -2,6 +2,7 @@ package data
 
 import (
 	"fmt"
+	adminV1 "kratos-monolithic-demo/gen/api/go/admin/service/v1"
 	"regexp"
 	"testing"
 
@@ -98,4 +99,13 @@ func TestMessageNil(t *testing.T) {
 
 	v := pr.Get(fd)
 	fmt.Println(v)
+}
+
+func TestAuthEnum(t *testing.T) {
+	fmt.Println(adminV1.GrantType_password.String())
+	fmt.Println(adminV1.GrantType_client_credentials.String())
+	fmt.Println(adminV1.GrantType_refresh_token.String())
+
+	fmt.Println(adminV1.TokenType_bearer.String())
+	fmt.Println(adminV1.TokenType_mac.String())
 }
