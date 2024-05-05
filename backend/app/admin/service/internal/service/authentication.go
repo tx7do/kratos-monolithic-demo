@@ -11,6 +11,7 @@ import (
 	adminV1 "kratos-monolithic-demo/gen/api/go/admin/service/v1"
 	userV1 "kratos-monolithic-demo/gen/api/go/user/service/v1"
 
+	"kratos-monolithic-demo/pkg/cache"
 	"kratos-monolithic-demo/pkg/middleware/auth"
 )
 
@@ -18,12 +19,12 @@ type AuthenticationService struct {
 	adminV1.AuthenticationServiceHTTPServer
 
 	uc   *data.UserRepo
-	utuc *data.UserTokenRepo
+	utuc *cache.UserToken
 
 	log *log.Helper
 }
 
-func NewAuthenticationService(logger log.Logger, uc *data.UserRepo, utuc *data.UserTokenRepo) *AuthenticationService {
+func NewAuthenticationService(logger log.Logger, uc *data.UserRepo, utuc *cache.UserToken) *AuthenticationService {
 	l := log.NewHelper(log.With(logger, "module", "authn/service/admin-service"))
 	return &AuthenticationService{
 		log:  l,

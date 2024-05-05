@@ -3,6 +3,7 @@ package data
 import (
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 	"github.com/tx7do/kratos-authn/engine/jwt"
+	"kratos-monolithic-demo/pkg/cache"
 
 	authzEngine "github.com/tx7do/kratos-authz/engine"
 	"github.com/tx7do/kratos-authz/engine/noop"
@@ -74,4 +75,12 @@ func NewAuthenticator(cfg *conf.Bootstrap) authnEngine.Authenticator {
 // NewAuthorizer 创建权鉴器
 func NewAuthorizer() authzEngine.Engine {
 	return noop.State{}
+}
+
+func NewUserTokenRepo(data *Data, authenticator authnEngine.Authenticator, logger log.Logger) *cache.UserToken {
+	const (
+		userAccessTokenKeyPrefix  = "uat_"
+		userRefreshTokenKeyPrefix = "urt_"
+	)
+	return cache.NewUserToken(data.rdb, authenticator, logger, userAccessTokenKeyPrefix, userRefreshTokenKeyPrefix)
 }
