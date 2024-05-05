@@ -17,6 +17,11 @@ import (
 	userV1 "kratos-monolithic-demo/gen/api/go/user/service/v1"
 )
 
+const (
+	userAccessTokenKeyPrefix  = "a_uat_"
+	userRefreshTokenKeyPrefix = "a_urt_"
+)
+
 type UserTokenRepo struct {
 	data          *Data
 	log           *log.Helper
@@ -128,8 +133,6 @@ func (r *UserTokenRepo) GetRefreshToken(ctx context.Context, userId uint32) stri
 	return r.getRefreshTokenFromRedis(ctx, userId)
 }
 
-const userAccessTokenKeyPrefix = "a_uat_"
-
 func (r *UserTokenRepo) setAccessTokenToRedis(ctx context.Context, userId uint32, token string, expires int32) error {
 	key := fmt.Sprintf("%s%d", userAccessTokenKeyPrefix, userId)
 	return r.data.rdb.Set(ctx, key, token, time.Duration(expires)).Err()
@@ -139,7 +142,7 @@ func (r *UserTokenRepo) getAccessTokenFromRedis(ctx context.Context, userId uint
 	key := fmt.Sprintf("%s%d", userAccessTokenKeyPrefix, userId)
 	result, err := r.data.rdb.Get(ctx, key).Result()
 	if err != nil {
-		if err != redis.Nil {
+		if !errors.Is(err, redis.Nil) {
 			r.log.Errorf("get redis user access token failed: %s", err.Error())
 		}
 		return ""
@@ -152,8 +155,6 @@ func (r *UserTokenRepo) deleteAccessTokenFromRedis(ctx context.Context, userId u
 	return r.data.rdb.Del(ctx, key).Err()
 }
 
-const userRefreshTokenKeyPrefix = "a_urt_"
-
 func (r *UserTokenRepo) setRefreshTokenToRedis(ctx context.Context, userId uint32, token string, expires int32) error {
 	key := fmt.Sprintf("%s%d", userRefreshTokenKeyPrefix, userId)
 	return r.data.rdb.Set(ctx, key, token, time.Duration(expires)).Err()
@@ -163,7 +164,7 @@ func (r *UserTokenRepo) getRefreshTokenFromRedis(ctx context.Context, userId uin
 	key := fmt.Sprintf("%s%d", userRefreshTokenKeyPrefix, userId)
 	result, err := r.data.rdb.Get(ctx, key).Result()
 	if err != nil {
-		if err != redis.Nil {
+		if !errors.Is(err, redis.Nil) {
 			r.log.Errorf("get redis user refresh token failed: %s", err.Error())
 		}
 		return ""
