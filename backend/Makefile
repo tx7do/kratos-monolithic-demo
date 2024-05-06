@@ -55,11 +55,13 @@ ent:
 
 # generate protobuf api go code
 api:
+	@cd api && \
 	buf generate
 
 # generate OpenAPI v3 docs.
 openapi:
-	buf generate --path api/admin/service/v1 --template api/admin/service/v1/buf.openapi.gen.yaml
+	@cd api && \
+	buf generate --path protos/admin/service/v1 --template protos/admin/service/v1/buf.openapi.gen.yaml
 
 # build all service applications
 build:

@@ -70,13 +70,13 @@ wire:
 
 # generate protobuf api go code
 api:
-	@cd ../../../ && \
+	@cd ../../../api && \
 	buf generate
 
 # generate OpenAPI v3 doc
 openapi:
-	@cd ../../../ && \
-	buf generate --path api/admin/service/v1 --template api/admin/service/v1/buf.openapi.gen.yaml
+	@cd ../../../api && \
+	buf generate --path protos/admin/service/v1 --template protos/admin/service/v1/buf.openapi.gen.yaml
 
 # run application
 run: api openapi

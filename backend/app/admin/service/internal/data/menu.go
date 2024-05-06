@@ -15,7 +15,7 @@ import (
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent/menu"
 
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-	v1 "kratos-monolithic-demo/gen/api/go/system/service/v1"
+	v1 "kratos-monolithic-demo/api/gen/go/system/service/v1"
 )
 
 type MenuRepo struct {

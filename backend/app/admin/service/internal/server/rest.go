@@ -23,7 +23,7 @@ import (
 	"kratos-monolithic-demo/app/admin/service/cmd/server/assets"
 	"kratos-monolithic-demo/app/admin/service/internal/service"
 
-	adminV1 "kratos-monolithic-demo/gen/api/go/admin/service/v1"
+	adminV1 "kratos-monolithic-demo/api/gen/go/admin/service/v1"
 	"kratos-monolithic-demo/pkg/middleware/auth"
 )
 

@@ -10,8 +10,8 @@ import (
 
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
-	v1 "kratos-monolithic-demo/gen/api/go/user/service/v1"
-	v12 "kratos-monolithic-demo/gen/api/go/user/service/v1"
+	v1 "kratos-monolithic-demo/api/gen/go/user/service/v1"
+	v12 "kratos-monolithic-demo/api/gen/go/user/service/v1"
 )
 
 type OrganizationService struct {

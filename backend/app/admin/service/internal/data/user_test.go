@@ -2,7 +2,7 @@ package data
 
 import (
 	"fmt"
-	adminV1 "kratos-monolithic-demo/gen/api/go/admin/service/v1"
+	adminV1 "kratos-monolithic-demo/api/gen/go/admin/service/v1"
 	"regexp"
 	"testing"
 
@@ -13,7 +13,7 @@ import (
 	"google.golang.org/genproto/protobuf/field_mask"
 	"google.golang.org/protobuf/proto"
 
-	userV1 "kratos-monolithic-demo/gen/api/go/user/service/v1"
+	userV1 "kratos-monolithic-demo/api/gen/go/user/service/v1"
 )
 
 var reSpaces = regexp.MustCompile(`\s+`)
