@@ -3,7 +3,6 @@ package data
 import (
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 	"github.com/tx7do/kratos-authn/engine/jwt"
-	"kratos-monolithic-demo/pkg/cache"
 
 	authzEngine "github.com/tx7do/kratos-authz/engine"
 	"github.com/tx7do/kratos-authz/engine/noop"
@@ -12,11 +11,13 @@ import (
 	"github.com/redis/go-redis/v9"
 
 	"github.com/tx7do/go-utils/entgo"
-	"github.com/tx7do/kratos-bootstrap"
+
+	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
+	redisClient "github.com/tx7do/kratos-bootstrap/cache/redis"
 
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent"
 
-	conf "github.com/tx7do/kratos-bootstrap/gen/api/go/conf/v1"
+	"kratos-monolithic-demo/pkg/cache"
 )
 
 // Data .
@@ -60,7 +61,7 @@ func NewData(
 // NewRedisClient 创建Redis客户端
 func NewRedisClient(cfg *conf.Bootstrap, _ log.Logger) *redis.Client {
 	//l := log.NewHelper(log.With(logger, "module", "redis/data/admin-service"))
-	return bootstrap.NewRedisClient(cfg.Data)
+	return redisClient.NewClient(cfg.Data)
 }
 
 // NewAuthenticator 创建认证器

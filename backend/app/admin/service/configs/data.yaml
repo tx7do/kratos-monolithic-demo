@@ -4,6 +4,8 @@ data:
     source: "host=localhost port=5432 user=postgres password=@Abcd123456 dbname=kratos_monolithic sslmode=disable"
     migrate: true
     debug: false
+    enable_trace: false
+    enable_metrics: false
     max_idle_connections: 25
     max_open_connections: 25
     connection_max_lifetime: 300s

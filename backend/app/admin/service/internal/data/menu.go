@@ -14,7 +14,7 @@ import (
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent"
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent/menu"
 
-	pagination "github.com/tx7do/kratos-bootstrap/gen/api/go/pagination/v1"
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	v1 "kratos-monolithic-demo/gen/api/go/system/service/v1"
 )
 

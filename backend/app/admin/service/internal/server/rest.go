@@ -17,8 +17,8 @@ import (
 
 	swaggerUI "github.com/tx7do/kratos-swagger-ui"
 
-	bootstrap "github.com/tx7do/kratos-bootstrap"
-	conf "github.com/tx7do/kratos-bootstrap/gen/api/go/conf/v1"
+	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
+	"github.com/tx7do/kratos-bootstrap/rpc"
 
 	"kratos-monolithic-demo/app/admin/service/cmd/server/assets"
 	"kratos-monolithic-demo/app/admin/service/internal/service"
@@ -65,7 +65,7 @@ func NewRESTServer(
 	roleSvc *service.RoleService,
 	positionSvc *service.PositionService,
 ) *http.Server {
-	srv := bootstrap.CreateRestServer(cfg, newRestMiddleware(authenticator, authorizer, logger)...)
+	srv := rpc.CreateRestServer(cfg, newRestMiddleware(authenticator, authorizer, logger)...)
 
 	adminV1.RegisterAuthenticationServiceHTTPServer(srv, authnSvc)
 	adminV1.RegisterUserServiceHTTPServer(srv, userSvc)
