@@ -55,7 +55,7 @@ paths:
                   description: 是否不分页
                   schema:
                     type: boolean
-                - name: fieldMask
+                - name: field_mask
                   in: query
                   description: 字段掩码
                   schema:
@@ -196,7 +196,7 @@ paths:
                   description: 是否不分页
                   schema:
                     type: boolean
-                - name: fieldMask
+                - name: field_mask
                   in: query
                   description: 字段掩码
                   schema:
@@ -393,7 +393,7 @@ paths:
                   description: 是否不分页
                   schema:
                     type: boolean
-                - name: fieldMask
+                - name: field_mask
                   in: query
                   description: 字段掩码
                   schema:
@@ -530,7 +530,7 @@ paths:
                   description: 是否不分页
                   schema:
                     type: boolean
-                - name: fieldMask
+                - name: field_mask
                   in: query
                   description: 字段掩码
                   schema:
@@ -680,7 +680,7 @@ paths:
                   description: 是否不分页
                   schema:
                     type: boolean
-                - name: fieldMask
+                - name: field_mask
                   in: query
                   description: 字段掩码
                   schema:
@@ -836,7 +836,7 @@ paths:
                   description: 是否不分页
                   schema:
                     type: boolean
-                - name: fieldMask
+                - name: field_mask
                   in: query
                   description: 字段掩码
                   schema:
@@ -986,7 +986,7 @@ paths:
                   description: 是否不分页
                   schema:
                     type: boolean
-                - name: fieldMask
+                - name: field_mask
                   in: query
                   description: 字段掩码
                   schema:
