@@ -7,6 +7,8 @@ import (
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
 
 	"kratos-monolithic-demo/app/admin/service/internal/service"
+
+	"kratos-monolithic-demo/pkg/task"
 )
 
 func NewAsynqServer(cfg *conf.Bootstrap, _ log.Logger, svc *service.TaskService) *asynq.Server {
@@ -18,6 +20,11 @@ func NewAsynqServer(cfg *conf.Bootstrap, _ log.Logger, svc *service.TaskService)
 	)
 
 	svc.Server = srv
+
+	var err error
+	if err = asynq.RegisterSubscriber(srv, task.BackupTaskType, svc.AsyncBackup); err != nil {
+		log.Error(err)
+	}
 
 	svc.StartAllPeriodicTask()
 	svc.StartAllDelayTask()

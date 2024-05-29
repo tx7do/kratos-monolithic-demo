@@ -5,6 +5,8 @@ import (
 	"github.com/tx7do/kratos-transport/transport/asynq"
 
 	"kratos-monolithic-demo/app/admin/service/internal/data"
+
+	"kratos-monolithic-demo/pkg/task"
 )
 
 type TaskService struct {
@@ -28,9 +30,15 @@ func NewTaskService(
 
 // StartAllPeriodicTask 启动所有的定时任务
 func (s *TaskService) StartAllPeriodicTask() {
+	_, _ = s.Server.NewPeriodicTask("*/1 * * * ?", task.BackupTaskType, task.BackupTaskData{Name: "test"})
 }
 
 // StartAllDelayTask 启动所有的延迟任务
 func (s *TaskService) StartAllDelayTask() {
 
+}
+
+func (s *TaskService) AsyncBackup(taskType string, taskData *task.BackupTaskData) error {
+	s.log.Infof("AsyncBackup [%s] [%+v]", taskType, taskData)
+	return nil
 }
