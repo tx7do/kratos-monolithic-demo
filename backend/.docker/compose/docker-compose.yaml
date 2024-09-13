@@ -23,9 +23,14 @@ services:
     networks:
       - app-tier
     environment:
-      - ALLOW_EMPTY_PASSWORD=yes
+      - ALLOW_EMPTY_PASSWORD=no
+      - REDIS_PASSWORD=123456
+      - REDIS_AOF_ENABLED=no
+      - REDIS_IO_THREADS_DO_READS=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG
+#    command: /opt/bitnami/scripts/redis/run.sh --requirepass 123456
     volumes:
-      - /root/app/redis/data:/data
+      - /root/app/redis/data:/bitnami/redis/data
 
   minio:
     image: docker.io/minio/minio:latest
