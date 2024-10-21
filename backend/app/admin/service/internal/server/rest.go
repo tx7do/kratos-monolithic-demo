@@ -23,8 +23,10 @@ import (
 	"kratos-monolithic-demo/app/admin/service/cmd/server/assets"
 	"kratos-monolithic-demo/app/admin/service/internal/service"
 
-	adminV1 "kratos-monolithic-demo/api/gen/go/admin/service/v1"
+	"kratos-monolithic-demo/pkg/cache"
 	"kratos-monolithic-demo/pkg/middleware/auth"
+
+	adminV1 "kratos-monolithic-demo/api/gen/go/admin/service/v1"
 )
 
 // NewWhiteListMatcher 创建jwt白名单
@@ -40,12 +42,17 @@ func newRestWhiteListMatcher() selector.MatchFunc {
 }
 
 // NewMiddleware 创建中间件
-func newRestMiddleware(authenticator authnEngine.Authenticator, authorizer authzEngine.Engine, logger log.Logger) []middleware.Middleware {
+func newRestMiddleware(
+	logger log.Logger,
+	authenticator authnEngine.Authenticator,
+	authorizer authzEngine.Engine,
+	userToken *cache.UserToken,
+) []middleware.Middleware {
 	var ms []middleware.Middleware
 	ms = append(ms, logging.Server(logger))
 	ms = append(ms, selector.Server(
 		authn.Server(authenticator),
-		auth.Server(),
+		auth.Server(userToken),
 		authz.Server(authorizer),
 	).Match(newRestWhiteListMatcher()).Build())
 	return ms
@@ -55,6 +62,7 @@ func newRestMiddleware(authenticator authnEngine.Authenticator, authorizer authz
 func NewRESTServer(
 	cfg *conf.Bootstrap, logger log.Logger,
 	authenticator authnEngine.Authenticator, authorizer authzEngine.Engine,
+	userToken *cache.UserToken,
 	authnSvc *service.AuthenticationService,
 	userSvc *service.UserService,
 	dictSvc *service.DictService,
@@ -65,7 +73,7 @@ func NewRESTServer(
 	roleSvc *service.RoleService,
 	positionSvc *service.PositionService,
 ) *http.Server {
-	srv := rpc.CreateRestServer(cfg, newRestMiddleware(authenticator, authorizer, logger)...)
+	srv := rpc.CreateRestServer(cfg, newRestMiddleware(logger, authenticator, authorizer, userToken)...)
 
 	adminV1.RegisterAuthenticationServiceHTTPServer(srv, authnSvc)
 	adminV1.RegisterUserServiceHTTPServer(srv, userSvc)
