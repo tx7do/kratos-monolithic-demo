@@ -9,6 +9,8 @@ import (
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent/predicate"
 	"math"
 
+	"entgo.io/ent"
+	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -61,7 +63,7 @@ func (dq *DictQuery) Order(o ...dict.OrderOption) *DictQuery {
 // First returns the first Dict entity from the query.
 // Returns a *NotFoundError when no Dict was found.
 func (dq *DictQuery) First(ctx context.Context) (*Dict, error) {
-	nodes, err := dq.Limit(1).All(setContextOp(ctx, dq.ctx, "First"))
+	nodes, err := dq.Limit(1).All(setContextOp(ctx, dq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +86,7 @@ func (dq *DictQuery) FirstX(ctx context.Context) *Dict {
 // Returns a *NotFoundError when no Dict ID was found.
 func (dq *DictQuery) FirstID(ctx context.Context) (id uint32, err error) {
 	var ids []uint32
-	if ids, err = dq.Limit(1).IDs(setContextOp(ctx, dq.ctx, "FirstID")); err != nil {
+	if ids, err = dq.Limit(1).IDs(setContextOp(ctx, dq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -107,7 +109,7 @@ func (dq *DictQuery) FirstIDX(ctx context.Context) uint32 {
 // Returns a *NotSingularError when more than one Dict entity is found.
 // Returns a *NotFoundError when no Dict entities are found.
 func (dq *DictQuery) Only(ctx context.Context) (*Dict, error) {
-	nodes, err := dq.Limit(2).All(setContextOp(ctx, dq.ctx, "Only"))
+	nodes, err := dq.Limit(2).All(setContextOp(ctx, dq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -135,7 +137,7 @@ func (dq *DictQuery) OnlyX(ctx context.Context) *Dict {
 // Returns a *NotFoundError when no entities are found.
 func (dq *DictQuery) OnlyID(ctx context.Context) (id uint32, err error) {
 	var ids []uint32
-	if ids, err = dq.Limit(2).IDs(setContextOp(ctx, dq.ctx, "OnlyID")); err != nil {
+	if ids, err = dq.Limit(2).IDs(setContextOp(ctx, dq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -160,7 +162,7 @@ func (dq *DictQuery) OnlyIDX(ctx context.Context) uint32 {
 
 // All executes the query and returns a list of Dicts.
 func (dq *DictQuery) All(ctx context.Context) ([]*Dict, error) {
-	ctx = setContextOp(ctx, dq.ctx, "All")
+	ctx = setContextOp(ctx, dq.ctx, ent.OpQueryAll)
 	if err := dq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -182,7 +184,7 @@ func (dq *DictQuery) IDs(ctx context.Context) (ids []uint32, err error) {
 	if dq.ctx.Unique == nil && dq.path != nil {
 		dq.Unique(true)
 	}
-	ctx = setContextOp(ctx, dq.ctx, "IDs")
+	ctx = setContextOp(ctx, dq.ctx, ent.OpQueryIDs)
 	if err = dq.Select(dict.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -200,7 +202,7 @@ func (dq *DictQuery) IDsX(ctx context.Context) []uint32 {
 
 // Count returns the count of the given query.
 func (dq *DictQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, dq.ctx, "Count")
+	ctx = setContextOp(ctx, dq.ctx, ent.OpQueryCount)
 	if err := dq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -218,7 +220,7 @@ func (dq *DictQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (dq *DictQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, dq.ctx, "Exist")
+	ctx = setContextOp(ctx, dq.ctx, ent.OpQueryExist)
 	switch _, err := dq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -251,8 +253,9 @@ func (dq *DictQuery) Clone() *DictQuery {
 		inters:     append([]Interceptor{}, dq.inters...),
 		predicates: append([]predicate.Dict{}, dq.predicates...),
 		// clone intermediate query.
-		sql:  dq.sql.Clone(),
-		path: dq.path,
+		sql:       dq.sql.Clone(),
+		path:      dq.path,
+		modifiers: append([]func(*sql.Selector){}, dq.modifiers...),
 	}
 }
 
@@ -445,6 +448,32 @@ func (dq *DictQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	return selector
 }
 
+// ForUpdate locks the selected rows against concurrent updates, and prevent them from being
+// updated, deleted or "selected ... for update" by other sessions, until the transaction is
+// either committed or rolled-back.
+func (dq *DictQuery) ForUpdate(opts ...sql.LockOption) *DictQuery {
+	if dq.driver.Dialect() == dialect.Postgres {
+		dq.Unique(false)
+	}
+	dq.modifiers = append(dq.modifiers, func(s *sql.Selector) {
+		s.ForUpdate(opts...)
+	})
+	return dq
+}
+
+// ForShare behaves similarly to ForUpdate, except that it acquires a shared mode lock
+// on any rows that are read. Other sessions can read the rows, but cannot modify them
+// until your transaction commits.
+func (dq *DictQuery) ForShare(opts ...sql.LockOption) *DictQuery {
+	if dq.driver.Dialect() == dialect.Postgres {
+		dq.Unique(false)
+	}
+	dq.modifiers = append(dq.modifiers, func(s *sql.Selector) {
+		s.ForShare(opts...)
+	})
+	return dq
+}
+
 // Modify adds a query modifier for attaching custom logic to queries.
 func (dq *DictQuery) Modify(modifiers ...func(s *sql.Selector)) *DictSelect {
 	dq.modifiers = append(dq.modifiers, modifiers...)
@@ -465,7 +494,7 @@ func (dgb *DictGroupBy) Aggregate(fns ...AggregateFunc) *DictGroupBy {
 
 // Scan applies the selector query and scans the result into the given value.
 func (dgb *DictGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, dgb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, dgb.build.ctx, ent.OpQueryGroupBy)
 	if err := dgb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -513,7 +542,7 @@ func (ds *DictSelect) Aggregate(fns ...AggregateFunc) *DictSelect {
 
 // Scan applies the selector query and scans the result into the given value.
 func (ds *DictSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, ds.ctx, "Select")
+	ctx = setContextOp(ctx, ds.ctx, ent.OpQuerySelect)
 	if err := ds.prepareQuery(ctx); err != nil {
 		return err
 	}

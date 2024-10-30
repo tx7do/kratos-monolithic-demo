@@ -4,6 +4,7 @@ package enttest
 
 import (
 	"context"
+
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent"
 	// required by schema hooks.
 	_ "kratos-monolithic-demo/app/admin/service/internal/data/ent/runtime"
