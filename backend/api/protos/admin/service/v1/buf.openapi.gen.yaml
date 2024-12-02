@@ -1,30 +1,33 @@
 # 配置protoc生成规则
-version: v1
+version: v2
+
+clean: false
 
 managed:
   enabled: true
-  optimize_for: SPEED
 
-  go_package_prefix:
-    default: kratos-monolithic-demo/api/gen/go
-    except:
-      - 'buf.build/googleapis/googleapis'
-      - 'buf.build/envoyproxy/protoc-gen-validate'
-      - 'buf.build/kratos/apis'
-      - 'buf.build/gnostic/gnostic'
-      - 'buf.build/gogo/protobuf'
-      - 'buf.build/tx7do/pagination'
+  disable:
+    - module: buf.build/googleapis/googleapis
+    - module: 'buf.build/envoyproxy/protoc-gen-validate'
+    - module: 'buf.build/kratos/apis'
+    - module: 'buf.build/gnostic/gnostic'
+    - module: 'buf.build/gogo/protobuf'
+    - module: 'buf.build/tx7do/pagination'
+
+  override:
+    - file_option: go_package_prefix
+      value: kratos-monolithic-demo/api/gen/go
 
 plugins:
   # generate openapi v2 json doc
-#  - name: openapiv2
-#    out: ../docs
-#    opt:
-#      - json_names_for_fields=true
-#      - logtostderr=true
+  #  - local: protoc-gen-openapiv2
+  #    out: ../app/admin/service/cmd/server/assets
+  #    opt:
+  #      - json_names_for_fields=true
+  #      - logtostderr=true
 
   # generate openapi v3 yaml doc
-  - name: openapi
+  - local: protoc-gen-openapi
     out: ../app/admin/service/cmd/server/assets
     opt:
       - naming=json # 命名约定。使用"proto"则直接从proto文件传递名称。默认为：json

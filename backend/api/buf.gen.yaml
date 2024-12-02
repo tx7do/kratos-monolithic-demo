@@ -1,49 +1,52 @@
 # 配置protoc生成规则
-version: v1
+version: v2
+
+clean: true
 
 managed:
   enabled: true
-  optimize_for: SPEED
 
-  go_package_prefix:
-    default: kratos-monolithic-demo/api/gen/go
-    except:
-      - 'buf.build/googleapis/googleapis'
-      - 'buf.build/envoyproxy/protoc-gen-validate'
-      - 'buf.build/kratos/apis'
-      - 'buf.build/gnostic/gnostic'
-      - 'buf.build/gogo/protobuf'
-      - 'buf.build/tx7do/pagination'
+  disable:
+    - module: buf.build/googleapis/googleapis
+    - module: 'buf.build/envoyproxy/protoc-gen-validate'
+    - module: 'buf.build/kratos/apis'
+    - module: 'buf.build/gnostic/gnostic'
+    - module: 'buf.build/gogo/protobuf'
+    - module: 'buf.build/tx7do/pagination'
+
+  override:
+    - file_option: go_package_prefix
+      value: kratos-monolithic-demo/api/gen/go
 
 plugins:
   # 使用go插件生成go代码
   #- plugin: buf.build/protocolbuffers/go
-  - name: go
+  - local: protoc-gen-go
     out: gen/go
     opt: paths=source_relative # 使用相对路径
 
   # 使用go-grpc插件生成gRPC服务代码
   #- plugin: buf.build/grpc/go
-  - name: go-grpc
+  - local: protoc-gen-go-grpc
     out: gen/go
     opt:
       - paths=source_relative # 使用相对路径
 
   # generate rest service code
-  - name: go-http
+  - local: protoc-gen-go-http
     out: gen/go
     opt:
       - paths=source_relative # 使用相对路径
 
   # generate kratos errors code
-  - name: go-errors
+  - local: protoc-gen-go-errors
     out: gen/go
     opt:
       - paths=source_relative # 使用相对路径
 
   # generate message validator code
   #- plugin: buf.build/bufbuild/validate-go
-  - name: validate
+  - local: protoc-gen-validate
     out: gen/go
     opt:
       - paths=source_relative # 使用相对路径
