@@ -14,8 +14,8 @@ require (
 	entgo.io/ent v0.14.1
 	github.com/go-kratos/kratos/v2 v2.8.2
 	github.com/go-sql-driver/mysql v1.8.1
-	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/google/gnostic v0.7.0
+	github.com/google/uuid v1.6.0
 	github.com/google/wire v0.6.0
 	github.com/jackc/pgx/v4 v4.18.3
 	github.com/lib/pq v1.10.9
@@ -95,6 +95,7 @@ require (
 	github.com/go-openapi/swag v0.23.0 // indirect
 	github.com/go-playground/form/v4 v4.2.1 // indirect
 	github.com/go-zookeeper/zk v1.0.4 // indirect
+	github.com/gofrs/uuid v4.4.0+incompatible // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-jwt/jwt/v5 v5.2.1 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
@@ -102,7 +103,6 @@ require (
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/subcommands v1.2.0 // indirect
-	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/handlers v1.5.2 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect

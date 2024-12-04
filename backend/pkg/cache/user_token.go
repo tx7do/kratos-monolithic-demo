@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 	"github.com/redis/go-redis/v9"
 
 	authn "github.com/tx7do/kratos-authn/engine"
@@ -60,7 +60,7 @@ func (r *UserToken) createAccessJwtToken(_ string, userId uint32) string {
 
 // createRefreshToken 生成刷新令牌
 func (r *UserToken) createRefreshToken() string {
-	strUUID, _ := uuid.NewV4()
+	strUUID := uuid.New()
 	return strUUID.String()
 }
 
