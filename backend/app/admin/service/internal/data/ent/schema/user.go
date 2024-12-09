@@ -40,7 +40,7 @@ func (User) Fields() []ent.Field {
 			Match(regexp.MustCompile("^[a-zA-Z0-9]{4,16}$")),
 
 		field.String("password").
-			Comment("登陆密码").
+			Comment("登录密码").
 			MaxLen(255).
 			Optional().
 			Nillable().
@@ -133,12 +133,12 @@ func (User) Fields() []ent.Field {
 			Default("CUSTOMER_USER"),
 
 		field.Int64("last_login_time").
-			Comment("最后一次登陆的时间").
+			Comment("最后一次登录的时间").
 			Optional().
 			Nillable(),
 
 		field.String("last_login_ip").
-			Comment("最后一次登陆的IP").
+			Comment("最后一次登录的IP").
 			Default("").
 			MaxLen(64).
 			Optional().

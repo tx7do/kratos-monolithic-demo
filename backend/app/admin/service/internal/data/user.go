@@ -6,7 +6,9 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
+
 	"github.com/go-kratos/kratos/v2/log"
+
 	"github.com/tx7do/go-utils/crypto"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
@@ -18,7 +20,7 @@ import (
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent/user"
 
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-	v1 "kratos-monolithic-demo/api/gen/go/user/service/v1"
+	userV1 "kratos-monolithic-demo/api/gen/go/user/service/v1"
 )
 
 type UserRepo struct {
@@ -34,17 +36,17 @@ func NewUserRepo(data *Data, logger log.Logger) *UserRepo {
 	}
 }
 
-func (r *UserRepo) convertEntToProto(in *ent.User) *v1.User {
+func (r *UserRepo) convertEntToProto(in *ent.User) *userV1.User {
 	if in == nil {
 		return nil
 	}
 
-	var authority *v1.UserAuthority
+	var authority *userV1.UserAuthority
 	if in.Authority != nil {
-		authority = (*v1.UserAuthority)(trans.Int32(v1.UserAuthority_value[string(*in.Authority)]))
+		authority = (*userV1.UserAuthority)(trans.Int32(userV1.UserAuthority_value[string(*in.Authority)]))
 	}
 
-	return &v1.User{
+	return &userV1.User{
 		Id:            in.ID,
 		RoleId:        in.RoleID,
 		WorkId:        in.WorkID,
@@ -84,7 +86,7 @@ func (r *UserRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 	return count, err
 }
 
-func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1.ListUserResponse, error) {
+func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error) {
 	builder := r.data.db.Client().User.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
@@ -108,7 +110,7 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1
 		return nil, err
 	}
 
-	items := make([]*v1.User, 0, len(results))
+	items := make([]*userV1.User, 0, len(results))
 	for _, res := range results {
 		item := r.convertEntToProto(res)
 		items = append(items, item)
@@ -119,13 +121,13 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1
 		return nil, err
 	}
 
-	return &v1.ListUserResponse{
+	return &userV1.ListUserResponse{
 		Total: int32(count),
 		Items: items,
 	}, nil
 }
 
-func (r *UserRepo) Get(ctx context.Context, req *v1.GetUserRequest) (*v1.User, error) {
+func (r *UserRepo) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1.User, error) {
 	ret, err := r.data.db.Client().User.Get(ctx, req.GetId())
 	if err != nil && !ent.IsNotFound(err) {
 		r.log.Errorf("query one data failed: %s", err.Error())
@@ -137,7 +139,7 @@ func (r *UserRepo) Get(ctx context.Context, req *v1.GetUserRequest) (*v1.User, e
 	return u, err
 }
 
-func (r *UserRepo) Create(ctx context.Context, req *v1.CreateUserRequest) error {
+func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) error {
 	builder := r.data.db.Client().User.Create().
 		SetNillableUsername(req.User.UserName).
 		SetNillableNickName(req.User.NickName).
@@ -173,7 +175,7 @@ func (r *UserRepo) Create(ctx context.Context, req *v1.CreateUserRequest) error 
 	return nil
 }
 
-func (r *UserRepo) Update(ctx context.Context, req *v1.UpdateUserRequest) error {
+func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) error {
 	if req.UpdateMask != nil {
 		req.UpdateMask.Normalize()
 		if !req.UpdateMask.IsValid(req.User) {
@@ -223,7 +225,7 @@ func (r *UserRepo) Update(ctx context.Context, req *v1.UpdateUserRequest) error 
 	return nil
 }
 
-func (r *UserRepo) Delete(ctx context.Context, req *v1.DeleteUserRequest) (bool, error) {
+func (r *UserRepo) Delete(ctx context.Context, req *userV1.DeleteUserRequest) (bool, error) {
 	err := r.data.db.Client().User.
 		DeleteOneID(req.GetId()).
 		Exec(ctx)
@@ -234,7 +236,7 @@ func (r *UserRepo) Delete(ctx context.Context, req *v1.DeleteUserRequest) (bool,
 	return err == nil, err
 }
 
-func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*v1.User, error) {
+func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*userV1.User, error) {
 	ret, err := r.data.db.Client().User.Query().
 		Where(user.UsernameEQ(userName)).
 		Only(ctx)
@@ -247,7 +249,7 @@ func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*v1.
 	return u, err
 }
 
-func (r *UserRepo) VerifyPassword(ctx context.Context, req *v1.VerifyPasswordRequest) (*v1.User, error) {
+func (r *UserRepo) VerifyPassword(ctx context.Context, req *userV1.VerifyPasswordRequest) (*userV1.User, error) {
 	ret, err := r.data.db.Client().User.
 		Query().
 		Select(user.FieldID, user.FieldPassword).
@@ -255,25 +257,25 @@ func (r *UserRepo) VerifyPassword(ctx context.Context, req *v1.VerifyPasswordReq
 		Only(ctx)
 	if err != nil {
 		r.log.Errorf("query user data failed: %s", err.Error())
-		return nil, v1.ErrorUserNotExist("用户未找到")
+		return nil, userV1.ErrorUserNotExist("用户未找到")
 	}
 
 	bMatched := crypto.CheckPasswordHash(req.GetPassword(), *ret.Password)
 	if !bMatched {
-		return nil, v1.ErrorInvalidPassword("密码错误")
+		return nil, userV1.ErrorInvalidPassword("密码错误")
 	}
 
 	u := r.convertEntToProto(ret)
 	return u, err
 }
 
-func (r *UserRepo) UserExists(ctx context.Context, req *v1.UserExistsRequest) (*v1.UserExistsResponse, error) {
+func (r *UserRepo) UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error) {
 	count, _ := r.data.db.Client().User.
 		Query().
 		Select(user.FieldID).
 		Where(user.UsernameEQ(req.GetUserName())).
 		Count(ctx)
-	return &v1.UserExistsResponse{
+	return &userV1.UserExistsResponse{
 		Exist: count > 0,
 	}, nil
 }

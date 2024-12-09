@@ -9,7 +9,7 @@ import "google/protobuf/empty.proto";
 import "user/service/v1/role.proto";
 import "pagination/v1/pagination.proto";
 
-// 角色服务
+// 角色管理服务
 service RoleService {
   // 查询角色列表
   rpc ListRole (pagination.PagingRequest) returns (user.service.v1.ListRoleResponse) {

@@ -9,9 +9,9 @@ import "google/api/field_behavior.proto";
 
 import "user/service/v1/user.proto";
 
-// 用户后台登陆认证服务
+// 用户后台登录认证服务
 service AuthenticationService {
-  // 登陆
+  // 登录
   rpc Login (LoginRequest) returns (LoginResponse) {
     option (google.api.http) = {
       post: "/admin/v1/login"
@@ -39,7 +39,7 @@ service AuthenticationService {
     };
   }
 
-  // 后台获取已经登陆的用户的数据
+  // 后台获取已经登录的用户的数据
   rpc GetMe (GetMeRequest) returns (user.service.v1.User) {
     option (google.api.http) = {
       get: "/admin/v1/me"
@@ -70,7 +70,7 @@ enum TokenType {
     mac = 1; //
 }
 
-// 用户后台登陆 - 请求
+// 用户后台登录 - 请求
 message LoginRequest {
   string username = 1 [
     json_name = "username",
@@ -112,7 +112,7 @@ message LoginRequest {
   ];
 }
 
-// 用户后台登陆 - 回应
+// 用户后台登录 - 回应
 message LoginResponse {
   string access_token = 1 [
     json_name = "access_token",

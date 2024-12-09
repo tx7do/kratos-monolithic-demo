@@ -9,7 +9,7 @@ import "google/protobuf/empty.proto";
 import "pagination/v1/pagination.proto";
 import "system/service/v1/menu.proto";
 
-// 后台菜单服务
+// 后台菜单管理服务
 service MenuService {
   // 查询菜单列表
   rpc ListMenu (pagination.PagingRequest) returns (system.service.v1.ListMenuResponse) {

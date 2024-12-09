@@ -9,7 +9,7 @@ import "google/protobuf/empty.proto";
 import "user/service/v1/organization.proto";
 import "pagination/v1/pagination.proto";
 
-// 部门管理服务
+// 组织部门管理服务
 service OrganizationService {
   // 查询部门列表
   rpc ListOrganization (pagination.PagingRequest) returns (user.service.v1.ListOrganizationResponse) {

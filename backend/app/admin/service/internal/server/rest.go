@@ -65,8 +65,6 @@ func NewRESTServer(
 	userToken *cache.UserToken,
 	authnSvc *service.AuthenticationService,
 	userSvc *service.UserService,
-	dictSvc *service.DictService,
-	dictDetailSvc *service.DictDetailService,
 	menuSvc *service.MenuService,
 	routerSvc *service.RouterService,
 	orgSvc *service.OrganizationService,
@@ -77,8 +75,6 @@ func NewRESTServer(
 
 	adminV1.RegisterAuthenticationServiceHTTPServer(srv, authnSvc)
 	adminV1.RegisterUserServiceHTTPServer(srv, userSvc)
-	adminV1.RegisterDictServiceHTTPServer(srv, dictSvc)
-	adminV1.RegisterDictDetailServiceHTTPServer(srv, dictDetailSvc)
 	adminV1.RegisterMenuServiceHTTPServer(srv, menuSvc)
 	adminV1.RegisterRouterServiceHTTPServer(srv, routerSvc)
 	adminV1.RegisterOrganizationServiceHTTPServer(srv, orgSvc)

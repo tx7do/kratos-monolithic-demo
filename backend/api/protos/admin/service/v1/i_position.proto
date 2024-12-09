@@ -9,7 +9,7 @@ import "google/protobuf/empty.proto";
 import "user/service/v1/position.proto";
 import "pagination/v1/pagination.proto";
 
-// 职位服务
+// 职位管理服务
 service PositionService {
   // 查询职位列表
   rpc ListPosition (pagination.PagingRequest) returns (user.service.v1.ListPositionResponse) {

@@ -33,7 +33,7 @@ func NewAuthenticationService(logger log.Logger, uc *data.UserRepo, utuc *cache.
 	}
 }
 
-// Login 登陆
+// Login 登录
 func (s *AuthenticationService) Login(ctx context.Context, req *adminV1.LoginRequest) (*adminV1.LoginResponse, error) {
 	if req.GetGrantType() != adminV1.GrantType_password.String() {
 		return nil, adminV1.ErrorInvalidToken("非法的授权类型")

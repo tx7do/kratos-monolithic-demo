@@ -11,8 +11,6 @@ import (
 var ProviderSet = wire.NewSet(
 	NewAuthenticationService,
 	NewUserService,
-	NewDictService,
-	NewDictDetailService,
 	NewMenuService,
 	NewRouterService,
 	NewTaskService,

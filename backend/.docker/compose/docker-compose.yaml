@@ -13,7 +13,7 @@ services:
       - app-tier
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=123456
+      - POSTGRES_PASSWORD=@Abcd123456
       - POSTGRES_DB=kratos_monolithic_demo
 
   redis:
@@ -24,7 +24,7 @@ services:
       - app-tier
     environment:
       - ALLOW_EMPTY_PASSWORD=no
-      - REDIS_PASSWORD=123456
+      - REDIS_PASSWORD=Abcd123456
       - REDIS_AOF_ENABLED=no
       - REDIS_IO_THREADS_DO_READS=yes
       - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG

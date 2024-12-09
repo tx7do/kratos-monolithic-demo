@@ -16,12 +16,12 @@
 
 相关命令行工具和插件的具体安装方法请参见：[Kratos微服务框架API工程化指南](https://juejin.cn/post/7191095845096259641)
 
-在`backend`根目录下执行命令：
+在`backend/api`目录下执行命令：
 
 ### 更新buf.lock
 
 ```bash
-buf mod update
+buf dep update
 ```
 
 ### 生成GO代码

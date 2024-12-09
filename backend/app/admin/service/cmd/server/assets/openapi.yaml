@@ -14,293 +14,11 @@ info:
         url: https://github.com/tx7do/kratos-monolithic-demo/blob/master/LICENSE
     version: "1.0"
 paths:
-    /admin/v1/dict:details:
-        get:
-            tags:
-                - DictDetailService
-            description: 查询字典详情列表
-            operationId: DictDetailService_ListDictDetail
-            parameters:
-                - name: page
-                  in: query
-                  description: 当前页码
-                  schema:
-                    type: integer
-                    format: int32
-                - name: pageSize
-                  in: query
-                  description: 每页的行数
-                  schema:
-                    type: integer
-                    format: int32
-                - name: query
-                  in: query
-                  description: 与过滤参数
-                  schema:
-                    type: string
-                - name: or
-                  in: query
-                  description: 或过滤参数
-                  schema:
-                    type: string
-                - name: orderBy
-                  in: query
-                  description: 排序条件
-                  schema:
-                    type: array
-                    items:
-                        type: string
-                - name: nopaging
-                  in: query
-                  description: 是否不分页
-                  schema:
-                    type: boolean
-                - name: field_mask
-                  in: query
-                  description: 字段掩码
-                  schema:
-                    type: string
-                    format: field-mask
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ListDictDetailResponse'
-        post:
-            tags:
-                - DictDetailService
-            description: 创建字典详情
-            operationId: DictDetailService_CreateDictDetail
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/CreateDictDetailRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/dict:details/{detail.id}:
-        put:
-            tags:
-                - DictDetailService
-            description: 更新字典详情
-            operationId: DictDetailService_UpdateDictDetail
-            parameters:
-                - name: detail.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/DictDetail'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/dict:details/{id}:
-        get:
-            tags:
-                - DictDetailService
-            description: 查询字典详情
-            operationId: DictDetailService_GetDictDetail
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: code
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/DictDetail'
-        delete:
-            tags:
-                - DictDetailService
-            description: 删除字典详情
-            operationId: DictDetailService_DeleteDictDetail
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/dicts:
-        get:
-            tags:
-                - DictService
-            description: 查询字典列表
-            operationId: DictService_ListDict
-            parameters:
-                - name: page
-                  in: query
-                  description: 当前页码
-                  schema:
-                    type: integer
-                    format: int32
-                - name: pageSize
-                  in: query
-                  description: 每页的行数
-                  schema:
-                    type: integer
-                    format: int32
-                - name: query
-                  in: query
-                  description: 与过滤参数
-                  schema:
-                    type: string
-                - name: or
-                  in: query
-                  description: 或过滤参数
-                  schema:
-                    type: string
-                - name: orderBy
-                  in: query
-                  description: 排序条件
-                  schema:
-                    type: array
-                    items:
-                        type: string
-                - name: nopaging
-                  in: query
-                  description: 是否不分页
-                  schema:
-                    type: boolean
-                - name: field_mask
-                  in: query
-                  description: 字段掩码
-                  schema:
-                    type: string
-                    format: field-mask
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ListDictResponse'
-        post:
-            tags:
-                - DictService
-            description: 创建字典
-            operationId: DictService_CreateDict
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/CreateDictRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/dicts/{dict.id}:
-        put:
-            tags:
-                - DictService
-            description: 更新字典
-            operationId: DictService_UpdateDict
-            parameters:
-                - name: dict.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/Dict'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/dicts/{id}:
-        get:
-            tags:
-                - DictService
-            description: 查询字典
-            operationId: DictService_GetDict
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: name
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Dict'
-        delete:
-            tags:
-                - DictService
-            description: 删除字典
-            operationId: DictService_DeleteDict
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/login:
         post:
             tags:
                 - AuthenticationService
-            description: 登陆
+            description: 登录
             operationId: AuthenticationService_Login
             requestBody:
                 content:
@@ -337,7 +55,7 @@ paths:
         get:
             tags:
                 - AuthenticationService
-            description: 后台获取已经登陆的用户的数据
+            description: 后台获取已经登录的用户的数据
             operationId: AuthenticationService_GetMe
             parameters:
                 - name: id
@@ -1107,24 +825,6 @@ paths:
                     content: {}
 components:
     schemas:
-        CreateDictDetailRequest:
-            type: object
-            properties:
-                detail:
-                    $ref: '#/components/schemas/DictDetail'
-                operatorId:
-                    type: integer
-                    format: uint32
-            description: 创建字典详情 - 请求
-        CreateDictRequest:
-            type: object
-            properties:
-                dict:
-                    $ref: '#/components/schemas/Dict'
-                operatorId:
-                    type: integer
-                    format: uint32
-            description: 创建字典 - 请求
         CreateMenuRequest:
             type: object
             properties:
@@ -1161,76 +861,6 @@ components:
                     type: integer
                     format: uint32
             description: 创建角色 - 请求
-        Dict:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    description: ID
-                    format: uint32
-                name:
-                    type: string
-                    description: 字典名称
-                description:
-                    type: string
-                    description: 描述
-                creatorId:
-                    type: integer
-                    description: 创建者ID
-                    format: uint32
-                creatorName:
-                    type: integer
-                    description: 创建者名字
-                    format: uint32
-                createTime:
-                    type: string
-                    format: date-time
-                updateTime:
-                    type: string
-                    format: date-time
-                deleteTime:
-                    type: string
-                    format: date-time
-            description: 数据字典
-        DictDetail:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    description: 字典详情ID
-                    format: uint32
-                dictId:
-                    type: integer
-                    description: 字典ID
-                    format: uint32
-                orderNo:
-                    type: integer
-                    description: 排序号
-                    format: int32
-                label:
-                    type: string
-                    description: 字典标签
-                value:
-                    type: string
-                    description: 字典值
-                creatorId:
-                    type: integer
-                    description: 创建者ID
-                    format: uint32
-                creatorName:
-                    type: integer
-                    description: 创建者名字
-                    format: uint32
-                createTime:
-                    type: string
-                    format: date-time
-                updateTime:
-                    type: string
-                    format: date-time
-                deleteTime:
-                    type: string
-                    format: date-time
-            description: 数据字典详情
         KratosStatus:
             type: object
             properties:
@@ -1248,28 +878,6 @@ components:
                     type: object
                     description: 元数据
             description: Kratos错误返回
-        ListDictDetailResponse:
-            type: object
-            properties:
-                items:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/DictDetail'
-                total:
-                    type: integer
-                    format: int32
-            description: 查询字典详情列表 - 答复
-        ListDictResponse:
-            type: object
-            properties:
-                items:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/Dict'
-                total:
-                    type: integer
-                    format: int32
-            description: 查询字典列表 - 答复
         ListMenuResponse:
             type: object
             properties:
@@ -1364,7 +972,7 @@ components:
                 client_secret:
                     type: string
                     description: 应用程序的密码
-            description: 用户后台登陆 - 请求
+            description: 用户后台登录 - 请求
         LoginResponse:
             required:
                 - access_token
@@ -1387,7 +995,7 @@ components:
                 scope:
                     type: string
                     description: 以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。
-            description: 用户后台登陆 - 回应
+            description: 用户后台登录 - 回应
         LogoutRequest:
             type: object
             properties:
@@ -1776,19 +1384,15 @@ security:
     - OAuth2PasswordBearer: []
 tags:
     - name: AuthenticationService
-      description: 用户后台登陆认证服务
-    - name: DictDetailService
-      description: 数据字典详情服务
-    - name: DictService
-      description: 字典服务
+      description: 用户后台登录认证服务
     - name: MenuService
-      description: 后台菜单服务
+      description: 后台菜单管理服务
     - name: OrganizationService
-      description: 部门管理服务
+      description: 组织部门管理服务
     - name: PositionService
-      description: 职位服务
+      description: 职位管理服务
     - name: RoleService
-      description: 角色服务
+      description: 角色管理服务
     - name: RouterService
       description: 网站后台动态路由服务
     - name: UserService
