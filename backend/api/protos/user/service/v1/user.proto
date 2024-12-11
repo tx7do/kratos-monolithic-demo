@@ -49,9 +49,11 @@ enum VerifyPasswordResult {
 // 用户权限
 enum UserAuthority {
   SYS_ADMIN = 0;  // 系统超级用户
-  CUSTOMER_USER = 1;  // 普通用户
-  GUEST_USER = 2;  // 游客
-  REFRESH_TOKEN = 3; // 刷新令牌
+  SYS_MANAGER = 1;  // 系统管理员
+  CUSTOMER_USER = 2;  // 普通用户
+  GUEST_USER = 3;  // 游客
+
+  REFRESH_TOKEN = 4; // 刷新令牌
 }
 
 // 用户
@@ -106,8 +108,13 @@ message GetUserByUserNameRequest {
 
 // 创建用户 - 请求
 message CreateUserRequest {
-  optional uint32 operatorId = 1;
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ];
+
   User user = 2;
+
   optional string password = 3;
 }
 
@@ -142,8 +149,12 @@ message UpdateUserRequest {
 
 // 删除用户 - 请求
 message DeleteUserRequest {
-  uint32 id = 1;
-  optional uint32 operatorId = 2;
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ];
+
+  uint32 id = 2;
 }
 
 // 验证密码 - 请求

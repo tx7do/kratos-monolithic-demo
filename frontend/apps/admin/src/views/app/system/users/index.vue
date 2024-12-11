@@ -8,6 +8,7 @@
 
   import { useVbenVxeGrid } from '#/adapter/vxe-table';
   import { $t } from '#/locales';
+  import { router } from '#/router';
   import { authorityToColor, authorityToName, defUserService, makeQueryString } from '#/rpc';
 
   import UserModal from './user-modal.vue';
@@ -23,17 +24,17 @@
       {
         component: 'Input',
         fieldName: 'realName',
-        label: '',
+        label: '用户名称',
         componentProps: {
-          placeholder: '姓名',
+          placeholder: $t('ui.placeholder.input'),
         },
       },
       {
         component: 'Input',
         fieldName: 'phone',
-        label: '',
+        label: '手机号码',
         componentProps: {
-          placeholder: '手机',
+          placeholder: $t('ui.placeholder.input'),
         },
       },
     ],
@@ -85,7 +86,7 @@
         field: 'action',
         fixed: 'right',
         slots: { default: 'action' },
-        width: 170,
+        width: 210,
       },
     ],
   };
@@ -98,28 +99,25 @@
   });
 
   /* 打开模态窗口 */
-  function openModal() {
+  function openModal(create: boolean, row?: any) {
+    modalApi.setData({
+      create,
+      row,
+    });
+
     modalApi.open();
   }
 
   /* 创建 */
   function handleCreate() {
     console.log('创建');
-
-    modalApi.setData({
-      create: true,
-    });
-    openModal();
+    openModal(true);
   }
 
   /* 编辑 */
   function handleEdit(row: any) {
-    console.log('创建', row);
-    modalApi.setData({
-      create: false,
-      row,
-    });
-    openModal();
+    console.log('编辑', row);
+    openModal(false, row);
   }
 
   /* 删除 */
@@ -139,6 +137,11 @@
         message: '删除用户失败',
       });
     }
+  }
+
+  /* 详情 */
+  function handleDetail(row: any) {
+    router.push(`/system/users/detail/${row.userName}`);
   }
 
   /* 修改用户状态 */
@@ -171,7 +174,7 @@
   <Page auto-content-height>
     <Grid :table-title="$t('menu.system.user')">
       <template #toolbar-tools>
-        <Button type="primary" @click="handleCreate"> 创建账号</Button>
+        <Button type="primary" @click="handleCreate">创建账号</Button>
       </template>
       <template #status="{ row }">
         <Switch
@@ -188,6 +191,8 @@
         </Tag>
       </template>
       <template #action="{ row }">
+        <Button type="link" @click="() => handleDetail(row)">详情</Button>
+
         <Button type="link" @click="() => handleEdit(row)">编辑</Button>
         <Popconfirm
           cancel-text="不要"
@@ -195,7 +200,7 @@
           title="你是否要删除掉该用户？"
           @confirm="() => handleDelete(row)"
         >
-          <Button danger type="link"> 删除 </Button>
+          <Button danger type="link">删除</Button>
         </Popconfirm>
       </template>
     </Grid>

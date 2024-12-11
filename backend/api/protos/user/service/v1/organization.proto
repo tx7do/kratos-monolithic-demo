@@ -5,6 +5,7 @@ package user.service.v1;
 import "gnostic/openapi/v3/annotations.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
 
 import "pagination/v1/pagination.proto";
 
@@ -57,18 +58,43 @@ message GetOrganizationRequest {
 
 // 创建部门 - 请求
 message CreateOrganizationRequest {
-  optional uint32 operatorId = 1 [json_name = "operatorId"];
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ];
+
   Organization org = 2;
 }
 
 // 更新部门 - 请求
 message UpdateOrganizationRequest {
-  optional uint32 operatorId = 1 [json_name = "operatorId"];
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ];
+
   Organization org = 2;
+
+  google.protobuf.FieldMask update_mask = 3 [
+    (gnostic.openapi.v3.property) = {
+      description: "要更新的字段列表",
+      example: {yaml : "id,realName,userName"}
+    },
+    json_name = "updateMask"
+  ];
+
+  optional bool allow_missing = 4 [
+    (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增，并且在这种情况下`updateMask`字段将会被忽略。"},
+    json_name = "allowMissing"
+  ];
 }
 
 // 删除部门 - 请求
 message DeleteOrganizationRequest {
-  uint32 id = 1;
-  optional uint32 operatorId = 2 [json_name = "operatorId"];
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ];
+
+  uint32 id = 2;
 }

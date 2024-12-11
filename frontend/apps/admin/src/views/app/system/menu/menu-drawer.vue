@@ -1,76 +1,153 @@
-<template>
-  <BasicDrawer
-      v-bind="$attrs"
-      @register="registerDrawer"
-      showFooter
-      :title="getTitle"
-      width="50%"
-      @ok="handleSubmit"
-  >
-    <BasicForm @register="registerForm"/>
-  </BasicDrawer>
-</template>
-
 <script lang="ts" setup>
-import {BasicForm, useForm} from '/@/components/Form/index';
-import {formSchema} from './menu.data';
-import {BasicDrawer, useDrawerInner} from '/@/components/Drawer';
+  import { computed, ref } from 'vue';
 
-import {CreateMenu, ListMenu, UpdateMenu} from '/@/api/app/menu';
-import {computed, ref, unref} from "vue";
+  import { useVbenDrawer, z } from '@vben/common-ui';
+  import { $t } from '@vben/locales';
 
-const emit = defineEmits(['success', 'register']);
-const isUpdate = ref(true);
-const menuId = ref('');
+  import { useVbenForm } from '#/adapter/form';
+  import { menuTypeList, statusList } from '#/rpc';
 
-const [registerForm, {resetFields, setFieldsValue, updateSchema, validate}] = useForm({
-  labelWidth: 100,
-  schemas: formSchema,
-  showActionButtonGroup: false,
-  baseColProps: {lg: 12, md: 24},
-});
+  const data = ref();
 
-const [registerDrawer, {setDrawerProps, closeDrawer}] = useDrawerInner(async (data) => {
-  await resetFields();
-  setDrawerProps({confirmLoading: false});
-  isUpdate.value = !!data?.isUpdate;
+  const getTitle = computed(() => (data.value?.create ? '创建菜单' : '编辑菜单'));
+  // const isCreate = computed(() => data.value?.create);
 
-  if (unref(isUpdate)) {
-    menuId.value = data.record.id;
-    await setFieldsValue({
-      ...data.record,
-    });
-  }
-  const menuData = await ListMenu({});
-  const treeData = menuData.items;
-  await updateSchema({
-    field: 'parentId',
-    componentProps: {treeData},
+  const [BaseForm, baseFormApi] = useVbenForm({
+    showDefaultActions: false,
+    // 所有表单项共用，可单独在表单内覆盖
+    commonConfig: {
+      // 所有表单项
+      componentProps: {
+        class: 'w-full',
+      },
+    },
+    schema: [
+      {
+        component: 'RadioGroup',
+        fieldName: 'type',
+        label: '菜单类型',
+        componentProps: {
+          isButton: true,
+          class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
+          options: menuTypeList,
+        },
+      },
+
+      {
+        component: 'Input',
+        fieldName: 'name',
+        label: '菜单名称',
+        componentProps: {
+          placeholder: $t('ui.placeholder.input'),
+        },
+        rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
+      },
+      {
+        component: 'TreeSelect',
+        fieldName: 'parentId',
+        label: '上级菜单',
+        componentProps: {
+          placeholder: $t('ui.placeholder.select'),
+        },
+      },
+      {
+        component: 'InputNumber',
+        fieldName: 'orderNo',
+        label: '排序',
+        componentProps: {
+          placeholder: $t('ui.placeholder.input'),
+        },
+      },
+      {
+        component: 'IconPicker',
+        fieldName: 'icon',
+        label: '图标',
+      },
+      {
+        component: 'Input',
+        fieldName: 'path',
+        label: '路由地址',
+        componentProps: {
+          placeholder: $t('ui.placeholder.input'),
+        },
+      },
+      {
+        component: 'Input',
+        fieldName: 'component',
+        label: '组件路径',
+        componentProps: {
+          placeholder: $t('ui.placeholder.input'),
+        },
+      },
+      {
+        component: 'Input',
+        fieldName: 'permissionCode',
+        label: '权限标识',
+        componentProps: {
+          placeholder: $t('ui.placeholder.input'),
+        },
+      },
+      {
+        component: 'RadioGroup',
+        fieldName: 'status',
+        label: '状态',
+        componentProps: {
+          isButton: true,
+          class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
+          options: statusList,
+        },
+      },
+      {
+        component: 'Switch',
+        fieldName: 'isExt',
+        label: '是否外链',
+        componentProps: {
+          class: 'w-auto',
+        },
+      },
+      {
+        component: 'Switch',
+        fieldName: 'keepAlive',
+        label: '是否缓存',
+        componentProps: {
+          class: 'w-auto',
+        },
+      },
+      {
+        component: 'Switch',
+        fieldName: 'show',
+        label: '是否显示',
+        componentProps: {
+          class: 'w-auto',
+        },
+      },
+    ],
   });
-});
 
-const getTitle = computed(() => (!unref(isUpdate) ? '创建菜单' : '编辑菜单'));
+  const [Drawer, drawerApi] = useVbenDrawer({
+    onCancel() {
+      drawerApi.close();
+    },
+    onConfirm() {
+      console.log('onConfirm');
+    },
+    onOpenChange(isOpen) {
+      if (isOpen) {
+        data.value = drawerApi.getData<Record<string, any>>();
+        baseFormApi.setValues(data.value?.row);
 
-async function handleSubmit() {
-  try {
-    const values = await validate();
-    const _isUpdate = unref(isUpdate);
-    const _menuId = unref(menuId);
+        // setLoading(true);
+        setLoading(false);
+      }
+    },
+  });
 
-    setDrawerProps({confirmLoading: true});
-    console.log(!_isUpdate ? '创建菜单' : '编辑菜单', _menuId, values);
-
-    // API提交更改
-    if (_isUpdate) {
-      await UpdateMenu({id: Number(_menuId), ...values});
-    } else {
-      await CreateMenu({menu: values});
-    }
-
-    closeDrawer();
-    emit('success', values);
-  } finally {
-    setDrawerProps({confirmLoading: false});
+  function setLoading(loading: boolean) {
+    drawerApi.setState({ loading });
   }
-}
 </script>
+<template>
+  <Drawer :title="getTitle">
+    <BaseForm />
+  </Drawer>
+</template>

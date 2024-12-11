@@ -1,71 +1,129 @@
-<template>
-  <BasicModal v-bind="$attrs" @register="registerModal" :title="getTitle" @ok="handleSubmit">
-    <BasicForm @register="registerForm"/>
-  </BasicModal>
-</template>
-
 <script lang="ts" setup>
-import {computed, ref, unref} from "vue";
+  import { computed, ref } from 'vue';
 
-import {BasicModal, useModalInner} from '/@/components/Modal';
-import {BasicForm, useForm} from '/@/components/Form/index';
+  import { useVbenModal } from '@vben/common-ui';
+  import { $t } from '@vben/locales';
 
-import {ListOrganization, CreateOrganization, UpdateOrganization} from '/@/api/app/organization';
+  import { notification } from 'ant-design-vue';
 
-import {formSchema} from './org.data';
+  import { useVbenForm, z } from '#/adapter/form';
+  import { defOrganizationService, statusList } from '#/rpc';
 
+  const data = ref();
 
-const emit = defineEmits(['success', 'register']);
+  const getTitle = computed(() => (data.value?.create ? '创建部门' : '编辑部门'));
+  // const isCreate = computed(() => data.value?.create);
 
-const isUpdate = ref(true);
-const rowId = ref('');
-
-const [registerForm, {resetFields, setFieldsValue, updateSchema, validate}] = useForm({
-  labelWidth: 100,
-  schemas: formSchema,
-  showActionButtonGroup: false,
-});
-
-const [registerModal, {setModalProps, closeModal}] = useModalInner(async (data) => {
-  await resetFields();
-  setModalProps({confirmLoading: false});
-  isUpdate.value = !!data?.isUpdate;
-
-  if (unref(isUpdate)) {
-    rowId.value = data.record.id;
-    await setFieldsValue({
-      ...data.record,
-    });
-  }
-  const orgData = (await ListOrganization({})) || [];
-  const treeData = orgData.items || [];
-  await updateSchema({
-    field: 'parentId',
-    componentProps: {treeData},
+  const [BaseForm, baseFormApi] = useVbenForm({
+    showDefaultActions: false,
+    // 所有表单项共用，可单独在表单内覆盖
+    commonConfig: {
+      // 所有表单项
+      componentProps: {
+        class: 'w-full',
+      },
+    },
+    schema: [
+      {
+        component: 'Input',
+        fieldName: 'name',
+        label: '部门名称',
+        componentProps: {
+          placeholder: $t('ui.placeholder.input'),
+        },
+        rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
+      },
+      {
+        component: 'TreeSelect',
+        fieldName: 'parentId',
+        label: '上级部门',
+        componentProps: {
+          placeholder: $t('ui.placeholder.select'),
+        },
+        rules: z.string().min(1, { message: $t('authentication.orgErrorTip') }),
+      },
+      {
+        component: 'InputNumber',
+        fieldName: 'orderNo',
+        label: '排序',
+        componentProps: {
+          placeholder: $t('ui.placeholder.input'),
+        },
+        rules: z.string().min(1, { message: $t('authentication.nicknameErrorTip') }),
+      },
+      {
+        component: 'RadioGroup',
+        fieldName: 'status',
+        label: '状态',
+        componentProps: {
+          isButton: true,
+          class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
+          options: statusList,
+        },
+      },
+      {
+        component: 'Textarea',
+        fieldName: 'remark',
+        label: '备注',
+      },
+    ],
   });
-});
 
-const getTitle = computed(() => (!unref(isUpdate) ? '创建部门' : '编辑部门'));
+  const [Modal, modalApi] = useVbenModal({
+    onCancel() {
+      modalApi.close();
+    },
 
-async function handleSubmit() {
-  try {
-    const values = await validate();
-    const _rowId = unref(rowId);
-    const _isUpdate = unref(isUpdate);
-    setModalProps({confirmLoading: true});
-    console.log(!_isUpdate ? '创建部门' : '编辑部门', _rowId, values);
+    async onConfirm() {
+      console.log('onConfirm');
 
-    // API提交更改
-    if (_isUpdate) {
-      await UpdateOrganization({id: _rowId, org: values});
-    } else {
-      await CreateOrganization({org: values});
-    }
+      const values = await baseFormApi.validate();
+      if (!values.valid) {
+        return;
+      }
 
-    closeModal();
-    emit('success');
-  } finally {
-    setModalProps({confirmLoading: false});
+      setLoading(true);
+
+      console.log(getTitle.value, values);
+
+      try {
+        await (data.value?.create
+          ? defOrganizationService.CreateOrganization({ org: values.results })
+          : defOrganizationService.UpdateOrganization({
+              org: values.results,
+              updateMask: ['id', 'status'],
+            }));
+
+        notification.success({
+          message: `${getTitle.value}成功`,
+        });
+      } catch {
+        notification.success({
+          message: `${getTitle.value}失败`,
+        });
+      } finally {
+        modalApi.close();
+        setLoading(false);
+      }
+    },
+
+    onOpenChange(isOpen: boolean) {
+      if (isOpen) {
+        data.value = modalApi.getData<Record<string, any>>();
+        baseFormApi.setValues(data.value?.row);
+        setLoading(false);
+        console.log('onOpenChange', data.value, data.value?.create);
+      }
+    },
+  });
+
+  function setLoading(loading: boolean) {
+    modalApi.setState({ confirmLoading: loading });
   }
-}
 </script>
+
+<template>
+  <Modal :title="getTitle">
+    <BaseForm />
+  </Modal>
+</template>

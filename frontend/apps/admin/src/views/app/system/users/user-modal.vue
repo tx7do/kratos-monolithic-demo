@@ -7,13 +7,12 @@
   import { notification } from 'ant-design-vue';
 
   import { useVbenForm, z } from '#/adapter/form';
-  import { defUserService } from '#/rpc';
-
-  const emit = defineEmits(['success', 'register']);
+  import { authorityList, defUserService } from '#/rpc';
 
   const data = ref();
 
   const getTitle = computed(() => (data.value?.create ? '创建账号' : '编辑账号'));
+  // const isCreate = computed(() => data.value?.create);
 
   const [BaseForm, baseFormApi] = useVbenForm({
     showDefaultActions: false,
@@ -30,46 +29,58 @@
         fieldName: 'userName',
         label: '用户名',
         componentProps: {
-          passwordStrength: true,
-          placeholder: $t('authentication.usernameTip'),
+          placeholder: $t('ui.placeholder.input'),
         },
-        rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
+        rules: z.string().min(1, { message: $t('ui.formRules.required') }),
       },
+      // {
+      //   component: 'VbenInputPassword',
+      //   fieldName: 'password',
+      //   label: '密码',
+      //   componentProps: {
+      //     passwordStrength: true,
+      //     placeholder: $t('ui.placeholder.input'),
+      //   },
+      //   rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
+      // },
       {
-        component: 'VbenInputPassword',
-        fieldName: 'password',
-        label: '密码',
+        component: 'Select',
+        fieldName: 'authority',
+        label: '权限',
         componentProps: {
-          passwordStrength: true,
-          placeholder: $t('authentication.passwordTip'),
+          placeholder: $t('ui.placeholder.select'),
+          options: authorityList,
         },
-        rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
-      },
-      {
-        component: 'Input',
-        fieldName: 'realName',
-        label: '名字',
-      },
-      {
-        component: 'Input',
-        fieldName: 'email',
-        label: '邮箱',
-      },
-      {
-        component: 'Input',
-        fieldName: 'phone',
-        label: '手机',
+        rules: z.string().min(1, { message: $t('ui.formRules.selectRequired') }),
       },
       {
         component: 'TreeSelect',
         fieldName: 'orgId',
         label: '所属部门',
+        componentProps: {
+          placeholder: $t('ui.placeholder.select'),
+        },
+        // rules: z.string().min(1, { message: $t('authentication.orgErrorTip') }),
       },
       {
-        component: 'TreeSelect',
-        fieldName: 'positionId',
-        label: '所在岗位',
+        component: 'Input',
+        fieldName: 'nickName',
+        label: '昵称',
+        componentProps: {
+          placeholder: $t('ui.placeholder.input'),
+        },
+        rules: z.string().min(1, { message: $t('authentication.nicknameErrorTip') }),
       },
+      {
+        component: 'Input',
+        fieldName: 'email',
+        label: '邮箱',
+        componentProps: {
+          placeholder: $t('ui.placeholder.input'),
+        },
+        rules: z.string().min(1, { message: $t('authentication.emailValidErrorTip') }),
+      },
+
       {
         component: 'Textarea',
         fieldName: 'remark',
@@ -87,8 +98,11 @@
       console.log('onConfirm');
 
       const values = await baseFormApi.validate();
+      if (!values.valid) {
+        return;
+      }
 
-      modalApi.setState({ confirmLoading: true });
+      setLoading(true);
 
       console.log(getTitle.value, values);
 
@@ -96,7 +110,7 @@
         await (data.value?.create
           ? defUserService.CreateUser({ user: values.results })
           : defUserService.UpdateUser({
-              user: { id: row.id, status: row.status },
+              user: values.results,
               updateMask: ['id', 'status'],
             }));
 
@@ -109,19 +123,23 @@
         });
       } finally {
         modalApi.close();
-        modalApi.setState({ confirmLoading: false });
+        setLoading(false);
       }
     },
 
     onOpenChange(isOpen: boolean) {
       if (isOpen) {
         data.value = modalApi.getData<Record<string, any>>();
-        baseFormApi.setValues(data.value);
-        modalApi.setState({ confirmLoading: false });
+        baseFormApi.setValues(data.value?.row);
+        setLoading(false);
         console.log('onOpenChange', data.value, data.value?.create);
       }
     },
   });
+
+  function setLoading(loading: boolean) {
+    modalApi.setState({ confirmLoading: loading });
+  }
 </script>
 
 <template>

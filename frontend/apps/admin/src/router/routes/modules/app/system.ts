@@ -19,7 +19,7 @@ const system: RouteRecordRaw[] = [
         path: 'users',
         name: 'UserManagement',
         meta: {
-          icon: 'ion:person-outline',
+          icon: 'lucide:users',
           title: $t('menu.system.user'),
         },
         component: () => import('#/views/app/system/users/index.vue'),
@@ -28,7 +28,7 @@ const system: RouteRecordRaw[] = [
         path: 'users/detail/:id',
         name: 'UserDetail',
         meta: {
-          hideInTab: true,
+          hideInTab: false,
           hideInMenu: true,
           title: $t('menu.system.user_detail'),
           currentActiveMenu: '/system/user',
@@ -40,7 +40,7 @@ const system: RouteRecordRaw[] = [
         path: 'menu',
         name: 'MenuManagement',
         meta: {
-          icon: 'ion:menu-outline',
+          icon: 'lucide:square-menu',
           title: $t('menu.system.menu'),
         },
         component: () => import('#/views/app/system/menu/index.vue'),
@@ -49,7 +49,7 @@ const system: RouteRecordRaw[] = [
         path: 'org',
         name: 'OrganizationManagement',
         meta: {
-          icon: 'ant-design:apartment-outlined',
+          icon: 'lucide:network',
           title: $t('menu.system.org'),
         },
         component: () => import('#/views/app/system/org/index.vue'),
@@ -59,7 +59,7 @@ const system: RouteRecordRaw[] = [
         path: 'role',
         name: 'RoleManagement',
         meta: {
-          icon: 'ant-design:team-outlined',
+          icon: 'lucide:shield-check',
           title: $t('menu.system.role'),
           hideInTab: false,
         },
@@ -69,7 +69,7 @@ const system: RouteRecordRaw[] = [
         path: 'position',
         name: 'PositionManagement',
         meta: {
-          icon: 'ion:person-circle-outline',
+          icon: 'lucide:id-card',
           title: $t('menu.system.position'),
           hideInTab: false,
         },
