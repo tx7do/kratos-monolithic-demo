@@ -61,7 +61,12 @@ api:
 # generate OpenAPI v3 docs.
 openapi:
 	@cd api && \
-	buf generate --path protos/admin/service/v1 --template protos/admin/service/v1/buf.openapi.gen.yaml
+	buf generate --template buf.admin.openapi.gen.yaml
+
+# generate typescript.
+ts:
+	@cd api && \
+	buf generate --template buf.admin.typescript.gen.yaml
 
 # build all service applications
 build:

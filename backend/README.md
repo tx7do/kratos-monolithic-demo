@@ -33,7 +33,40 @@ buf generate
 ### 生成OpenAPI v3文档
 
 ```bash
-buf generate --path api/admin/service/v1 --template api/admin/service/v1/buf.openapi.gen.yaml
+buf generate --template buf.admin.openapi.gen.yaml
+```
+
+### 生成Dart代码
+
+首先安装插件：
+
+```bash
+flutter pub global activate protoc_plugin
+```
+或者
+
+```bash
+dart pub global activate protoc_plugin
+```
+
+使用方法：
+
+```bash
+buf generate --template buf.front.dart.gen.yaml
+```
+
+### 生成Typescript代码
+
+首先安装插件：
+
+```bash
+npm install -g ts-proto
+```
+
+使用方法：
+
+```bash
+buf generate --template buf.admin.typescript.gen.yaml
 ```
 
 ## Make构建
@@ -56,6 +89,18 @@ make api
 
 ```bash
 make openapi
+```
+
+### 生成API的dart代码
+
+```bash
+make dart
+```
+
+### 生成API的typescript代码
+
+```bash
+make ts
 ```
 
 ### 生成ent代码

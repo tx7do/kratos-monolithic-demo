@@ -47,7 +47,7 @@ func (s *UserService) GetUserByUserName(ctx context.Context, req *userV1.GetUser
 func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequest) (*emptypb.Empty, error) {
 	authInfo, err := auth.FromContext(ctx)
 	if err != nil {
-		s.log.Errorf("[%d] 用户认证失败[%s]", authInfo, err.Error())
+		s.log.Errorf("用户认证失败[%s]", err.Error())
 		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
 	}
 
@@ -55,8 +55,8 @@ func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequ
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	req.OperatorId = authInfo.UserId
-	req.User.CreatorId = trans.Uint32(authInfo.UserId)
+	req.OperatorId = trans.Ptr(authInfo.UserId)
+	req.User.CreatorId = trans.Ptr(authInfo.UserId)
 	if req.User.Authority == nil {
 		req.User.Authority = userV1.UserAuthority_CUSTOMER_USER.Enum()
 	}
@@ -68,7 +68,7 @@ func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequ
 func (s *UserService) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequest) (*emptypb.Empty, error) {
 	authInfo, err := auth.FromContext(ctx)
 	if err != nil {
-		s.log.Errorf("[%d] 用户认证失败[%s]", authInfo, err.Error())
+		s.log.Errorf("用户认证失败[%s]", err.Error())
 		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
 	}
 
@@ -76,7 +76,7 @@ func (s *UserService) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequ
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	req.OperatorId = authInfo.UserId
+	req.OperatorId = trans.Ptr(authInfo.UserId)
 
 	err = s.uc.Update(ctx, req)
 	return &emptypb.Empty{}, nil
@@ -85,11 +85,11 @@ func (s *UserService) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequ
 func (s *UserService) DeleteUser(ctx context.Context, req *userV1.DeleteUserRequest) (*emptypb.Empty, error) {
 	authInfo, err := auth.FromContext(ctx)
 	if err != nil {
-		s.log.Errorf("[%d] 用户认证失败[%s]", authInfo, err.Error())
+		s.log.Errorf("用户认证失败[%s]", err.Error())
 		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
 	}
 
-	req.OperatorId = authInfo.UserId
+	req.OperatorId = trans.Ptr(authInfo.UserId)
 
 	_, err = s.uc.Delete(ctx, req)
 

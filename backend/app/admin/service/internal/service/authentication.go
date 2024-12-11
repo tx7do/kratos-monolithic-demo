@@ -72,7 +72,7 @@ func (s *AuthenticationService) Logout(ctx context.Context, req *adminV1.LogoutR
 func (s *AuthenticationService) GetMe(ctx context.Context, req *adminV1.GetMeRequest) (*userV1.User, error) {
 	authInfo, err := auth.FromContext(ctx)
 	if err != nil {
-		s.log.Errorf("[%v] 用户认证失败[%s]", authInfo, err.Error())
+		s.log.Errorf("用户认证失败[%s]", err.Error())
 		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
 	}
 
@@ -87,7 +87,7 @@ func (s *AuthenticationService) GetMe(ctx context.Context, req *adminV1.GetMeReq
 func (s *AuthenticationService) RefreshToken(ctx context.Context, req *adminV1.RefreshTokenRequest) (*adminV1.LoginResponse, error) {
 	authInfo, err := auth.FromContext(ctx)
 	if err != nil {
-		s.log.Errorf("[%v] 用户认证失败[%s]", authInfo, err.Error())
+		s.log.Errorf("用户认证失败[%s]", err.Error())
 		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
 	}
 

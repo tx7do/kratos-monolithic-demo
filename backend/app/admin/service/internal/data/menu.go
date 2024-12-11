@@ -38,7 +38,7 @@ func (r *MenuRepo) convertEntToProto(in *ent.Menu) *v1.Menu {
 
 	var menuType *v1.MenuType
 	if in.Type != nil {
-		menuType = (*v1.MenuType)(trans.Int32(v1.MenuType_value[string(*in.Type)]))
+		menuType = (*v1.MenuType)(trans.Ptr(v1.MenuType_value[string(*in.Type)]))
 	}
 
 	return &v1.Menu{

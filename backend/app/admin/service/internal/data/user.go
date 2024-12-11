@@ -43,7 +43,7 @@ func (r *UserRepo) convertEntToProto(in *ent.User) *userV1.User {
 
 	var authority *userV1.UserAuthority
 	if in.Authority != nil {
-		authority = (*userV1.UserAuthority)(trans.Int32(userV1.UserAuthority_value[string(*in.Authority)]))
+		authority = (*userV1.UserAuthority)(trans.Ptr(userV1.UserAuthority_value[string(*in.Authority)]))
 	}
 
 	return &userV1.User{
@@ -156,7 +156,7 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) er
 		SetCreateBy(req.GetOperatorId()).
 		SetCreateTime(time.Now())
 
-	if len(req.Password) > 0 {
+	if len(req.GetPassword()) > 0 {
 		cryptoPassword, err := crypto.HashPassword(req.GetPassword())
 		if err == nil {
 			builder.SetPassword(cryptoPassword)
@@ -201,7 +201,7 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 	if req.User.Authority != nil {
 		builder.SetAuthority((user.Authority)(req.User.Authority.String()))
 	}
-	if len(req.Password) > 0 {
+	if len(req.GetPassword()) > 0 {
 		cryptoPassword, err := crypto.HashPassword(req.GetPassword())
 		if err == nil {
 			builder.SetPassword(cryptoPassword)

@@ -27,6 +27,7 @@ service MenuService {
   rpc DeleteMenu (DeleteMenuRequest) returns (google.protobuf.Empty) {}
 }
 
+// 菜单类型
 enum MenuType {
   FOLDER = 0;  // 菜单夹
   MENU = 1;  // 菜单项

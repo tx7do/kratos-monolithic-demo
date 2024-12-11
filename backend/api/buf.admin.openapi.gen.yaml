@@ -18,6 +18,11 @@ managed:
     - file_option: go_package_prefix
       value: kratos-monolithic-demo/api/gen/go
 
+inputs:
+  - directory: protos
+    paths:
+      - protos/admin/service/v1
+
 plugins:
   # generate openapi v2 json doc
   #  - local: protoc-gen-openapiv2

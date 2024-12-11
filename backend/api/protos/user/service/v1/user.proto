@@ -106,14 +106,14 @@ message GetUserByUserNameRequest {
 
 // 创建用户 - 请求
 message CreateUserRequest {
-  uint32 operatorId = 1;
+  optional uint32 operatorId = 1;
   User user = 2;
-  string password = 3;
+  optional string password = 3;
 }
 
 // 更新用户 - 请求
 message UpdateUserRequest {
-  uint32 operator_id = 1 [
+  optional uint32 operator_id = 1 [
     (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
     json_name = "operatorId"
   ];
@@ -124,7 +124,7 @@ message UpdateUserRequest {
     json_name = "user"
   ];
 
-  string password = 3;
+  optional string password = 3;
 
   google.protobuf.FieldMask update_mask = 4 [
     (gnostic.openapi.v3.property) = {
@@ -134,7 +134,7 @@ message UpdateUserRequest {
     json_name = "updateMask"
   ];
 
-  bool allow_missing = 5 [
+  optional bool allow_missing = 5 [
     (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增，并且在这种情况下`updateMask`字段将会被忽略。"},
     json_name = "allowMissing"
   ];
@@ -143,7 +143,7 @@ message UpdateUserRequest {
 // 删除用户 - 请求
 message DeleteUserRequest {
   uint32 id = 1;
-  uint32 operatorId = 2;
+  optional uint32 operatorId = 2;
 }
 
 // 验证密码 - 请求
