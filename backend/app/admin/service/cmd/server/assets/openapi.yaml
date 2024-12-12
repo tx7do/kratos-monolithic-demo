@@ -197,6 +197,15 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: updateMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
+                - name: allowMissing
+                  in: query
+                  schema:
+                    type: boolean
             requestBody:
                 content:
                     application/json:
@@ -334,6 +343,15 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: updateMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
+                - name: allowMissing
+                  in: query
+                  schema:
+                    type: boolean
             requestBody:
                 content:
                     application/json:
@@ -484,6 +502,15 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: updateMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
+                - name: allowMissing
+                  in: query
+                  schema:
+                    type: boolean
             requestBody:
                 content:
                     application/json:
@@ -640,6 +667,15 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: updateMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
+                - name: allowMissing
+                  in: query
+                  schema:
+                    type: boolean
             requestBody:
                 content:
                     application/json:
@@ -828,17 +864,21 @@ components:
         CreateMenuRequest:
             type: object
             properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
                 menu:
                     $ref: '#/components/schemas/Menu'
-                operatorId:
-                    type: integer
-                    format: uint32
             description: 创建菜单 - 请求
         CreateOrganizationRequest:
             type: object
             properties:
                 operatorId:
+                    readOnly: true
                     type: integer
+                    description: 操作用户ID
                     format: uint32
                 org:
                     $ref: '#/components/schemas/Organization'
@@ -846,20 +886,24 @@ components:
         CreatePositionRequest:
             type: object
             properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
                 position:
                     $ref: '#/components/schemas/Position'
-                operatorId:
-                    type: integer
-                    format: uint32
             description: 创建职位 - 请求
         CreateRoleRequest:
             type: object
             properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
                 role:
                     $ref: '#/components/schemas/Role'
-                operatorId:
-                    type: integer
-                    format: uint32
             description: 创建角色 - 请求
         KratosStatus:
             type: object
@@ -1348,6 +1392,7 @@ components:
                 authority:
                     enum:
                         - SYS_ADMIN
+                        - SYS_MANAGER
                         - CUSTOMER_USER
                         - GUEST_USER
                         - REFRESH_TOKEN
