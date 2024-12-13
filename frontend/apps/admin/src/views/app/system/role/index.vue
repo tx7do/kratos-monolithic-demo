@@ -32,6 +32,8 @@ const formOptions: VbenFormProps = {
       component: 'Select',
       fieldName: 'status',
       label: '状态',
+      defaultValue: 'ON',
+      rules: 'selectRequired',
       componentProps: {
         options: statusList,
         placeholder: $t('ui.placeholder.select'),

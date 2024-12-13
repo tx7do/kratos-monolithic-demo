@@ -1052,15 +1052,19 @@ components:
             properties:
                 id:
                     type: integer
+                    description: 节点ID
                     format: int32
                 parentId:
                     type: integer
+                    description: 父节点ID
                     format: int32
-                orderNo:
-                    type: integer
-                    format: int32
-                name:
+                status:
+                    enum:
+                        - ON
+                        - OFF
                     type: string
+                    default: ON
+                    description: 状态
                 type:
                     enum:
                         - FOLDER
@@ -1070,51 +1074,28 @@ components:
                     default: FOLDER
                     description: 类型
                     format: enum
-                status:
-                    enum:
-                        - ON
-                        - OFF
-                    type: string
-                    default: ON
-                    description: 状态
-                path:
-                    type: string
-                title:
-                    type: string
-                component:
-                    type: string
-                icon:
-                    type: string
-                permissions:
-                    type: array
-                    items:
-                        type: string
                 children:
                     type: array
                     items:
                         $ref: '#/components/schemas/Menu'
-                keepAlive:
-                    type: boolean
-                show:
-                    type: boolean
-                isExt:
-                    type: boolean
-                extUrl:
+                    description: 子节点列表
+                path:
                     type: string
-                hideBreadcrumb:
-                    type: boolean
-                hideTab:
-                    type: boolean
-                hideMenu:
-                    type: boolean
-                hideChildrenInMenu:
-                    type: boolean
-                hidePathForChildren:
-                    type: boolean
-                currentActiveMenu:
-                    type: string
+                    description: 路由路径
                 redirect:
                     type: string
+                    description: 重定向地址
+                alias:
+                    type: string
+                    description: 路由别名
+                name:
+                    type: string
+                    description: 路由命名，然后我们可以使用 name 而不是 path 来传递 to 属性给 <router-link>。
+                component:
+                    type: string
+                    description: 指向的组件
+                meta:
+                    $ref: '#/components/schemas/RouteMeta'
                 createTime:
                     type: string
                     format: date-time
@@ -1280,49 +1261,90 @@ components:
         RouteMeta:
             type: object
             properties:
-                orderNo:
+                activeIcon:
+                    type: string
+                    description: 激活图标，用于：菜单、tab
+                activePath:
+                    type: string
+                    description: 当前激活的菜单，有时候不想激活现有菜单，需要激活父级菜单时使用
+                affixTab:
+                    type: boolean
+                    description: 是否固定标签页
+                affixTabOrder:
                     type: integer
+                    description: 固定标签页的顺序
+                    format: int32
+                authority:
+                    type: array
+                    items:
+                        type: string
+                    description: 权限列表，需要特定的角色标识才可以访问
+                badge:
+                    type: string
+                    description: 徽标
+                badgeType:
+                    enum:
+                        - dot
+                        - normal
+                    type: string
+                    description: 徽标类型
+                badgeVariants:
+                    enum:
+                        - default
+                        - destructive
+                        - primary
+                        - success
+                        - warning
+                    type: string
+                    description: 徽标颜色
+                hideChildrenInMenu:
+                    type: boolean
+                    description: 当前路由的子级在菜单中不展现
+                hideInBreadcrumb:
+                    type: boolean
+                    description: 当前路由在面包屑中不展现
+                hideInMenu:
+                    type: boolean
+                    description: 当前路由在菜单中不展现
+                hideInTab:
+                    type: boolean
+                    description: 当前路由在标签页不展现
+                icon:
+                    type: string
+                    description: 图标，用于：菜单、标签页
+                iframeSrc:
+                    type: string
+                    description: iframe 地址
+                ignoreAccess:
+                    type: boolean
+                    description: 忽略权限，直接可以访问
+                keepAlive:
+                    type: boolean
+                    description: 开启KeepAlive缓存
+                link:
+                    type: string
+                    description: 外链-跳转路径
+                loaded:
+                    type: boolean
+                    description: 路由是否已经加载过
+                maxNumOfOpenTab:
+                    type: integer
+                    description: 标签页最大打开数量
+                    format: int32
+                menuVisibleWithForbidden:
+                    type: boolean
+                    description: 菜单可以看到，但是访问会被重定向到403
+                openInNewWindow:
+                    type: boolean
+                    description: 在新窗口打开
+                order:
+                    type: integer
+                    description: 排序ID，用于路由->菜单排序
                     format: int32
                 title:
                     type: string
-                dynamicLevel:
-                    type: integer
-                    format: int32
-                realPath:
-                    type: string
-                icon:
-                    type: string
-                frameSrc:
-                    type: string
-                transitionName:
-                    type: string
-                affix:
-                    type: boolean
-                carryParam:
-                    type: boolean
-                single:
-                    type: boolean
-                ignoreAuth:
-                    type: boolean
-                ignoreKeepAlive:
-                    type: boolean
-                ignoreRoute:
-                    type: boolean
-                hideBreadcrumb:
-                    type: boolean
-                hideChildrenInMenu:
-                    type: boolean
-                hideTab:
-                    type: boolean
-                hideMenu:
-                    type: boolean
-                isLink:
-                    type: boolean
-                hidePathForChildren:
-                    type: boolean
-                currentActiveMenu:
-                    type: string
-            description: 路由元数据
+                    description: 标题名称，路由上显示的标题
+            description: 路由元信息
         User:
             type: object
             properties:

@@ -15,7 +15,7 @@ import (
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent/menu"
 
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-	v1 "kratos-monolithic-demo/api/gen/go/system/service/v1"
+	systemV1 "kratos-monolithic-demo/api/gen/go/system/service/v1"
 )
 
 type MenuRepo struct {
@@ -31,44 +31,50 @@ func NewMenuRepo(data *Data, logger log.Logger) *MenuRepo {
 	}
 }
 
-func (r *MenuRepo) convertEntToProto(in *ent.Menu) *v1.Menu {
+func (r *MenuRepo) convertMenuTypeToProto(in *menu.Type) *systemV1.MenuType {
+	if in == nil {
+		return nil
+	}
+	find, ok := systemV1.MenuType_value[string(*in)]
+	if !ok {
+		return nil
+	}
+	return (*systemV1.MenuType)(trans.Ptr(find))
+}
+func (r *MenuRepo) convertMenuTypeToEnt(in *systemV1.MenuType) *menu.Type {
+	if in == nil {
+		return nil
+	}
+	find, ok := systemV1.MenuType_name[int32(*in)]
+	if !ok {
+		return nil
+	}
+	return (*menu.Type)(trans.Ptr(find))
+}
+
+func (r *MenuRepo) convertEntToProto(in *ent.Menu) *systemV1.Menu {
 	if in == nil {
 		return nil
 	}
 
-	var menuType *v1.MenuType
-	if in.Type != nil {
-		menuType = (*v1.MenuType)(trans.Ptr(v1.MenuType_value[string(*in.Type)]))
-	}
-
-	return &v1.Menu{
-		Id:                in.ID,
-		ParentId:          in.ParentID,
-		OrderNo:           in.OrderNo,
-		Name:              in.Name,
-		Title:             in.Title,
-		Path:              in.Path,
-		Component:         in.Component,
-		Icon:              in.Icon,
-		KeepAlive:         in.KeepAlive,
-		Show:              in.Show,
-		IsExt:             in.IsExt,
-		ExtUrl:            in.ExtURL,
-		Permissions:       in.Permissions,
-		HideTab:           in.HideTab,
-		HideMenu:          in.HideMenu,
-		HideBreadcrumb:    in.HideBreadcrumb,
-		CurrentActiveMenu: in.CurrentActiveMenu,
-		Redirect:          in.Redirect,
-		Type:              menuType,
-		Status:            (*string)(in.Status),
-		CreateTime:        util.TimeToTimestamppb(in.CreateTime),
-		UpdateTime:        util.TimeToTimestamppb(in.UpdateTime),
-		DeleteTime:        util.TimeToTimestamppb(in.DeleteTime),
+	return &systemV1.Menu{
+		Id:         trans.Ptr(in.ID),
+		ParentId:   in.ParentID,
+		Type:       r.convertMenuTypeToProto(in.Type),
+		Path:       in.Path,
+		Redirect:   in.Redirect,
+		Alias:      in.Alias,
+		Name:       in.Name,
+		Component:  in.Component,
+		Meta:       in.Meta,
+		Status:     (*string)(in.Status),
+		CreateTime: util.TimeToTimestamppb(in.CreateTime),
+		UpdateTime: util.TimeToTimestamppb(in.UpdateTime),
+		DeleteTime: util.TimeToTimestamppb(in.DeleteTime),
 	}
 }
 
-func (r *MenuRepo) travelChild(nodes []*v1.Menu, node *v1.Menu) bool {
+func (r *MenuRepo) travelChild(nodes []*systemV1.Menu, node *systemV1.Menu) bool {
 	if nodes == nil {
 		return false
 	}
@@ -83,7 +89,7 @@ func (r *MenuRepo) travelChild(nodes []*v1.Menu, node *v1.Menu) bool {
 			continue
 		}
 
-		if n.Id == *node.ParentId {
+		if n.GetId() == node.GetParentId() {
 			n.Children = append(n.Children, node)
 			return true
 		} else {
@@ -109,7 +115,7 @@ func (r *MenuRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 	return count, err
 }
 
-func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1.ListMenuResponse, error) {
+func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListMenuResponse, error) {
 	builder := r.data.db.Client().Menu.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
@@ -133,7 +139,7 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1
 		return nil, err
 	}
 
-	items := make([]*v1.Menu, 0, len(results))
+	items := make([]*systemV1.Menu, 0, len(results))
 	for _, m := range results {
 		if m.ParentID == nil {
 			item := r.convertEntToProto(m)
@@ -152,13 +158,13 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1
 		return nil, err
 	}
 
-	return &v1.ListMenuResponse{
+	return &systemV1.ListMenuResponse{
 		Total: int32(count),
 		Items: items,
 	}, nil
 }
 
-func (r *MenuRepo) Get(ctx context.Context, req *v1.GetMenuRequest) (*v1.Menu, error) {
+func (r *MenuRepo) Get(ctx context.Context, req *systemV1.GetMenuRequest) (*systemV1.Menu, error) {
 	ret, err := r.data.db.Client().Menu.Get(ctx, req.GetId())
 	if err != nil && !ent.IsNotFound(err) {
 		r.log.Errorf("query one data failed: %s", err.Error())
@@ -168,20 +174,18 @@ func (r *MenuRepo) Get(ctx context.Context, req *v1.GetMenuRequest) (*v1.Menu, e
 	return r.convertEntToProto(ret), err
 }
 
-func (r *MenuRepo) Create(ctx context.Context, req *v1.CreateMenuRequest) error {
+func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) error {
 	builder := r.data.db.Client().Menu.Create().
-		SetNillableName(req.Menu.Name).
-		SetNillableStatus((*menu.Status)(req.Menu.Status)).
+		SetID(req.Menu.GetId()).
 		SetNillableParentID(req.Menu.ParentId).
+		SetNillableType(r.convertMenuTypeToEnt(req.Menu.Type)).
 		SetNillablePath(req.Menu.Path).
-		SetNillableOrderNo(req.Menu.OrderNo).
+		SetNillableRedirect(req.Menu.Redirect).
+		SetNillableAlias(req.Menu.Alias).
+		SetNillableName(req.Menu.Name).
 		SetNillableComponent(req.Menu.Component).
-		SetNillableIcon(req.Menu.Icon).
-		SetNillableKeepAlive(req.Menu.KeepAlive).
-		SetNillableShow(req.Menu.Show).
-		SetNillableIsExt(req.Menu.IsExt).
-		SetNillableExtURL(req.Menu.ExtUrl).
-		SetPermissions(req.Menu.Permissions).
+		SetMeta(req.Menu.Meta).
+		SetNillableStatus((*menu.Status)(req.Menu.Status)).
 		SetCreateTime(time.Now())
 
 	if req.Menu.Type != nil {
@@ -197,24 +201,19 @@ func (r *MenuRepo) Create(ctx context.Context, req *v1.CreateMenuRequest) error 
 	return nil
 }
 
-func (r *MenuRepo) Update(ctx context.Context, req *v1.UpdateMenuRequest) error {
-	builder := r.data.db.Client().Menu.UpdateOneID(req.Menu.Id).
-		SetNillableName(req.Menu.Name).
-		SetNillableStatus((*menu.Status)(req.Menu.Status)).
+func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) error {
+	builder := r.data.db.Client().Menu.UpdateOneID(req.Menu.GetId()).
 		SetNillableParentID(req.Menu.ParentId).
+		SetNillableType(r.convertMenuTypeToEnt(req.Menu.Type)).
 		SetNillablePath(req.Menu.Path).
-		SetNillableOrderNo(req.Menu.OrderNo).
+		SetNillableRedirect(req.Menu.Redirect).
+		SetNillableAlias(req.Menu.Alias).
+		SetNillableName(req.Menu.Name).
 		SetNillableComponent(req.Menu.Component).
-		SetNillableIcon(req.Menu.Icon).
-		SetNillableKeepAlive(req.Menu.KeepAlive).
-		SetNillableShow(req.Menu.Show).
-		SetNillableIsExt(req.Menu.IsExt).
-		SetNillableExtURL(req.Menu.ExtUrl).
+		SetMeta(req.Menu.Meta).
+		SetNillableStatus((*menu.Status)(req.Menu.Status)).
 		SetUpdateTime(time.Now())
 
-	if req.Menu.Permissions != nil {
-		builder.SetPermissions(req.Menu.Permissions)
-	}
 	if req.Menu.Type != nil {
 		builder.SetType((menu.Type)(req.Menu.Type.String()))
 	}
@@ -228,7 +227,7 @@ func (r *MenuRepo) Update(ctx context.Context, req *v1.UpdateMenuRequest) error 
 	return nil
 }
 
-func (r *MenuRepo) Delete(ctx context.Context, req *v1.DeleteMenuRequest) (bool, error) {
+func (r *MenuRepo) Delete(ctx context.Context, req *systemV1.DeleteMenuRequest) (bool, error) {
 	err := r.data.db.Client().Menu.
 		DeleteOneID(req.GetId()).
 		Exec(ctx)

@@ -56,7 +56,9 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'RadioGroup',
       fieldName: 'status',
+      defaultValue: 'ON',
       label: '状态',
+      rules: 'selectRequired',
       componentProps: {
         optionType: 'button',
         class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠

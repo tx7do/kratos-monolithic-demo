@@ -17,7 +17,7 @@ type Role struct {
 func (Role) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.Annotation{
-			Table:     "role",
+			Table:     "roles",
 			Charset:   "utf8mb4",
 			Collation: "utf8mb4_bin",
 		},

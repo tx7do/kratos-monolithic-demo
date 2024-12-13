@@ -6,6 +6,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	util "github.com/tx7do/go-utils/timeutil"
 
@@ -13,7 +14,7 @@ import (
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent/position"
 
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-	v1 "kratos-monolithic-demo/api/gen/go/user/service/v1"
+	userV1 "kratos-monolithic-demo/api/gen/go/user/service/v1"
 )
 
 type PositionRepo struct {
@@ -29,11 +30,11 @@ func NewPositionRepo(data *Data, logger log.Logger) *PositionRepo {
 	}
 }
 
-func (r *PositionRepo) convertEntToProto(in *ent.Position) *v1.Position {
+func (r *PositionRepo) convertEntToProto(in *ent.Position) *userV1.Position {
 	if in == nil {
 		return nil
 	}
-	return &v1.Position{
+	return &userV1.Position{
 		Id:         in.ID,
 		Name:       &in.Name,
 		Code:       &in.Code,
@@ -61,7 +62,7 @@ func (r *PositionRepo) Count(ctx context.Context, whereCond []func(s *sql.Select
 	return count, err
 }
 
-func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1.ListPositionResponse, error) {
+func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListPositionResponse, error) {
 	builder := r.data.db.Client().Position.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
@@ -84,7 +85,7 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 		return nil, err
 	}
 
-	items := make([]*v1.Position, 0, len(results))
+	items := make([]*userV1.Position, 0, len(results))
 	for _, res := range results {
 		item := r.convertEntToProto(res)
 		items = append(items, item)
@@ -95,13 +96,13 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 		return nil, err
 	}
 
-	return &v1.ListPositionResponse{
+	return &userV1.ListPositionResponse{
 		Total: int32(count),
 		Items: items,
 	}, err
 }
 
-func (r *PositionRepo) Get(ctx context.Context, req *v1.GetPositionRequest) (*v1.Position, error) {
+func (r *PositionRepo) Get(ctx context.Context, req *userV1.GetPositionRequest) (*userV1.Position, error) {
 	ret, err := r.data.db.Client().Position.Get(ctx, req.GetId())
 	if err != nil && !ent.IsNotFound(err) {
 		return nil, err
@@ -110,7 +111,7 @@ func (r *PositionRepo) Get(ctx context.Context, req *v1.GetPositionRequest) (*v1
 	return r.convertEntToProto(ret), err
 }
 
-func (r *PositionRepo) Create(ctx context.Context, req *v1.CreatePositionRequest) error {
+func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionRequest) error {
 	err := r.data.db.Client().Position.Create().
 		SetNillableName(req.Position.Name).
 		SetNillableParentID(req.Position.ParentId).
@@ -129,7 +130,7 @@ func (r *PositionRepo) Create(ctx context.Context, req *v1.CreatePositionRequest
 	return err
 }
 
-func (r *PositionRepo) Update(ctx context.Context, req *v1.UpdatePositionRequest) error {
+func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionRequest) error {
 	builder := r.data.db.Client().Position.UpdateOneID(req.Position.Id).
 		SetNillableName(req.Position.Name).
 		SetNillableParentID(req.Position.ParentId).
@@ -148,7 +149,7 @@ func (r *PositionRepo) Update(ctx context.Context, req *v1.UpdatePositionRequest
 	return err
 }
 
-func (r *PositionRepo) Delete(ctx context.Context, req *v1.DeletePositionRequest) (bool, error) {
+func (r *PositionRepo) Delete(ctx context.Context, req *userV1.DeletePositionRequest) (bool, error) {
 	err := r.data.db.Client().Position.
 		DeleteOneID(req.GetId()).
 		Exec(ctx)

@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	servicev1 "kratos-monolithic-demo/api/gen/go/system/service/v1"
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent/menu"
 	"time"
 
@@ -106,48 +107,6 @@ func (mc *MenuCreate) SetNillableParentID(i *int32) *MenuCreate {
 	return mc
 }
 
-// SetOrderNo sets the "order_no" field.
-func (mc *MenuCreate) SetOrderNo(i int32) *MenuCreate {
-	mc.mutation.SetOrderNo(i)
-	return mc
-}
-
-// SetNillableOrderNo sets the "order_no" field if the given value is not nil.
-func (mc *MenuCreate) SetNillableOrderNo(i *int32) *MenuCreate {
-	if i != nil {
-		mc.SetOrderNo(*i)
-	}
-	return mc
-}
-
-// SetName sets the "name" field.
-func (mc *MenuCreate) SetName(s string) *MenuCreate {
-	mc.mutation.SetName(s)
-	return mc
-}
-
-// SetNillableName sets the "name" field if the given value is not nil.
-func (mc *MenuCreate) SetNillableName(s *string) *MenuCreate {
-	if s != nil {
-		mc.SetName(*s)
-	}
-	return mc
-}
-
-// SetTitle sets the "title" field.
-func (mc *MenuCreate) SetTitle(s string) *MenuCreate {
-	mc.mutation.SetTitle(s)
-	return mc
-}
-
-// SetNillableTitle sets the "title" field if the given value is not nil.
-func (mc *MenuCreate) SetNillableTitle(s *string) *MenuCreate {
-	if s != nil {
-		mc.SetTitle(*s)
-	}
-	return mc
-}
-
 // SetType sets the "type" field.
 func (mc *MenuCreate) SetType(m menu.Type) *MenuCreate {
 	mc.mutation.SetType(m)
@@ -176,68 +135,6 @@ func (mc *MenuCreate) SetNillablePath(s *string) *MenuCreate {
 	return mc
 }
 
-// SetComponent sets the "component" field.
-func (mc *MenuCreate) SetComponent(s string) *MenuCreate {
-	mc.mutation.SetComponent(s)
-	return mc
-}
-
-// SetNillableComponent sets the "component" field if the given value is not nil.
-func (mc *MenuCreate) SetNillableComponent(s *string) *MenuCreate {
-	if s != nil {
-		mc.SetComponent(*s)
-	}
-	return mc
-}
-
-// SetIcon sets the "icon" field.
-func (mc *MenuCreate) SetIcon(s string) *MenuCreate {
-	mc.mutation.SetIcon(s)
-	return mc
-}
-
-// SetNillableIcon sets the "icon" field if the given value is not nil.
-func (mc *MenuCreate) SetNillableIcon(s *string) *MenuCreate {
-	if s != nil {
-		mc.SetIcon(*s)
-	}
-	return mc
-}
-
-// SetIsExt sets the "is_ext" field.
-func (mc *MenuCreate) SetIsExt(b bool) *MenuCreate {
-	mc.mutation.SetIsExt(b)
-	return mc
-}
-
-// SetNillableIsExt sets the "is_ext" field if the given value is not nil.
-func (mc *MenuCreate) SetNillableIsExt(b *bool) *MenuCreate {
-	if b != nil {
-		mc.SetIsExt(*b)
-	}
-	return mc
-}
-
-// SetExtURL sets the "ext_url" field.
-func (mc *MenuCreate) SetExtURL(s string) *MenuCreate {
-	mc.mutation.SetExtURL(s)
-	return mc
-}
-
-// SetNillableExtURL sets the "ext_url" field if the given value is not nil.
-func (mc *MenuCreate) SetNillableExtURL(s *string) *MenuCreate {
-	if s != nil {
-		mc.SetExtURL(*s)
-	}
-	return mc
-}
-
-// SetPermissions sets the "permissions" field.
-func (mc *MenuCreate) SetPermissions(s []string) *MenuCreate {
-	mc.mutation.SetPermissions(s)
-	return mc
-}
-
 // SetRedirect sets the "redirect" field.
 func (mc *MenuCreate) SetRedirect(s string) *MenuCreate {
 	mc.mutation.SetRedirect(s)
@@ -252,87 +149,51 @@ func (mc *MenuCreate) SetNillableRedirect(s *string) *MenuCreate {
 	return mc
 }
 
-// SetCurrentActiveMenu sets the "current_active_menu" field.
-func (mc *MenuCreate) SetCurrentActiveMenu(s string) *MenuCreate {
-	mc.mutation.SetCurrentActiveMenu(s)
+// SetAlias sets the "alias" field.
+func (mc *MenuCreate) SetAlias(s string) *MenuCreate {
+	mc.mutation.SetAlias(s)
 	return mc
 }
 
-// SetNillableCurrentActiveMenu sets the "current_active_menu" field if the given value is not nil.
-func (mc *MenuCreate) SetNillableCurrentActiveMenu(s *string) *MenuCreate {
+// SetNillableAlias sets the "alias" field if the given value is not nil.
+func (mc *MenuCreate) SetNillableAlias(s *string) *MenuCreate {
 	if s != nil {
-		mc.SetCurrentActiveMenu(*s)
+		mc.SetAlias(*s)
 	}
 	return mc
 }
 
-// SetKeepAlive sets the "keep_alive" field.
-func (mc *MenuCreate) SetKeepAlive(b bool) *MenuCreate {
-	mc.mutation.SetKeepAlive(b)
+// SetName sets the "name" field.
+func (mc *MenuCreate) SetName(s string) *MenuCreate {
+	mc.mutation.SetName(s)
 	return mc
 }
 
-// SetNillableKeepAlive sets the "keep_alive" field if the given value is not nil.
-func (mc *MenuCreate) SetNillableKeepAlive(b *bool) *MenuCreate {
-	if b != nil {
-		mc.SetKeepAlive(*b)
+// SetNillableName sets the "name" field if the given value is not nil.
+func (mc *MenuCreate) SetNillableName(s *string) *MenuCreate {
+	if s != nil {
+		mc.SetName(*s)
 	}
 	return mc
 }
 
-// SetShow sets the "show" field.
-func (mc *MenuCreate) SetShow(b bool) *MenuCreate {
-	mc.mutation.SetShow(b)
+// SetComponent sets the "component" field.
+func (mc *MenuCreate) SetComponent(s string) *MenuCreate {
+	mc.mutation.SetComponent(s)
 	return mc
 }
 
-// SetNillableShow sets the "show" field if the given value is not nil.
-func (mc *MenuCreate) SetNillableShow(b *bool) *MenuCreate {
-	if b != nil {
-		mc.SetShow(*b)
+// SetNillableComponent sets the "component" field if the given value is not nil.
+func (mc *MenuCreate) SetNillableComponent(s *string) *MenuCreate {
+	if s != nil {
+		mc.SetComponent(*s)
 	}
 	return mc
 }
 
-// SetHideTab sets the "hide_tab" field.
-func (mc *MenuCreate) SetHideTab(b bool) *MenuCreate {
-	mc.mutation.SetHideTab(b)
-	return mc
-}
-
-// SetNillableHideTab sets the "hide_tab" field if the given value is not nil.
-func (mc *MenuCreate) SetNillableHideTab(b *bool) *MenuCreate {
-	if b != nil {
-		mc.SetHideTab(*b)
-	}
-	return mc
-}
-
-// SetHideMenu sets the "hide_menu" field.
-func (mc *MenuCreate) SetHideMenu(b bool) *MenuCreate {
-	mc.mutation.SetHideMenu(b)
-	return mc
-}
-
-// SetNillableHideMenu sets the "hide_menu" field if the given value is not nil.
-func (mc *MenuCreate) SetNillableHideMenu(b *bool) *MenuCreate {
-	if b != nil {
-		mc.SetHideMenu(*b)
-	}
-	return mc
-}
-
-// SetHideBreadcrumb sets the "hide_breadcrumb" field.
-func (mc *MenuCreate) SetHideBreadcrumb(b bool) *MenuCreate {
-	mc.mutation.SetHideBreadcrumb(b)
-	return mc
-}
-
-// SetNillableHideBreadcrumb sets the "hide_breadcrumb" field if the given value is not nil.
-func (mc *MenuCreate) SetNillableHideBreadcrumb(b *bool) *MenuCreate {
-	if b != nil {
-		mc.SetHideBreadcrumb(*b)
-	}
+// SetMeta sets the "meta" field.
+func (mc *MenuCreate) SetMeta(sm *servicev1.RouteMeta) *MenuCreate {
+	mc.mutation.SetMeta(sm)
 	return mc
 }
 
@@ -401,17 +262,9 @@ func (mc *MenuCreate) defaults() {
 		v := menu.DefaultStatus
 		mc.mutation.SetStatus(v)
 	}
-	if _, ok := mc.mutation.OrderNo(); !ok {
-		v := menu.DefaultOrderNo
-		mc.mutation.SetOrderNo(v)
-	}
-	if _, ok := mc.mutation.Name(); !ok {
-		v := menu.DefaultName
-		mc.mutation.SetName(v)
-	}
-	if _, ok := mc.mutation.Title(); !ok {
-		v := menu.DefaultTitle
-		mc.mutation.SetTitle(v)
+	if _, ok := mc.mutation.GetType(); !ok {
+		v := menu.DefaultType
+		mc.mutation.SetType(v)
 	}
 	if _, ok := mc.mutation.Path(); !ok {
 		v := menu.DefaultPath
@@ -420,34 +273,6 @@ func (mc *MenuCreate) defaults() {
 	if _, ok := mc.mutation.Component(); !ok {
 		v := menu.DefaultComponent
 		mc.mutation.SetComponent(v)
-	}
-	if _, ok := mc.mutation.Icon(); !ok {
-		v := menu.DefaultIcon
-		mc.mutation.SetIcon(v)
-	}
-	if _, ok := mc.mutation.IsExt(); !ok {
-		v := menu.DefaultIsExt
-		mc.mutation.SetIsExt(v)
-	}
-	if _, ok := mc.mutation.KeepAlive(); !ok {
-		v := menu.DefaultKeepAlive
-		mc.mutation.SetKeepAlive(v)
-	}
-	if _, ok := mc.mutation.Show(); !ok {
-		v := menu.DefaultShow
-		mc.mutation.SetShow(v)
-	}
-	if _, ok := mc.mutation.HideTab(); !ok {
-		v := menu.DefaultHideTab
-		mc.mutation.SetHideTab(v)
-	}
-	if _, ok := mc.mutation.HideMenu(); !ok {
-		v := menu.DefaultHideMenu
-		mc.mutation.SetHideMenu(v)
-	}
-	if _, ok := mc.mutation.HideBreadcrumb(); !ok {
-		v := menu.DefaultHideBreadcrumb
-		mc.mutation.SetHideBreadcrumb(v)
 	}
 }
 
@@ -458,29 +283,14 @@ func (mc *MenuCreate) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Menu.status": %w`, err)}
 		}
 	}
-	if v, ok := mc.mutation.Name(); ok {
-		if err := menu.NameValidator(v); err != nil {
-			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Menu.name": %w`, err)}
-		}
-	}
-	if v, ok := mc.mutation.Title(); ok {
-		if err := menu.TitleValidator(v); err != nil {
-			return &ValidationError{Name: "title", err: fmt.Errorf(`ent: validator failed for field "Menu.title": %w`, err)}
-		}
-	}
 	if v, ok := mc.mutation.GetType(); ok {
 		if err := menu.TypeValidator(v); err != nil {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "Menu.type": %w`, err)}
 		}
 	}
-	if v, ok := mc.mutation.Icon(); ok {
-		if err := menu.IconValidator(v); err != nil {
-			return &ValidationError{Name: "icon", err: fmt.Errorf(`ent: validator failed for field "Menu.icon": %w`, err)}
-		}
-	}
-	if v, ok := mc.mutation.ExtURL(); ok {
-		if err := menu.ExtURLValidator(v); err != nil {
-			return &ValidationError{Name: "ext_url", err: fmt.Errorf(`ent: validator failed for field "Menu.ext_url": %w`, err)}
+	if v, ok := mc.mutation.Meta(); ok {
+		if err := v.Validate(); err != nil {
+			return &ValidationError{Name: "meta", err: fmt.Errorf(`ent: validator failed for field "Menu.meta": %w`, err)}
 		}
 	}
 	if v, ok := mc.mutation.ID(); ok {
@@ -541,18 +351,6 @@ func (mc *MenuCreate) createSpec() (*Menu, *sqlgraph.CreateSpec) {
 		_spec.SetField(menu.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
 	}
-	if value, ok := mc.mutation.OrderNo(); ok {
-		_spec.SetField(menu.FieldOrderNo, field.TypeInt32, value)
-		_node.OrderNo = &value
-	}
-	if value, ok := mc.mutation.Name(); ok {
-		_spec.SetField(menu.FieldName, field.TypeString, value)
-		_node.Name = &value
-	}
-	if value, ok := mc.mutation.Title(); ok {
-		_spec.SetField(menu.FieldTitle, field.TypeString, value)
-		_node.Title = &value
-	}
 	if value, ok := mc.mutation.GetType(); ok {
 		_spec.SetField(menu.FieldType, field.TypeEnum, value)
 		_node.Type = &value
@@ -561,53 +359,25 @@ func (mc *MenuCreate) createSpec() (*Menu, *sqlgraph.CreateSpec) {
 		_spec.SetField(menu.FieldPath, field.TypeString, value)
 		_node.Path = &value
 	}
-	if value, ok := mc.mutation.Component(); ok {
-		_spec.SetField(menu.FieldComponent, field.TypeString, value)
-		_node.Component = &value
-	}
-	if value, ok := mc.mutation.Icon(); ok {
-		_spec.SetField(menu.FieldIcon, field.TypeString, value)
-		_node.Icon = &value
-	}
-	if value, ok := mc.mutation.IsExt(); ok {
-		_spec.SetField(menu.FieldIsExt, field.TypeBool, value)
-		_node.IsExt = &value
-	}
-	if value, ok := mc.mutation.ExtURL(); ok {
-		_spec.SetField(menu.FieldExtURL, field.TypeString, value)
-		_node.ExtURL = &value
-	}
-	if value, ok := mc.mutation.Permissions(); ok {
-		_spec.SetField(menu.FieldPermissions, field.TypeJSON, value)
-		_node.Permissions = value
-	}
 	if value, ok := mc.mutation.Redirect(); ok {
 		_spec.SetField(menu.FieldRedirect, field.TypeString, value)
 		_node.Redirect = &value
 	}
-	if value, ok := mc.mutation.CurrentActiveMenu(); ok {
-		_spec.SetField(menu.FieldCurrentActiveMenu, field.TypeString, value)
-		_node.CurrentActiveMenu = &value
+	if value, ok := mc.mutation.Alias(); ok {
+		_spec.SetField(menu.FieldAlias, field.TypeString, value)
+		_node.Alias = &value
 	}
-	if value, ok := mc.mutation.KeepAlive(); ok {
-		_spec.SetField(menu.FieldKeepAlive, field.TypeBool, value)
-		_node.KeepAlive = &value
+	if value, ok := mc.mutation.Name(); ok {
+		_spec.SetField(menu.FieldName, field.TypeString, value)
+		_node.Name = &value
 	}
-	if value, ok := mc.mutation.Show(); ok {
-		_spec.SetField(menu.FieldShow, field.TypeBool, value)
-		_node.Show = &value
+	if value, ok := mc.mutation.Component(); ok {
+		_spec.SetField(menu.FieldComponent, field.TypeString, value)
+		_node.Component = &value
 	}
-	if value, ok := mc.mutation.HideTab(); ok {
-		_spec.SetField(menu.FieldHideTab, field.TypeBool, value)
-		_node.HideTab = &value
-	}
-	if value, ok := mc.mutation.HideMenu(); ok {
-		_spec.SetField(menu.FieldHideMenu, field.TypeBool, value)
-		_node.HideMenu = &value
-	}
-	if value, ok := mc.mutation.HideBreadcrumb(); ok {
-		_spec.SetField(menu.FieldHideBreadcrumb, field.TypeBool, value)
-		_node.HideBreadcrumb = &value
+	if value, ok := mc.mutation.Meta(); ok {
+		_spec.SetField(menu.FieldMeta, field.TypeJSON, value)
+		_node.Meta = value
 	}
 	if nodes := mc.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -790,66 +560,6 @@ func (u *MenuUpsert) ClearParentID() *MenuUpsert {
 	return u
 }
 
-// SetOrderNo sets the "order_no" field.
-func (u *MenuUpsert) SetOrderNo(v int32) *MenuUpsert {
-	u.Set(menu.FieldOrderNo, v)
-	return u
-}
-
-// UpdateOrderNo sets the "order_no" field to the value that was provided on create.
-func (u *MenuUpsert) UpdateOrderNo() *MenuUpsert {
-	u.SetExcluded(menu.FieldOrderNo)
-	return u
-}
-
-// AddOrderNo adds v to the "order_no" field.
-func (u *MenuUpsert) AddOrderNo(v int32) *MenuUpsert {
-	u.Add(menu.FieldOrderNo, v)
-	return u
-}
-
-// ClearOrderNo clears the value of the "order_no" field.
-func (u *MenuUpsert) ClearOrderNo() *MenuUpsert {
-	u.SetNull(menu.FieldOrderNo)
-	return u
-}
-
-// SetName sets the "name" field.
-func (u *MenuUpsert) SetName(v string) *MenuUpsert {
-	u.Set(menu.FieldName, v)
-	return u
-}
-
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *MenuUpsert) UpdateName() *MenuUpsert {
-	u.SetExcluded(menu.FieldName)
-	return u
-}
-
-// ClearName clears the value of the "name" field.
-func (u *MenuUpsert) ClearName() *MenuUpsert {
-	u.SetNull(menu.FieldName)
-	return u
-}
-
-// SetTitle sets the "title" field.
-func (u *MenuUpsert) SetTitle(v string) *MenuUpsert {
-	u.Set(menu.FieldTitle, v)
-	return u
-}
-
-// UpdateTitle sets the "title" field to the value that was provided on create.
-func (u *MenuUpsert) UpdateTitle() *MenuUpsert {
-	u.SetExcluded(menu.FieldTitle)
-	return u
-}
-
-// ClearTitle clears the value of the "title" field.
-func (u *MenuUpsert) ClearTitle() *MenuUpsert {
-	u.SetNull(menu.FieldTitle)
-	return u
-}
-
 // SetType sets the "type" field.
 func (u *MenuUpsert) SetType(v menu.Type) *MenuUpsert {
 	u.Set(menu.FieldType, v)
@@ -886,96 +596,6 @@ func (u *MenuUpsert) ClearPath() *MenuUpsert {
 	return u
 }
 
-// SetComponent sets the "component" field.
-func (u *MenuUpsert) SetComponent(v string) *MenuUpsert {
-	u.Set(menu.FieldComponent, v)
-	return u
-}
-
-// UpdateComponent sets the "component" field to the value that was provided on create.
-func (u *MenuUpsert) UpdateComponent() *MenuUpsert {
-	u.SetExcluded(menu.FieldComponent)
-	return u
-}
-
-// ClearComponent clears the value of the "component" field.
-func (u *MenuUpsert) ClearComponent() *MenuUpsert {
-	u.SetNull(menu.FieldComponent)
-	return u
-}
-
-// SetIcon sets the "icon" field.
-func (u *MenuUpsert) SetIcon(v string) *MenuUpsert {
-	u.Set(menu.FieldIcon, v)
-	return u
-}
-
-// UpdateIcon sets the "icon" field to the value that was provided on create.
-func (u *MenuUpsert) UpdateIcon() *MenuUpsert {
-	u.SetExcluded(menu.FieldIcon)
-	return u
-}
-
-// ClearIcon clears the value of the "icon" field.
-func (u *MenuUpsert) ClearIcon() *MenuUpsert {
-	u.SetNull(menu.FieldIcon)
-	return u
-}
-
-// SetIsExt sets the "is_ext" field.
-func (u *MenuUpsert) SetIsExt(v bool) *MenuUpsert {
-	u.Set(menu.FieldIsExt, v)
-	return u
-}
-
-// UpdateIsExt sets the "is_ext" field to the value that was provided on create.
-func (u *MenuUpsert) UpdateIsExt() *MenuUpsert {
-	u.SetExcluded(menu.FieldIsExt)
-	return u
-}
-
-// ClearIsExt clears the value of the "is_ext" field.
-func (u *MenuUpsert) ClearIsExt() *MenuUpsert {
-	u.SetNull(menu.FieldIsExt)
-	return u
-}
-
-// SetExtURL sets the "ext_url" field.
-func (u *MenuUpsert) SetExtURL(v string) *MenuUpsert {
-	u.Set(menu.FieldExtURL, v)
-	return u
-}
-
-// UpdateExtURL sets the "ext_url" field to the value that was provided on create.
-func (u *MenuUpsert) UpdateExtURL() *MenuUpsert {
-	u.SetExcluded(menu.FieldExtURL)
-	return u
-}
-
-// ClearExtURL clears the value of the "ext_url" field.
-func (u *MenuUpsert) ClearExtURL() *MenuUpsert {
-	u.SetNull(menu.FieldExtURL)
-	return u
-}
-
-// SetPermissions sets the "permissions" field.
-func (u *MenuUpsert) SetPermissions(v []string) *MenuUpsert {
-	u.Set(menu.FieldPermissions, v)
-	return u
-}
-
-// UpdatePermissions sets the "permissions" field to the value that was provided on create.
-func (u *MenuUpsert) UpdatePermissions() *MenuUpsert {
-	u.SetExcluded(menu.FieldPermissions)
-	return u
-}
-
-// ClearPermissions clears the value of the "permissions" field.
-func (u *MenuUpsert) ClearPermissions() *MenuUpsert {
-	u.SetNull(menu.FieldPermissions)
-	return u
-}
-
 // SetRedirect sets the "redirect" field.
 func (u *MenuUpsert) SetRedirect(v string) *MenuUpsert {
 	u.Set(menu.FieldRedirect, v)
@@ -994,111 +614,75 @@ func (u *MenuUpsert) ClearRedirect() *MenuUpsert {
 	return u
 }
 
-// SetCurrentActiveMenu sets the "current_active_menu" field.
-func (u *MenuUpsert) SetCurrentActiveMenu(v string) *MenuUpsert {
-	u.Set(menu.FieldCurrentActiveMenu, v)
+// SetAlias sets the "alias" field.
+func (u *MenuUpsert) SetAlias(v string) *MenuUpsert {
+	u.Set(menu.FieldAlias, v)
 	return u
 }
 
-// UpdateCurrentActiveMenu sets the "current_active_menu" field to the value that was provided on create.
-func (u *MenuUpsert) UpdateCurrentActiveMenu() *MenuUpsert {
-	u.SetExcluded(menu.FieldCurrentActiveMenu)
+// UpdateAlias sets the "alias" field to the value that was provided on create.
+func (u *MenuUpsert) UpdateAlias() *MenuUpsert {
+	u.SetExcluded(menu.FieldAlias)
 	return u
 }
 
-// ClearCurrentActiveMenu clears the value of the "current_active_menu" field.
-func (u *MenuUpsert) ClearCurrentActiveMenu() *MenuUpsert {
-	u.SetNull(menu.FieldCurrentActiveMenu)
+// ClearAlias clears the value of the "alias" field.
+func (u *MenuUpsert) ClearAlias() *MenuUpsert {
+	u.SetNull(menu.FieldAlias)
 	return u
 }
 
-// SetKeepAlive sets the "keep_alive" field.
-func (u *MenuUpsert) SetKeepAlive(v bool) *MenuUpsert {
-	u.Set(menu.FieldKeepAlive, v)
+// SetName sets the "name" field.
+func (u *MenuUpsert) SetName(v string) *MenuUpsert {
+	u.Set(menu.FieldName, v)
 	return u
 }
 
-// UpdateKeepAlive sets the "keep_alive" field to the value that was provided on create.
-func (u *MenuUpsert) UpdateKeepAlive() *MenuUpsert {
-	u.SetExcluded(menu.FieldKeepAlive)
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *MenuUpsert) UpdateName() *MenuUpsert {
+	u.SetExcluded(menu.FieldName)
 	return u
 }
 
-// ClearKeepAlive clears the value of the "keep_alive" field.
-func (u *MenuUpsert) ClearKeepAlive() *MenuUpsert {
-	u.SetNull(menu.FieldKeepAlive)
+// ClearName clears the value of the "name" field.
+func (u *MenuUpsert) ClearName() *MenuUpsert {
+	u.SetNull(menu.FieldName)
 	return u
 }
 
-// SetShow sets the "show" field.
-func (u *MenuUpsert) SetShow(v bool) *MenuUpsert {
-	u.Set(menu.FieldShow, v)
+// SetComponent sets the "component" field.
+func (u *MenuUpsert) SetComponent(v string) *MenuUpsert {
+	u.Set(menu.FieldComponent, v)
 	return u
 }
 
-// UpdateShow sets the "show" field to the value that was provided on create.
-func (u *MenuUpsert) UpdateShow() *MenuUpsert {
-	u.SetExcluded(menu.FieldShow)
+// UpdateComponent sets the "component" field to the value that was provided on create.
+func (u *MenuUpsert) UpdateComponent() *MenuUpsert {
+	u.SetExcluded(menu.FieldComponent)
 	return u
 }
 
-// ClearShow clears the value of the "show" field.
-func (u *MenuUpsert) ClearShow() *MenuUpsert {
-	u.SetNull(menu.FieldShow)
+// ClearComponent clears the value of the "component" field.
+func (u *MenuUpsert) ClearComponent() *MenuUpsert {
+	u.SetNull(menu.FieldComponent)
 	return u
 }
 
-// SetHideTab sets the "hide_tab" field.
-func (u *MenuUpsert) SetHideTab(v bool) *MenuUpsert {
-	u.Set(menu.FieldHideTab, v)
+// SetMeta sets the "meta" field.
+func (u *MenuUpsert) SetMeta(v *servicev1.RouteMeta) *MenuUpsert {
+	u.Set(menu.FieldMeta, v)
 	return u
 }
 
-// UpdateHideTab sets the "hide_tab" field to the value that was provided on create.
-func (u *MenuUpsert) UpdateHideTab() *MenuUpsert {
-	u.SetExcluded(menu.FieldHideTab)
+// UpdateMeta sets the "meta" field to the value that was provided on create.
+func (u *MenuUpsert) UpdateMeta() *MenuUpsert {
+	u.SetExcluded(menu.FieldMeta)
 	return u
 }
 
-// ClearHideTab clears the value of the "hide_tab" field.
-func (u *MenuUpsert) ClearHideTab() *MenuUpsert {
-	u.SetNull(menu.FieldHideTab)
-	return u
-}
-
-// SetHideMenu sets the "hide_menu" field.
-func (u *MenuUpsert) SetHideMenu(v bool) *MenuUpsert {
-	u.Set(menu.FieldHideMenu, v)
-	return u
-}
-
-// UpdateHideMenu sets the "hide_menu" field to the value that was provided on create.
-func (u *MenuUpsert) UpdateHideMenu() *MenuUpsert {
-	u.SetExcluded(menu.FieldHideMenu)
-	return u
-}
-
-// ClearHideMenu clears the value of the "hide_menu" field.
-func (u *MenuUpsert) ClearHideMenu() *MenuUpsert {
-	u.SetNull(menu.FieldHideMenu)
-	return u
-}
-
-// SetHideBreadcrumb sets the "hide_breadcrumb" field.
-func (u *MenuUpsert) SetHideBreadcrumb(v bool) *MenuUpsert {
-	u.Set(menu.FieldHideBreadcrumb, v)
-	return u
-}
-
-// UpdateHideBreadcrumb sets the "hide_breadcrumb" field to the value that was provided on create.
-func (u *MenuUpsert) UpdateHideBreadcrumb() *MenuUpsert {
-	u.SetExcluded(menu.FieldHideBreadcrumb)
-	return u
-}
-
-// ClearHideBreadcrumb clears the value of the "hide_breadcrumb" field.
-func (u *MenuUpsert) ClearHideBreadcrumb() *MenuUpsert {
-	u.SetNull(menu.FieldHideBreadcrumb)
+// ClearMeta clears the value of the "meta" field.
+func (u *MenuUpsert) ClearMeta() *MenuUpsert {
+	u.SetNull(menu.FieldMeta)
 	return u
 }
 
@@ -1265,76 +849,6 @@ func (u *MenuUpsertOne) ClearParentID() *MenuUpsertOne {
 	})
 }
 
-// SetOrderNo sets the "order_no" field.
-func (u *MenuUpsertOne) SetOrderNo(v int32) *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetOrderNo(v)
-	})
-}
-
-// AddOrderNo adds v to the "order_no" field.
-func (u *MenuUpsertOne) AddOrderNo(v int32) *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.AddOrderNo(v)
-	})
-}
-
-// UpdateOrderNo sets the "order_no" field to the value that was provided on create.
-func (u *MenuUpsertOne) UpdateOrderNo() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateOrderNo()
-	})
-}
-
-// ClearOrderNo clears the value of the "order_no" field.
-func (u *MenuUpsertOne) ClearOrderNo() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearOrderNo()
-	})
-}
-
-// SetName sets the "name" field.
-func (u *MenuUpsertOne) SetName(v string) *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetName(v)
-	})
-}
-
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *MenuUpsertOne) UpdateName() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateName()
-	})
-}
-
-// ClearName clears the value of the "name" field.
-func (u *MenuUpsertOne) ClearName() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearName()
-	})
-}
-
-// SetTitle sets the "title" field.
-func (u *MenuUpsertOne) SetTitle(v string) *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetTitle(v)
-	})
-}
-
-// UpdateTitle sets the "title" field to the value that was provided on create.
-func (u *MenuUpsertOne) UpdateTitle() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateTitle()
-	})
-}
-
-// ClearTitle clears the value of the "title" field.
-func (u *MenuUpsertOne) ClearTitle() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearTitle()
-	})
-}
-
 // SetType sets the "type" field.
 func (u *MenuUpsertOne) SetType(v menu.Type) *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
@@ -1377,111 +891,6 @@ func (u *MenuUpsertOne) ClearPath() *MenuUpsertOne {
 	})
 }
 
-// SetComponent sets the "component" field.
-func (u *MenuUpsertOne) SetComponent(v string) *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetComponent(v)
-	})
-}
-
-// UpdateComponent sets the "component" field to the value that was provided on create.
-func (u *MenuUpsertOne) UpdateComponent() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateComponent()
-	})
-}
-
-// ClearComponent clears the value of the "component" field.
-func (u *MenuUpsertOne) ClearComponent() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearComponent()
-	})
-}
-
-// SetIcon sets the "icon" field.
-func (u *MenuUpsertOne) SetIcon(v string) *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetIcon(v)
-	})
-}
-
-// UpdateIcon sets the "icon" field to the value that was provided on create.
-func (u *MenuUpsertOne) UpdateIcon() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateIcon()
-	})
-}
-
-// ClearIcon clears the value of the "icon" field.
-func (u *MenuUpsertOne) ClearIcon() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearIcon()
-	})
-}
-
-// SetIsExt sets the "is_ext" field.
-func (u *MenuUpsertOne) SetIsExt(v bool) *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetIsExt(v)
-	})
-}
-
-// UpdateIsExt sets the "is_ext" field to the value that was provided on create.
-func (u *MenuUpsertOne) UpdateIsExt() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateIsExt()
-	})
-}
-
-// ClearIsExt clears the value of the "is_ext" field.
-func (u *MenuUpsertOne) ClearIsExt() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearIsExt()
-	})
-}
-
-// SetExtURL sets the "ext_url" field.
-func (u *MenuUpsertOne) SetExtURL(v string) *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetExtURL(v)
-	})
-}
-
-// UpdateExtURL sets the "ext_url" field to the value that was provided on create.
-func (u *MenuUpsertOne) UpdateExtURL() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateExtURL()
-	})
-}
-
-// ClearExtURL clears the value of the "ext_url" field.
-func (u *MenuUpsertOne) ClearExtURL() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearExtURL()
-	})
-}
-
-// SetPermissions sets the "permissions" field.
-func (u *MenuUpsertOne) SetPermissions(v []string) *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetPermissions(v)
-	})
-}
-
-// UpdatePermissions sets the "permissions" field to the value that was provided on create.
-func (u *MenuUpsertOne) UpdatePermissions() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdatePermissions()
-	})
-}
-
-// ClearPermissions clears the value of the "permissions" field.
-func (u *MenuUpsertOne) ClearPermissions() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearPermissions()
-	})
-}
-
 // SetRedirect sets the "redirect" field.
 func (u *MenuUpsertOne) SetRedirect(v string) *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
@@ -1503,129 +912,87 @@ func (u *MenuUpsertOne) ClearRedirect() *MenuUpsertOne {
 	})
 }
 
-// SetCurrentActiveMenu sets the "current_active_menu" field.
-func (u *MenuUpsertOne) SetCurrentActiveMenu(v string) *MenuUpsertOne {
+// SetAlias sets the "alias" field.
+func (u *MenuUpsertOne) SetAlias(v string) *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
-		s.SetCurrentActiveMenu(v)
+		s.SetAlias(v)
 	})
 }
 
-// UpdateCurrentActiveMenu sets the "current_active_menu" field to the value that was provided on create.
-func (u *MenuUpsertOne) UpdateCurrentActiveMenu() *MenuUpsertOne {
+// UpdateAlias sets the "alias" field to the value that was provided on create.
+func (u *MenuUpsertOne) UpdateAlias() *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
-		s.UpdateCurrentActiveMenu()
+		s.UpdateAlias()
 	})
 }
 
-// ClearCurrentActiveMenu clears the value of the "current_active_menu" field.
-func (u *MenuUpsertOne) ClearCurrentActiveMenu() *MenuUpsertOne {
+// ClearAlias clears the value of the "alias" field.
+func (u *MenuUpsertOne) ClearAlias() *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
-		s.ClearCurrentActiveMenu()
+		s.ClearAlias()
 	})
 }
 
-// SetKeepAlive sets the "keep_alive" field.
-func (u *MenuUpsertOne) SetKeepAlive(v bool) *MenuUpsertOne {
+// SetName sets the "name" field.
+func (u *MenuUpsertOne) SetName(v string) *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
-		s.SetKeepAlive(v)
+		s.SetName(v)
 	})
 }
 
-// UpdateKeepAlive sets the "keep_alive" field to the value that was provided on create.
-func (u *MenuUpsertOne) UpdateKeepAlive() *MenuUpsertOne {
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *MenuUpsertOne) UpdateName() *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
-		s.UpdateKeepAlive()
+		s.UpdateName()
 	})
 }
 
-// ClearKeepAlive clears the value of the "keep_alive" field.
-func (u *MenuUpsertOne) ClearKeepAlive() *MenuUpsertOne {
+// ClearName clears the value of the "name" field.
+func (u *MenuUpsertOne) ClearName() *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
-		s.ClearKeepAlive()
+		s.ClearName()
 	})
 }
 
-// SetShow sets the "show" field.
-func (u *MenuUpsertOne) SetShow(v bool) *MenuUpsertOne {
+// SetComponent sets the "component" field.
+func (u *MenuUpsertOne) SetComponent(v string) *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
-		s.SetShow(v)
+		s.SetComponent(v)
 	})
 }
 
-// UpdateShow sets the "show" field to the value that was provided on create.
-func (u *MenuUpsertOne) UpdateShow() *MenuUpsertOne {
+// UpdateComponent sets the "component" field to the value that was provided on create.
+func (u *MenuUpsertOne) UpdateComponent() *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
-		s.UpdateShow()
+		s.UpdateComponent()
 	})
 }
 
-// ClearShow clears the value of the "show" field.
-func (u *MenuUpsertOne) ClearShow() *MenuUpsertOne {
+// ClearComponent clears the value of the "component" field.
+func (u *MenuUpsertOne) ClearComponent() *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
-		s.ClearShow()
+		s.ClearComponent()
 	})
 }
 
-// SetHideTab sets the "hide_tab" field.
-func (u *MenuUpsertOne) SetHideTab(v bool) *MenuUpsertOne {
+// SetMeta sets the "meta" field.
+func (u *MenuUpsertOne) SetMeta(v *servicev1.RouteMeta) *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
-		s.SetHideTab(v)
+		s.SetMeta(v)
 	})
 }
 
-// UpdateHideTab sets the "hide_tab" field to the value that was provided on create.
-func (u *MenuUpsertOne) UpdateHideTab() *MenuUpsertOne {
+// UpdateMeta sets the "meta" field to the value that was provided on create.
+func (u *MenuUpsertOne) UpdateMeta() *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
-		s.UpdateHideTab()
+		s.UpdateMeta()
 	})
 }
 
-// ClearHideTab clears the value of the "hide_tab" field.
-func (u *MenuUpsertOne) ClearHideTab() *MenuUpsertOne {
+// ClearMeta clears the value of the "meta" field.
+func (u *MenuUpsertOne) ClearMeta() *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
-		s.ClearHideTab()
-	})
-}
-
-// SetHideMenu sets the "hide_menu" field.
-func (u *MenuUpsertOne) SetHideMenu(v bool) *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetHideMenu(v)
-	})
-}
-
-// UpdateHideMenu sets the "hide_menu" field to the value that was provided on create.
-func (u *MenuUpsertOne) UpdateHideMenu() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateHideMenu()
-	})
-}
-
-// ClearHideMenu clears the value of the "hide_menu" field.
-func (u *MenuUpsertOne) ClearHideMenu() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearHideMenu()
-	})
-}
-
-// SetHideBreadcrumb sets the "hide_breadcrumb" field.
-func (u *MenuUpsertOne) SetHideBreadcrumb(v bool) *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetHideBreadcrumb(v)
-	})
-}
-
-// UpdateHideBreadcrumb sets the "hide_breadcrumb" field to the value that was provided on create.
-func (u *MenuUpsertOne) UpdateHideBreadcrumb() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateHideBreadcrumb()
-	})
-}
-
-// ClearHideBreadcrumb clears the value of the "hide_breadcrumb" field.
-func (u *MenuUpsertOne) ClearHideBreadcrumb() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearHideBreadcrumb()
+		s.ClearMeta()
 	})
 }
 
@@ -1958,76 +1325,6 @@ func (u *MenuUpsertBulk) ClearParentID() *MenuUpsertBulk {
 	})
 }
 
-// SetOrderNo sets the "order_no" field.
-func (u *MenuUpsertBulk) SetOrderNo(v int32) *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetOrderNo(v)
-	})
-}
-
-// AddOrderNo adds v to the "order_no" field.
-func (u *MenuUpsertBulk) AddOrderNo(v int32) *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.AddOrderNo(v)
-	})
-}
-
-// UpdateOrderNo sets the "order_no" field to the value that was provided on create.
-func (u *MenuUpsertBulk) UpdateOrderNo() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateOrderNo()
-	})
-}
-
-// ClearOrderNo clears the value of the "order_no" field.
-func (u *MenuUpsertBulk) ClearOrderNo() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearOrderNo()
-	})
-}
-
-// SetName sets the "name" field.
-func (u *MenuUpsertBulk) SetName(v string) *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetName(v)
-	})
-}
-
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *MenuUpsertBulk) UpdateName() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateName()
-	})
-}
-
-// ClearName clears the value of the "name" field.
-func (u *MenuUpsertBulk) ClearName() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearName()
-	})
-}
-
-// SetTitle sets the "title" field.
-func (u *MenuUpsertBulk) SetTitle(v string) *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetTitle(v)
-	})
-}
-
-// UpdateTitle sets the "title" field to the value that was provided on create.
-func (u *MenuUpsertBulk) UpdateTitle() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateTitle()
-	})
-}
-
-// ClearTitle clears the value of the "title" field.
-func (u *MenuUpsertBulk) ClearTitle() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearTitle()
-	})
-}
-
 // SetType sets the "type" field.
 func (u *MenuUpsertBulk) SetType(v menu.Type) *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
@@ -2070,111 +1367,6 @@ func (u *MenuUpsertBulk) ClearPath() *MenuUpsertBulk {
 	})
 }
 
-// SetComponent sets the "component" field.
-func (u *MenuUpsertBulk) SetComponent(v string) *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetComponent(v)
-	})
-}
-
-// UpdateComponent sets the "component" field to the value that was provided on create.
-func (u *MenuUpsertBulk) UpdateComponent() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateComponent()
-	})
-}
-
-// ClearComponent clears the value of the "component" field.
-func (u *MenuUpsertBulk) ClearComponent() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearComponent()
-	})
-}
-
-// SetIcon sets the "icon" field.
-func (u *MenuUpsertBulk) SetIcon(v string) *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetIcon(v)
-	})
-}
-
-// UpdateIcon sets the "icon" field to the value that was provided on create.
-func (u *MenuUpsertBulk) UpdateIcon() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateIcon()
-	})
-}
-
-// ClearIcon clears the value of the "icon" field.
-func (u *MenuUpsertBulk) ClearIcon() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearIcon()
-	})
-}
-
-// SetIsExt sets the "is_ext" field.
-func (u *MenuUpsertBulk) SetIsExt(v bool) *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetIsExt(v)
-	})
-}
-
-// UpdateIsExt sets the "is_ext" field to the value that was provided on create.
-func (u *MenuUpsertBulk) UpdateIsExt() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateIsExt()
-	})
-}
-
-// ClearIsExt clears the value of the "is_ext" field.
-func (u *MenuUpsertBulk) ClearIsExt() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearIsExt()
-	})
-}
-
-// SetExtURL sets the "ext_url" field.
-func (u *MenuUpsertBulk) SetExtURL(v string) *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetExtURL(v)
-	})
-}
-
-// UpdateExtURL sets the "ext_url" field to the value that was provided on create.
-func (u *MenuUpsertBulk) UpdateExtURL() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateExtURL()
-	})
-}
-
-// ClearExtURL clears the value of the "ext_url" field.
-func (u *MenuUpsertBulk) ClearExtURL() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearExtURL()
-	})
-}
-
-// SetPermissions sets the "permissions" field.
-func (u *MenuUpsertBulk) SetPermissions(v []string) *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetPermissions(v)
-	})
-}
-
-// UpdatePermissions sets the "permissions" field to the value that was provided on create.
-func (u *MenuUpsertBulk) UpdatePermissions() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdatePermissions()
-	})
-}
-
-// ClearPermissions clears the value of the "permissions" field.
-func (u *MenuUpsertBulk) ClearPermissions() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearPermissions()
-	})
-}
-
 // SetRedirect sets the "redirect" field.
 func (u *MenuUpsertBulk) SetRedirect(v string) *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
@@ -2196,129 +1388,87 @@ func (u *MenuUpsertBulk) ClearRedirect() *MenuUpsertBulk {
 	})
 }
 
-// SetCurrentActiveMenu sets the "current_active_menu" field.
-func (u *MenuUpsertBulk) SetCurrentActiveMenu(v string) *MenuUpsertBulk {
+// SetAlias sets the "alias" field.
+func (u *MenuUpsertBulk) SetAlias(v string) *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
-		s.SetCurrentActiveMenu(v)
+		s.SetAlias(v)
 	})
 }
 
-// UpdateCurrentActiveMenu sets the "current_active_menu" field to the value that was provided on create.
-func (u *MenuUpsertBulk) UpdateCurrentActiveMenu() *MenuUpsertBulk {
+// UpdateAlias sets the "alias" field to the value that was provided on create.
+func (u *MenuUpsertBulk) UpdateAlias() *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
-		s.UpdateCurrentActiveMenu()
+		s.UpdateAlias()
 	})
 }
 
-// ClearCurrentActiveMenu clears the value of the "current_active_menu" field.
-func (u *MenuUpsertBulk) ClearCurrentActiveMenu() *MenuUpsertBulk {
+// ClearAlias clears the value of the "alias" field.
+func (u *MenuUpsertBulk) ClearAlias() *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
-		s.ClearCurrentActiveMenu()
+		s.ClearAlias()
 	})
 }
 
-// SetKeepAlive sets the "keep_alive" field.
-func (u *MenuUpsertBulk) SetKeepAlive(v bool) *MenuUpsertBulk {
+// SetName sets the "name" field.
+func (u *MenuUpsertBulk) SetName(v string) *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
-		s.SetKeepAlive(v)
+		s.SetName(v)
 	})
 }
 
-// UpdateKeepAlive sets the "keep_alive" field to the value that was provided on create.
-func (u *MenuUpsertBulk) UpdateKeepAlive() *MenuUpsertBulk {
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *MenuUpsertBulk) UpdateName() *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
-		s.UpdateKeepAlive()
+		s.UpdateName()
 	})
 }
 
-// ClearKeepAlive clears the value of the "keep_alive" field.
-func (u *MenuUpsertBulk) ClearKeepAlive() *MenuUpsertBulk {
+// ClearName clears the value of the "name" field.
+func (u *MenuUpsertBulk) ClearName() *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
-		s.ClearKeepAlive()
+		s.ClearName()
 	})
 }
 
-// SetShow sets the "show" field.
-func (u *MenuUpsertBulk) SetShow(v bool) *MenuUpsertBulk {
+// SetComponent sets the "component" field.
+func (u *MenuUpsertBulk) SetComponent(v string) *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
-		s.SetShow(v)
+		s.SetComponent(v)
 	})
 }
 
-// UpdateShow sets the "show" field to the value that was provided on create.
-func (u *MenuUpsertBulk) UpdateShow() *MenuUpsertBulk {
+// UpdateComponent sets the "component" field to the value that was provided on create.
+func (u *MenuUpsertBulk) UpdateComponent() *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
-		s.UpdateShow()
+		s.UpdateComponent()
 	})
 }
 
-// ClearShow clears the value of the "show" field.
-func (u *MenuUpsertBulk) ClearShow() *MenuUpsertBulk {
+// ClearComponent clears the value of the "component" field.
+func (u *MenuUpsertBulk) ClearComponent() *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
-		s.ClearShow()
+		s.ClearComponent()
 	})
 }
 
-// SetHideTab sets the "hide_tab" field.
-func (u *MenuUpsertBulk) SetHideTab(v bool) *MenuUpsertBulk {
+// SetMeta sets the "meta" field.
+func (u *MenuUpsertBulk) SetMeta(v *servicev1.RouteMeta) *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
-		s.SetHideTab(v)
+		s.SetMeta(v)
 	})
 }
 
-// UpdateHideTab sets the "hide_tab" field to the value that was provided on create.
-func (u *MenuUpsertBulk) UpdateHideTab() *MenuUpsertBulk {
+// UpdateMeta sets the "meta" field to the value that was provided on create.
+func (u *MenuUpsertBulk) UpdateMeta() *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
-		s.UpdateHideTab()
+		s.UpdateMeta()
 	})
 }
 
-// ClearHideTab clears the value of the "hide_tab" field.
-func (u *MenuUpsertBulk) ClearHideTab() *MenuUpsertBulk {
+// ClearMeta clears the value of the "meta" field.
+func (u *MenuUpsertBulk) ClearMeta() *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
-		s.ClearHideTab()
-	})
-}
-
-// SetHideMenu sets the "hide_menu" field.
-func (u *MenuUpsertBulk) SetHideMenu(v bool) *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetHideMenu(v)
-	})
-}
-
-// UpdateHideMenu sets the "hide_menu" field to the value that was provided on create.
-func (u *MenuUpsertBulk) UpdateHideMenu() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateHideMenu()
-	})
-}
-
-// ClearHideMenu clears the value of the "hide_menu" field.
-func (u *MenuUpsertBulk) ClearHideMenu() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearHideMenu()
-	})
-}
-
-// SetHideBreadcrumb sets the "hide_breadcrumb" field.
-func (u *MenuUpsertBulk) SetHideBreadcrumb(v bool) *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetHideBreadcrumb(v)
-	})
-}
-
-// UpdateHideBreadcrumb sets the "hide_breadcrumb" field to the value that was provided on create.
-func (u *MenuUpsertBulk) UpdateHideBreadcrumb() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateHideBreadcrumb()
-	})
-}
-
-// ClearHideBreadcrumb clears the value of the "hide_breadcrumb" field.
-func (u *MenuUpsertBulk) ClearHideBreadcrumb() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearHideBreadcrumb()
+		s.ClearMeta()
 	})
 }
 

@@ -26,52 +26,32 @@ const (
 	FieldCreateBy = "create_by"
 	// FieldParentID holds the string denoting the parent_id field in the database.
 	FieldParentID = "parent_id"
-	// FieldOrderNo holds the string denoting the order_no field in the database.
-	FieldOrderNo = "order_no"
-	// FieldName holds the string denoting the name field in the database.
-	FieldName = "name"
-	// FieldTitle holds the string denoting the title field in the database.
-	FieldTitle = "title"
 	// FieldType holds the string denoting the type field in the database.
 	FieldType = "type"
 	// FieldPath holds the string denoting the path field in the database.
 	FieldPath = "path"
-	// FieldComponent holds the string denoting the component field in the database.
-	FieldComponent = "component"
-	// FieldIcon holds the string denoting the icon field in the database.
-	FieldIcon = "icon"
-	// FieldIsExt holds the string denoting the is_ext field in the database.
-	FieldIsExt = "is_ext"
-	// FieldExtURL holds the string denoting the ext_url field in the database.
-	FieldExtURL = "ext_url"
-	// FieldPermissions holds the string denoting the permissions field in the database.
-	FieldPermissions = "permissions"
 	// FieldRedirect holds the string denoting the redirect field in the database.
 	FieldRedirect = "redirect"
-	// FieldCurrentActiveMenu holds the string denoting the current_active_menu field in the database.
-	FieldCurrentActiveMenu = "current_active_menu"
-	// FieldKeepAlive holds the string denoting the keep_alive field in the database.
-	FieldKeepAlive = "keep_alive"
-	// FieldShow holds the string denoting the show field in the database.
-	FieldShow = "show"
-	// FieldHideTab holds the string denoting the hide_tab field in the database.
-	FieldHideTab = "hide_tab"
-	// FieldHideMenu holds the string denoting the hide_menu field in the database.
-	FieldHideMenu = "hide_menu"
-	// FieldHideBreadcrumb holds the string denoting the hide_breadcrumb field in the database.
-	FieldHideBreadcrumb = "hide_breadcrumb"
+	// FieldAlias holds the string denoting the alias field in the database.
+	FieldAlias = "alias"
+	// FieldName holds the string denoting the name field in the database.
+	FieldName = "name"
+	// FieldComponent holds the string denoting the component field in the database.
+	FieldComponent = "component"
+	// FieldMeta holds the string denoting the meta field in the database.
+	FieldMeta = "meta"
 	// EdgeParent holds the string denoting the parent edge name in mutations.
 	EdgeParent = "parent"
 	// EdgeChildren holds the string denoting the children edge name in mutations.
 	EdgeChildren = "children"
 	// Table holds the table name of the menu in the database.
-	Table = "menu"
+	Table = "menus"
 	// ParentTable is the table that holds the parent relation/edge.
-	ParentTable = "menu"
+	ParentTable = "menus"
 	// ParentColumn is the table column denoting the parent relation/edge.
 	ParentColumn = "parent_id"
 	// ChildrenTable is the table that holds the children relation/edge.
-	ChildrenTable = "menu"
+	ChildrenTable = "menus"
 	// ChildrenColumn is the table column denoting the children relation/edge.
 	ChildrenColumn = "parent_id"
 )
@@ -85,23 +65,13 @@ var Columns = []string{
 	FieldDeleteTime,
 	FieldCreateBy,
 	FieldParentID,
-	FieldOrderNo,
-	FieldName,
-	FieldTitle,
 	FieldType,
 	FieldPath,
-	FieldComponent,
-	FieldIcon,
-	FieldIsExt,
-	FieldExtURL,
-	FieldPermissions,
 	FieldRedirect,
-	FieldCurrentActiveMenu,
-	FieldKeepAlive,
-	FieldShow,
-	FieldHideTab,
-	FieldHideMenu,
-	FieldHideBreadcrumb,
+	FieldAlias,
+	FieldName,
+	FieldComponent,
+	FieldMeta,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -115,38 +85,10 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultOrderNo holds the default value on creation for the "order_no" field.
-	DefaultOrderNo int32
-	// DefaultName holds the default value on creation for the "name" field.
-	DefaultName string
-	// NameValidator is a validator for the "name" field. It is called by the builders before save.
-	NameValidator func(string) error
-	// DefaultTitle holds the default value on creation for the "title" field.
-	DefaultTitle string
-	// TitleValidator is a validator for the "title" field. It is called by the builders before save.
-	TitleValidator func(string) error
 	// DefaultPath holds the default value on creation for the "path" field.
 	DefaultPath string
 	// DefaultComponent holds the default value on creation for the "component" field.
 	DefaultComponent string
-	// DefaultIcon holds the default value on creation for the "icon" field.
-	DefaultIcon string
-	// IconValidator is a validator for the "icon" field. It is called by the builders before save.
-	IconValidator func(string) error
-	// DefaultIsExt holds the default value on creation for the "is_ext" field.
-	DefaultIsExt bool
-	// ExtURLValidator is a validator for the "ext_url" field. It is called by the builders before save.
-	ExtURLValidator func(string) error
-	// DefaultKeepAlive holds the default value on creation for the "keep_alive" field.
-	DefaultKeepAlive bool
-	// DefaultShow holds the default value on creation for the "show" field.
-	DefaultShow bool
-	// DefaultHideTab holds the default value on creation for the "hide_tab" field.
-	DefaultHideTab bool
-	// DefaultHideMenu holds the default value on creation for the "hide_menu" field.
-	DefaultHideMenu bool
-	// DefaultHideBreadcrumb holds the default value on creation for the "hide_breadcrumb" field.
-	DefaultHideBreadcrumb bool
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
 	IDValidator func(int32) error
 )
@@ -179,6 +121,9 @@ func StatusValidator(s Status) error {
 
 // Type defines the type for the "type" enum field.
 type Type string
+
+// TypeMENU is the default value of the Type enum.
+const DefaultType = TypeMENU
 
 // Type values.
 const (
@@ -239,21 +184,6 @@ func ByParentID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldParentID, opts...).ToFunc()
 }
 
-// ByOrderNo orders the results by the order_no field.
-func ByOrderNo(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldOrderNo, opts...).ToFunc()
-}
-
-// ByName orders the results by the name field.
-func ByName(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldName, opts...).ToFunc()
-}
-
-// ByTitle orders the results by the title field.
-func ByTitle(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTitle, opts...).ToFunc()
-}
-
 // ByType orders the results by the type field.
 func ByType(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldType, opts...).ToFunc()
@@ -264,59 +194,24 @@ func ByPath(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldPath, opts...).ToFunc()
 }
 
-// ByComponent orders the results by the component field.
-func ByComponent(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldComponent, opts...).ToFunc()
-}
-
-// ByIcon orders the results by the icon field.
-func ByIcon(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldIcon, opts...).ToFunc()
-}
-
-// ByIsExt orders the results by the is_ext field.
-func ByIsExt(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldIsExt, opts...).ToFunc()
-}
-
-// ByExtURL orders the results by the ext_url field.
-func ByExtURL(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldExtURL, opts...).ToFunc()
-}
-
 // ByRedirect orders the results by the redirect field.
 func ByRedirect(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldRedirect, opts...).ToFunc()
 }
 
-// ByCurrentActiveMenu orders the results by the current_active_menu field.
-func ByCurrentActiveMenu(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldCurrentActiveMenu, opts...).ToFunc()
+// ByAlias orders the results by the alias field.
+func ByAlias(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAlias, opts...).ToFunc()
 }
 
-// ByKeepAlive orders the results by the keep_alive field.
-func ByKeepAlive(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldKeepAlive, opts...).ToFunc()
+// ByName orders the results by the name field.
+func ByName(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldName, opts...).ToFunc()
 }
 
-// ByShow orders the results by the show field.
-func ByShow(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldShow, opts...).ToFunc()
-}
-
-// ByHideTab orders the results by the hide_tab field.
-func ByHideTab(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldHideTab, opts...).ToFunc()
-}
-
-// ByHideMenu orders the results by the hide_menu field.
-func ByHideMenu(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldHideMenu, opts...).ToFunc()
-}
-
-// ByHideBreadcrumb orders the results by the hide_breadcrumb field.
-func ByHideBreadcrumb(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldHideBreadcrumb, opts...).ToFunc()
+// ByComponent orders the results by the component field.
+func ByComponent(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldComponent, opts...).ToFunc()
 }
 
 // ByParentField orders the results by parent field.

@@ -7,6 +7,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/field_mask.proto";
+import "google/api/field_behavior.proto";
 
 import "pagination/v1/pagination.proto";
 
@@ -37,18 +38,24 @@ enum MenuType {
 
 // 菜单
 message Menu {
-  int32 id = 1;
-  optional int32 parentId = 2;
-  optional int32 orderNo = 3;
-
-  optional string name = 4;
-  optional MenuType type = 5 [
+  optional int32 id = 1 [
+    json_name = "id",
+    (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
-      description: "类型"
-      default: {string: "FOLDER"}
+      description: "节点ID"
     }
   ];
-  optional string status = 6 [
+
+  optional int32 parent_id = 2 [
+    json_name = "parentId",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "父节点ID"
+    }
+  ];
+
+  optional string status = 3 [
+    json_name = "status",
     (gnostic.openapi.v3.property) = {
       description: "状态"
       default: {string: "ON"}
@@ -56,32 +63,262 @@ message Menu {
     }
   ];
 
-  optional string path = 7;
-  optional string title = 8;
-  optional string component = 9;
-  optional string icon = 10;
+  optional MenuType type = 4 [
+    json_name = "type",
+    (gnostic.openapi.v3.property) = {
+      description: "类型"
+      default: {string: "FOLDER"}
+    }
+  ];
 
-  repeated string permissions = 11;
-  repeated Menu children = 12;
+  repeated Menu children = 5 [
+    json_name = "children",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "子节点列表"
+    }
+  ];
 
-  optional bool keepAlive = 13;
-  optional bool show = 14;
+  optional string path = 10 [
+    json_name = "path",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "路由路径"
+    }
+  ];
 
-  optional bool isExt = 15;
-  optional string extUrl = 16;
+  optional string redirect = 11 [
+    json_name = "redirect",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "重定向地址"
+    }
+  ];
 
-  optional bool hideBreadcrumb = 17;
-  optional bool hideTab = 18;
-  optional bool hideMenu = 19;
-  optional bool hideChildrenInMenu = 20;
-  optional bool hidePathForChildren = 21;
+  optional string alias = 12 [
+    json_name = "alias",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "路由别名"
+    }
+  ];
 
-  optional string currentActiveMenu = 22;
-  optional string redirect = 23;
+  optional string name = 13 [
+    json_name = "name",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "路由命名，然后我们可以使用 name 而不是 path 来传递 to 属性给 <router-link>。"
+    }
+  ];
+
+  optional string component = 14 [
+    json_name = "component",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "指向的组件"
+    }
+  ];
+
+  optional RouteMeta meta = 15 [
+    json_name = "meta",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "路由元信息"
+    }
+  ];
 
   optional google.protobuf.Timestamp create_time = 30 [json_name = "createTime"];
   optional google.protobuf.Timestamp update_time = 31 [json_name = "updateTime"];
   optional google.protobuf.Timestamp delete_time = 32 [json_name = "deleteTime"];
+}
+
+// 路由元信息
+message RouteMeta {
+  optional string active_icon = 1 [
+    json_name = "activeIcon",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "激活图标，用于：菜单、tab"
+    }
+  ];
+
+  optional string active_path = 2 [
+    json_name = "activePath",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "当前激活的菜单，有时候不想激活现有菜单，需要激活父级菜单时使用"
+    }
+  ];
+
+  optional bool affix_tab = 3 [
+    json_name = "affixTab",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "是否固定标签页"
+    }
+  ];
+
+  optional int32 affix_tab_order = 4 [
+    json_name = "affixTabOrder",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "固定标签页的顺序"
+    }
+  ];
+
+  repeated string authority = 5 [
+    json_name = "authority",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "权限列表，需要特定的角色标识才可以访问"
+    }
+  ];
+
+  optional string badge = 6 [
+    json_name = "badge",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "徽标"
+    }
+  ];
+
+  optional string badge_type = 7 [
+    json_name = "badgeType",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "徽标类型",
+      enum: [{yaml: "dot"}, {yaml: "normal"}]
+    }
+  ];
+
+  optional string badge_variants = 8 [
+    json_name = "badgeVariants",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "徽标颜色",
+      enum: [{yaml: "default"}, {yaml: "destructive"}, {yaml: "primary"}, {yaml: "success"}, {yaml: "warning"}]
+    }
+  ];
+
+  optional bool hide_children_in_menu = 9 [
+    json_name = "hideChildrenInMenu",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "当前路由的子级在菜单中不展现"
+    }
+  ];
+
+  optional bool hide_in_breadcrumb = 10 [
+    json_name = "hideInBreadcrumb",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "当前路由在面包屑中不展现"
+    }
+  ];
+
+  optional bool hide_in_menu = 11 [
+    json_name = "hideInMenu",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "当前路由在菜单中不展现"
+    }
+  ];
+
+  optional bool hide_in_tab = 12 [
+    json_name = "hideInTab",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "当前路由在标签页不展现"
+    }
+  ];
+
+  optional string icon = 13 [
+    json_name = "icon",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "图标，用于：菜单、标签页"
+    }
+  ];
+
+  optional string iframe_src = 14 [
+    json_name = "iframeSrc",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "iframe 地址"
+    }
+  ];
+
+  optional bool ignore_access = 15 [
+    json_name = "ignoreAccess",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "忽略权限，直接可以访问"
+    }
+  ];
+
+  optional bool keep_alive = 16 [
+    json_name = "keepAlive",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "开启KeepAlive缓存"
+    }
+  ];
+
+  optional string link = 17 [
+    json_name = "link",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "外链-跳转路径"
+    }
+  ];
+
+  optional bool loaded = 18 [
+    json_name = "loaded",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "路由是否已经加载过"
+    }
+  ];
+
+  optional int32 max_num_of_open_tab = 19 [
+    json_name = "maxNumOfOpenTab",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "标签页最大打开数量"
+    }
+  ];
+
+  optional bool menu_visible_with_forbidden = 20 [
+    json_name = "menuVisibleWithForbidden",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "菜单可以看到，但是访问会被重定向到403"
+    }
+  ];
+
+  optional bool open_in_new_window = 21 [
+    json_name = "openInNewWindow",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "在新窗口打开"
+    }
+  ];
+
+  optional int32 order = 22 [
+    json_name = "order",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "排序ID，用于路由->菜单排序"
+    }
+  ];
+
+  optional string title = 23 [
+    json_name = "title",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "标题名称，路由上显示的标题"
+    }
+  ];
 }
 
 // 查询菜单列表 - 回应

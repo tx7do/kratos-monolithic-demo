@@ -3,12 +3,12 @@ package schema
 import (
 	"entgo.io/contrib/entproto"
 	"entgo.io/ent"
-	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 	"github.com/tx7do/go-utils/entgo/mixin"
+	systemV1 "kratos-monolithic-demo/api/gen/go/system/service/v1"
 )
 
 // Menu holds the schema definition for the Menu entity.
@@ -19,7 +19,7 @@ type Menu struct {
 func (Menu) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.Annotation{
-			Table:     "menu",
+			Table:     "menus",
 			Charset:   "utf8mb4",
 			Collation: "utf8mb4_bin",
 		},
@@ -42,27 +42,6 @@ func (Menu) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
-		field.Int32("order_no").
-			Comment("排序ID").
-			Default(0).
-			Optional().
-			Nillable(),
-
-		field.String("name").
-			Comment("菜单名称").
-			Default("").
-			MaxLen(32).
-			NotEmpty().
-			Optional().
-			Nillable(),
-
-		field.String("title").
-			Comment("菜单标题").
-			Default("").
-			NotEmpty().
-			Optional().
-			Nillable(),
-
 		field.Enum("type").
 			Comment("菜单类型 FOLDER: 目录 MENU: 菜单 BUTTON: 按钮").
 			Values(
@@ -70,6 +49,7 @@ func (Menu) Fields() []ent.Field {
 				"MENU",
 				"BUTTON",
 			).
+			Default("MENU").
 			Optional().
 			Nillable(),
 
@@ -79,78 +59,30 @@ func (Menu) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
+		field.String("redirect").
+			Comment("重定向地址").
+			Optional().
+			Nillable(),
+
+		field.String("alias").
+			Comment("路由别名").
+			Optional().
+			Nillable(),
+
+		field.String("name").
+			Comment("路由命名，然后我们可以使用 name 而不是 path 来传递 to 属性给 <router-link>。").
+			Optional().
+			Nillable(),
+
 		field.String("component").
 			Comment("前端页面组件").
 			Default("").
 			Optional().
 			Nillable(),
 
-		field.String("icon").
-			Comment("图标").
-			Default("").
-			MaxLen(128).
-			Optional().
-			Nillable(),
-
-		field.Bool("is_ext").
-			Comment("是否外链").
-			Default(false).
-			Optional().
-			Nillable(),
-
-		field.String("ext_url").
-			Comment("外链地址").
-			MaxLen(255).
-			Optional().
-			Nillable(),
-
-		field.Strings("permissions").
-			Comment("权限代码 例如:sys:menu").
-			SchemaType(map[string]string{
-				dialect.MySQL:    "json",
-				dialect.Postgres: "jsonb",
-			}).
+		field.JSON("meta", &systemV1.RouteMeta{}).
+			Comment("前端页面组件").
 			Optional(),
-
-		field.String("redirect").
-			Comment("跳转路径").
-			Optional().
-			Nillable(),
-
-		field.String("current_active_menu").
-			Comment("当前激活路径").
-			Optional().
-			Nillable(),
-
-		field.Bool("keep_alive").
-			Comment("是否缓存").
-			Default(false).
-			Optional().
-			Nillable(),
-
-		field.Bool("show").
-			Comment("是否显示").
-			Default(true).
-			Optional().
-			Nillable(),
-
-		field.Bool("hide_tab").
-			Comment("是否显示在标签页导航").
-			Default(true).
-			Optional().
-			Nillable(),
-
-		field.Bool("hide_menu").
-			Comment("是否显示在菜单导航").
-			Default(true).
-			Optional().
-			Nillable(),
-
-		field.Bool("hide_breadcrumb").
-			Comment("是否显示在面包屑导航").
-			Default(true).
-			Optional().
-			Nillable(),
 	}
 }
 

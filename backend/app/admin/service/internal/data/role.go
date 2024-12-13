@@ -6,6 +6,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	util "github.com/tx7do/go-utils/timeutil"
 
@@ -13,7 +14,7 @@ import (
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent/role"
 
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-	v1 "kratos-monolithic-demo/api/gen/go/user/service/v1"
+	userV1 "kratos-monolithic-demo/api/gen/go/user/service/v1"
 )
 
 type RoleRepo struct {
@@ -29,11 +30,11 @@ func NewRoleRepo(data *Data, logger log.Logger) *RoleRepo {
 	}
 }
 
-func (r *RoleRepo) convertEntToProto(in *ent.Role) *v1.Role {
+func (r *RoleRepo) convertEntToProto(in *ent.Role) *userV1.Role {
 	if in == nil {
 		return nil
 	}
-	return &v1.Role{
+	return &userV1.Role{
 		Id:         in.ID,
 		Name:       in.Name,
 		Code:       in.Code,
@@ -61,7 +62,7 @@ func (r *RoleRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 	return count, err
 }
 
-func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1.ListRoleResponse, error) {
+func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListRoleResponse, error) {
 	builder := r.data.db.Client().Role.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
@@ -84,7 +85,7 @@ func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1
 		return nil, err
 	}
 
-	items := make([]*v1.Role, 0, len(results))
+	items := make([]*userV1.Role, 0, len(results))
 	for _, res := range results {
 		item := r.convertEntToProto(res)
 		items = append(items, item)
@@ -95,13 +96,13 @@ func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1
 		return nil, err
 	}
 
-	return &v1.ListRoleResponse{
+	return &userV1.ListRoleResponse{
 		Total: int32(count),
 		Items: items,
 	}, err
 }
 
-func (r *RoleRepo) Get(ctx context.Context, req *v1.GetRoleRequest) (*v1.Role, error) {
+func (r *RoleRepo) Get(ctx context.Context, req *userV1.GetRoleRequest) (*userV1.Role, error) {
 	ret, err := r.data.db.Client().Role.Get(ctx, req.GetId())
 	if err != nil && !ent.IsNotFound(err) {
 		return nil, err
@@ -110,7 +111,7 @@ func (r *RoleRepo) Get(ctx context.Context, req *v1.GetRoleRequest) (*v1.Role, e
 	return r.convertEntToProto(ret), err
 }
 
-func (r *RoleRepo) Create(ctx context.Context, req *v1.CreateRoleRequest) error {
+func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) error {
 	err := r.data.db.Client().Role.Create().
 		SetNillableName(req.Role.Name).
 		SetNillableParentID(req.Role.ParentId).
@@ -129,7 +130,7 @@ func (r *RoleRepo) Create(ctx context.Context, req *v1.CreateRoleRequest) error 
 	return err
 }
 
-func (r *RoleRepo) Update(ctx context.Context, req *v1.UpdateRoleRequest) error {
+func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) error {
 	builder := r.data.db.Client().Role.UpdateOneID(req.Role.Id).
 		SetNillableName(req.Role.Name).
 		SetNillableParentID(req.Role.ParentId).
@@ -148,7 +149,7 @@ func (r *RoleRepo) Update(ctx context.Context, req *v1.UpdateRoleRequest) error 
 	return err
 }
 
-func (r *RoleRepo) Delete(ctx context.Context, req *v1.DeleteRoleRequest) (bool, error) {
+func (r *RoleRepo) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) (bool, error) {
 	err := r.data.db.Client().Role.
 		DeleteOneID(req.GetId()).
 		Exec(ctx)

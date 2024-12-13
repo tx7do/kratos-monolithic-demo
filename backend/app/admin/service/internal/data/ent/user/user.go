@@ -58,7 +58,7 @@ const (
 	// FieldLastLoginIP holds the string denoting the last_login_ip field in the database.
 	FieldLastLoginIP = "last_login_ip"
 	// Table holds the table name of the user in the database.
-	Table = "user"
+	Table = "users"
 )
 
 // Columns holds all SQL columns for user fields.
@@ -188,6 +188,7 @@ const DefaultAuthority = AuthorityCUSTOMER_USER
 // Authority values.
 const (
 	AuthoritySYS_ADMIN     Authority = "SYS_ADMIN"
+	AuthoritySYS_MANAGER   Authority = "SYS_MANAGER"
 	AuthorityCUSTOMER_USER Authority = "CUSTOMER_USER"
 	AuthorityGUEST_USER    Authority = "GUEST_USER"
 	AuthorityREFRESH_TOKEN Authority = "REFRESH_TOKEN"
@@ -200,7 +201,7 @@ func (a Authority) String() string {
 // AuthorityValidator is a validator for the "authority" field enum values. It is called by the builders before save.
 func AuthorityValidator(a Authority) error {
 	switch a {
-	case AuthoritySYS_ADMIN, AuthorityCUSTOMER_USER, AuthorityGUEST_USER, AuthorityREFRESH_TOKEN:
+	case AuthoritySYS_ADMIN, AuthoritySYS_MANAGER, AuthorityCUSTOMER_USER, AuthorityGUEST_USER, AuthorityREFRESH_TOKEN:
 		return nil
 	default:
 		return fmt.Errorf("user: invalid enum value for authority field: %q", a)

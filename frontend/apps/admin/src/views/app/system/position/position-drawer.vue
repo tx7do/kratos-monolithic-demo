@@ -4,8 +4,10 @@ import { computed, ref } from 'vue';
 import { useVbenDrawer, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
+import { notification } from 'ant-design-vue';
+
 import { useVbenForm } from '#/adapter/form';
-import { statusList } from '#/rpc';
+import { defPositionService, statusList } from '#/rpc';
 
 const data = ref();
 
@@ -32,6 +34,8 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'RadioGroup',
       fieldName: 'status',
       label: '状态',
+      defaultValue: 'ON',
+      rules: 'selectRequired',
       componentProps: {
         optionType: 'button',
         class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
@@ -50,9 +54,40 @@ const [Drawer, drawerApi] = useVbenDrawer({
   onCancel() {
     drawerApi.close();
   },
-  onConfirm() {
+
+  async onConfirm() {
     console.log('onConfirm');
+
+    const values = await baseFormApi.validate();
+    if (!values.valid) {
+      return;
+    }
+
+    setLoading(true);
+
+    console.log(getTitle.value, values);
+
+    try {
+      await (data.value?.create
+        ? defPositionService.CreatePosition({ pos: values.results })
+        : defPositionService.UpdatePosition({
+            pos: values.results,
+            updateMask: ['id', 'status'],
+          }));
+
+      notification.success({
+        message: `${getTitle.value}成功`,
+      });
+    } catch {
+      notification.success({
+        message: `${getTitle.value}失败`,
+      });
+    } finally {
+      drawerApi.close();
+      setLoading(false);
+    }
   },
+
   onOpenChange(isOpen) {
     if (isOpen) {
       data.value = drawerApi.getData<Record<string, any>>();

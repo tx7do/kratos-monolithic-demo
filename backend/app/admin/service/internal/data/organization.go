@@ -7,6 +7,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	util "github.com/tx7do/go-utils/timeutil"
 
@@ -14,7 +15,7 @@ import (
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent/organization"
 
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-	v1 "kratos-monolithic-demo/api/gen/go/user/service/v1"
+	userV1 "kratos-monolithic-demo/api/gen/go/user/service/v1"
 )
 
 type OrganizationRepo struct {
@@ -30,11 +31,11 @@ func NewOrganizationRepo(data *Data, logger log.Logger) *OrganizationRepo {
 	}
 }
 
-func (r *OrganizationRepo) convertEntToProto(in *ent.Organization) *v1.Organization {
+func (r *OrganizationRepo) convertEntToProto(in *ent.Organization) *userV1.Organization {
 	if in == nil {
 		return nil
 	}
-	return &v1.Organization{
+	return &userV1.Organization{
 		Id:         in.ID,
 		Name:       in.Name,
 		Remark:     in.Remark,
@@ -47,7 +48,7 @@ func (r *OrganizationRepo) convertEntToProto(in *ent.Organization) *v1.Organizat
 	}
 }
 
-func (r *OrganizationRepo) travelChild(nodes []*v1.Organization, node *v1.Organization) bool {
+func (r *OrganizationRepo) travelChild(nodes []*userV1.Organization, node *userV1.Organization) bool {
 	if nodes == nil {
 		return false
 	}
@@ -88,7 +89,7 @@ func (r *OrganizationRepo) Count(ctx context.Context, whereCond []func(s *sql.Se
 	return count, err
 }
 
-func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingRequest) (*v1.ListOrganizationResponse, error) {
+func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListOrganizationResponse, error) {
 	builder := r.data.db.Client().Organization.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
@@ -121,7 +122,7 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 		return *results[i].ParentID < *results[j].ParentID
 	})
 
-	items := make([]*v1.Organization, 0, len(results))
+	items := make([]*userV1.Organization, 0, len(results))
 	for _, m := range results {
 		if m.ParentID == nil {
 			item := r.convertEntToProto(m)
@@ -140,7 +141,7 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 		return nil, err
 	}
 
-	ret := v1.ListOrganizationResponse{
+	ret := userV1.ListOrganizationResponse{
 		Total: int32(count),
 		Items: items,
 	}
@@ -148,7 +149,7 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 	return &ret, err
 }
 
-func (r *OrganizationRepo) Get(ctx context.Context, req *v1.GetOrganizationRequest) (*v1.Organization, error) {
+func (r *OrganizationRepo) Get(ctx context.Context, req *userV1.GetOrganizationRequest) (*userV1.Organization, error) {
 	ret, err := r.data.db.Client().Organization.Get(ctx, req.GetId())
 	if err != nil && !ent.IsNotFound(err) {
 		return nil, err
@@ -157,7 +158,7 @@ func (r *OrganizationRepo) Get(ctx context.Context, req *v1.GetOrganizationReque
 	return r.convertEntToProto(ret), err
 }
 
-func (r *OrganizationRepo) Create(ctx context.Context, req *v1.CreateOrganizationRequest) error {
+func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganizationRequest) error {
 	builder := r.data.db.Client().Organization.Create().
 		SetNillableName(req.Org.Name).
 		SetNillableParentID(req.Org.ParentId).
@@ -176,7 +177,7 @@ func (r *OrganizationRepo) Create(ctx context.Context, req *v1.CreateOrganizatio
 	return err
 }
 
-func (r *OrganizationRepo) Update(ctx context.Context, req *v1.UpdateOrganizationRequest) error {
+func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganizationRequest) error {
 
 	builder := r.data.db.Client().Organization.UpdateOneID(req.Org.Id).
 		SetNillableName(req.Org.Name).
@@ -195,7 +196,7 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *v1.UpdateOrganizatio
 	return err
 }
 
-func (r *OrganizationRepo) Delete(ctx context.Context, req *v1.DeleteOrganizationRequest) (bool, error) {
+func (r *OrganizationRepo) Delete(ctx context.Context, req *userV1.DeleteOrganizationRequest) (bool, error) {
 	err := r.data.db.Client().Organization.
 		DeleteOneID(req.GetId()).
 		Exec(ctx)

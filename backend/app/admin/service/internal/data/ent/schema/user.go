@@ -18,7 +18,7 @@ type User struct {
 func (User) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.Annotation{
-			Table:     "user",
+			Table:     "users",
 			Charset:   "utf8mb4",
 			Collation: "utf8mb4_bin",
 		},
@@ -126,6 +126,7 @@ func (User) Fields() []ent.Field {
 			Nillable().
 			Values(
 				"SYS_ADMIN",
+				"SYS_MANAGER",
 				"CUSTOMER_USER",
 				"GUEST_USER",
 				"REFRESH_TOKEN",
