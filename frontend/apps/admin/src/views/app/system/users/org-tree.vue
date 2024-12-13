@@ -1,24 +1,24 @@
 <script lang="ts" setup>
-  import { onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
-  import { ListOrganization } from '/@/api/app/organization';
-  import { BasicTree, TreeItem } from '/@/components/Tree';
+import { ListOrganization } from '/@/api/app/organization';
+import { BasicTree, TreeItem } from '/@/components/Tree';
 
-  const emit = defineEmits(['select']);
-  const treeData = ref<TreeItem[]>([]);
+const emit = defineEmits(['select']);
+const treeData = ref<TreeItem[]>([]);
 
-  async function fetch() {
-    const orgData = (await ListOrganization({})) || [];
-    treeData.value = orgData.items as unknown as TreeItem[];
-  }
+async function fetch() {
+  const orgData = (await ListOrganization({})) || [];
+  treeData.value = orgData.items as unknown as TreeItem[];
+}
 
-  function handleSelect(keys) {
-    emit('select', keys[0]);
-  }
+function handleSelect(keys) {
+  emit('select', keys[0]);
+}
 
-  onMounted(() => {
-    fetch();
-  });
+onMounted(() => {
+  fetch();
+});
 </script>
 
 <template>

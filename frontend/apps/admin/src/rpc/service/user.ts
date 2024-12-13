@@ -34,7 +34,10 @@ class UserServiceImpl implements UserService {
   }
 
   async UpdateUser(request: UpdateUserRequest): Promise<Empty> {
-    return await requestClient.put<Empty>(`/users/${request.user?.id}`, request);
+    return await requestClient.put<Empty>(
+      `/users/${request.user?.id}`,
+      request,
+    );
   }
 }
 
@@ -44,7 +47,6 @@ export const authorityList = [
   { value: UserAuthority.SYS_MANAGER, label: '普通管理' },
   { value: UserAuthority.SYS_ADMIN, label: '超级管理' },
 ];
-
 
 /**
  * 权限转名称

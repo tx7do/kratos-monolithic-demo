@@ -34,7 +34,10 @@ class MenuServiceImpl implements MenuService {
   }
 
   async UpdateMenu(request: UpdateMenuRequest): Promise<Empty> {
-    return await requestClient.put<Empty>(`/menus/${request.menu?.id}`, request);
+    return await requestClient.put<Empty>(
+      `/menus/${request.menu?.id}`,
+      request,
+    );
   }
 }
 

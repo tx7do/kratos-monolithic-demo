@@ -9,7 +9,11 @@ export function makeQueryString(formValues: any): null | string {
 
   // 去除掉空值
   for (const item in formValues) {
-    if (formValues[item] === undefined || formValues[item] === null || formValues[item] === '') {
+    if (
+      formValues[item] === undefined ||
+      formValues[item] === null ||
+      formValues[item] === ''
+    ) {
       // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete formValues[item];
     }
