@@ -36,14 +36,75 @@ func NewUserRepo(data *Data, logger log.Logger) *UserRepo {
 	}
 }
 
+func (r *UserRepo) convertUserAuthorityToEnt(authority *userV1.UserAuthority) *user.Authority {
+	if authority == nil {
+		return nil
+	}
+	find, ok := userV1.UserAuthority_name[int32(*authority)]
+	if !ok {
+		return nil
+	}
+	return (*user.Authority)(trans.Ptr(find))
+}
+
+func (r *UserRepo) convertUserAuthorityToProto(authority *user.Authority) *userV1.UserAuthority {
+	if authority == nil {
+		return nil
+	}
+	find, ok := userV1.UserAuthority_value[string(*authority)]
+	if !ok {
+		return nil
+	}
+	return (*userV1.UserAuthority)(trans.Ptr(find))
+}
+
+func (r *UserRepo) convertUserGenderToEnt(gender *userV1.UserGender) *user.Gender {
+	if gender == nil {
+		return nil
+	}
+	find, ok := userV1.UserGender_name[int32(*gender)]
+	if !ok {
+		return nil
+	}
+	return (*user.Gender)(trans.Ptr(find))
+}
+
+func (r *UserRepo) convertUserGenderToProto(gender *user.Gender) *userV1.UserGender {
+	if gender == nil {
+		return nil
+	}
+	find, ok := userV1.UserGender_value[string(*gender)]
+	if !ok {
+		return nil
+	}
+	return (*userV1.UserGender)(trans.Ptr(find))
+}
+
+func (r *UserRepo) convertUserStatusToEnt(status *userV1.UserStatus) *user.Status {
+	if status == nil {
+		return nil
+	}
+	find, ok := userV1.UserStatus_name[int32(*status)]
+	if !ok {
+		return nil
+	}
+	return (*user.Status)(trans.Ptr(find))
+}
+
+func (r *UserRepo) convertUserStatusToProto(status *user.Status) *userV1.UserStatus {
+	if status == nil {
+		return nil
+	}
+	find, ok := userV1.UserStatus_value[string(*status)]
+	if !ok {
+		return nil
+	}
+	return (*userV1.UserStatus)(trans.Ptr(find))
+}
+
 func (r *UserRepo) convertEntToProto(in *ent.User) *userV1.User {
 	if in == nil {
 		return nil
-	}
-
-	var authority *userV1.UserAuthority
-	if in.Authority != nil {
-		authority = (*userV1.UserAuthority)(trans.Ptr(userV1.UserAuthority_value[string(*in.Authority)]))
 	}
 
 	return &userV1.User{
@@ -58,14 +119,17 @@ func (r *UserRepo) convertEntToProto(in *ent.User) *userV1.User {
 		RealName:      in.RealName,
 		Email:         in.Email,
 		Avatar:        in.Avatar,
-		Phone:         in.Phone,
-		Gender:        (*string)(in.Gender),
+		Telephone:     in.Telephone,
+		Mobile:        in.Mobile,
 		Address:       in.Address,
+		Region:        in.Region,
 		Description:   in.Description,
-		Authority:     authority,
+		Remark:        in.Remark,
 		LastLoginTime: in.LastLoginTime,
 		LastLoginIp:   in.LastLoginIP,
-		Status:        (*string)(in.Status),
+		Gender:        r.convertUserGenderToProto(in.Gender),
+		Authority:     r.convertUserAuthorityToProto(in.Authority),
+		Status:        r.convertUserStatusToProto(in.Status),
 		CreateTime:    timeUtil.TimeToTimestamppb(in.CreateTime),
 		UpdateTime:    timeUtil.TimeToTimestamppb(in.UpdateTime),
 		DeleteTime:    timeUtil.TimeToTimestamppb(in.DeleteTime),
@@ -140,33 +204,38 @@ func (r *UserRepo) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1
 }
 
 func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) error {
+	ph, err := crypto.HashPassword(req.GetPassword())
+	if err != nil {
+		return err
+	}
+
 	builder := r.data.db.Client().User.Create().
 		SetNillableUsername(req.User.UserName).
 		SetNillableNickName(req.User.NickName).
 		SetNillableEmail(req.User.Email).
 		SetNillableRealName(req.User.RealName).
-		SetNillablePhone(req.User.Phone).
+		SetNillableEmail(req.User.Email).
+		SetNillableTelephone(req.User.Telephone).
+		SetNillableMobile(req.User.Mobile).
+		SetNillableAvatar(req.User.Avatar).
+		SetNillableRegion(req.User.Region).
+		SetNillableAddress(req.User.Address).
+		SetNillableDescription(req.User.Description).
+		SetNillableRemark(req.User.Remark).
+		SetNillableLastLoginTime(req.User.LastLoginTime).
+		SetNillableLastLoginIP(req.User.LastLoginIp).
+		SetCreateBy(req.GetOperatorId()).
+		SetNillableStatus(r.convertUserStatusToEnt(req.User.Status)).
+		SetNillableGender(r.convertUserGenderToEnt(req.User.Gender)).
+		SetNillableAuthority(r.convertUserAuthorityToEnt(req.User.Authority)).
+		SetPassword(ph).
 		SetNillableOrgID(req.User.OrgId).
 		SetNillableRoleID(req.User.RoleId).
 		SetNillableWorkID(req.User.WorkId).
 		SetNillablePositionID(req.User.PositionId).
-		SetNillableAvatar(req.User.Avatar).
-		SetNillableStatus((*user.Status)(req.User.Status)).
-		SetNillableGender((*user.Gender)(req.User.Gender)).
-		SetCreateBy(req.GetOperatorId()).
 		SetCreateTime(time.Now())
 
-	if len(req.GetPassword()) > 0 {
-		cryptoPassword, err := crypto.HashPassword(req.GetPassword())
-		if err == nil {
-			builder.SetPassword(cryptoPassword)
-		}
-	}
-	if req.User.Authority != nil {
-		builder.SetAuthority((user.Authority)(req.User.Authority.String()))
-	}
-
-	err := builder.Exec(ctx)
+	err = builder.Exec(ctx)
 	if err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
 		return err
@@ -188,19 +257,26 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		SetNillableNickName(req.User.NickName).
 		SetNillableEmail(req.User.Email).
 		SetNillableRealName(req.User.RealName).
-		SetNillablePhone(req.User.Phone).
+		SetNillableEmail(req.User.Email).
+		SetNillableTelephone(req.User.Telephone).
+		SetNillableMobile(req.User.Mobile).
+		SetNillableAvatar(req.User.Avatar).
+		SetNillableRegion(req.User.Region).
+		SetNillableAddress(req.User.Address).
+		SetNillableDescription(req.User.Description).
+		SetNillableRemark(req.User.Remark).
+		SetNillableLastLoginTime(req.User.LastLoginTime).
+		SetNillableLastLoginIP(req.User.LastLoginIp).
+		SetCreateBy(req.GetOperatorId()).
+		SetNillableStatus(r.convertUserStatusToEnt(req.User.Status)).
+		SetNillableGender(r.convertUserGenderToEnt(req.User.Gender)).
+		SetNillableAuthority(r.convertUserAuthorityToEnt(req.User.Authority)).
 		SetNillableOrgID(req.User.OrgId).
 		SetNillableRoleID(req.User.RoleId).
 		SetNillableWorkID(req.User.WorkId).
 		SetNillablePositionID(req.User.PositionId).
-		SetNillableAvatar(req.User.Avatar).
-		SetNillableStatus((*user.Status)(req.User.Status)).
-		SetNillableGender((*user.Gender)(req.User.Gender)).
 		SetUpdateTime(time.Now())
 
-	if req.User.Authority != nil {
-		builder.SetAuthority((user.Authority)(req.User.Authority.String()))
-	}
 	if len(req.GetPassword()) > 0 {
 		cryptoPassword, err := crypto.HashPassword(req.GetPassword())
 		if err == nil {

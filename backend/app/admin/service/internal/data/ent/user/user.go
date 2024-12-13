@@ -21,34 +21,32 @@ const (
 	FieldUpdateTime = "update_time"
 	// FieldDeleteTime holds the string denoting the delete_time field in the database.
 	FieldDeleteTime = "delete_time"
+	// FieldRemark holds the string denoting the remark field in the database.
+	FieldRemark = "remark"
 	// FieldStatus holds the string denoting the status field in the database.
 	FieldStatus = "status"
 	// FieldUsername holds the string denoting the username field in the database.
 	FieldUsername = "username"
 	// FieldPassword holds the string denoting the password field in the database.
 	FieldPassword = "password"
-	// FieldRoleID holds the string denoting the role_id field in the database.
-	FieldRoleID = "role_id"
-	// FieldOrgID holds the string denoting the org_id field in the database.
-	FieldOrgID = "org_id"
-	// FieldPositionID holds the string denoting the position_id field in the database.
-	FieldPositionID = "position_id"
-	// FieldWorkID holds the string denoting the work_id field in the database.
-	FieldWorkID = "work_id"
 	// FieldNickName holds the string denoting the nick_name field in the database.
 	FieldNickName = "nick_name"
 	// FieldRealName holds the string denoting the real_name field in the database.
 	FieldRealName = "real_name"
 	// FieldEmail holds the string denoting the email field in the database.
 	FieldEmail = "email"
-	// FieldPhone holds the string denoting the phone field in the database.
-	FieldPhone = "phone"
+	// FieldMobile holds the string denoting the mobile field in the database.
+	FieldMobile = "mobile"
+	// FieldTelephone holds the string denoting the telephone field in the database.
+	FieldTelephone = "telephone"
 	// FieldAvatar holds the string denoting the avatar field in the database.
 	FieldAvatar = "avatar"
 	// FieldGender holds the string denoting the gender field in the database.
 	FieldGender = "gender"
 	// FieldAddress holds the string denoting the address field in the database.
 	FieldAddress = "address"
+	// FieldRegion holds the string denoting the region field in the database.
+	FieldRegion = "region"
 	// FieldDescription holds the string denoting the description field in the database.
 	FieldDescription = "description"
 	// FieldAuthority holds the string denoting the authority field in the database.
@@ -57,6 +55,14 @@ const (
 	FieldLastLoginTime = "last_login_time"
 	// FieldLastLoginIP holds the string denoting the last_login_ip field in the database.
 	FieldLastLoginIP = "last_login_ip"
+	// FieldRoleID holds the string denoting the role_id field in the database.
+	FieldRoleID = "role_id"
+	// FieldOrgID holds the string denoting the org_id field in the database.
+	FieldOrgID = "org_id"
+	// FieldPositionID holds the string denoting the position_id field in the database.
+	FieldPositionID = "position_id"
+	// FieldWorkID holds the string denoting the work_id field in the database.
+	FieldWorkID = "work_id"
 	// Table holds the table name of the user in the database.
 	Table = "users"
 )
@@ -68,24 +74,27 @@ var Columns = []string{
 	FieldCreateTime,
 	FieldUpdateTime,
 	FieldDeleteTime,
+	FieldRemark,
 	FieldStatus,
 	FieldUsername,
 	FieldPassword,
-	FieldRoleID,
-	FieldOrgID,
-	FieldPositionID,
-	FieldWorkID,
 	FieldNickName,
 	FieldRealName,
 	FieldEmail,
-	FieldPhone,
+	FieldMobile,
+	FieldTelephone,
 	FieldAvatar,
 	FieldGender,
 	FieldAddress,
+	FieldRegion,
 	FieldDescription,
 	FieldAuthority,
 	FieldLastLoginTime,
 	FieldLastLoginIP,
+	FieldRoleID,
+	FieldOrgID,
+	FieldPositionID,
+	FieldWorkID,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -99,6 +108,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultRemark holds the default value on creation for the "remark" field.
+	DefaultRemark string
 	// UsernameValidator is a validator for the "username" field. It is called by the builders before save.
 	UsernameValidator func(string) error
 	// PasswordValidator is a validator for the "password" field. It is called by the builders before save.
@@ -109,16 +120,24 @@ var (
 	RealNameValidator func(string) error
 	// EmailValidator is a validator for the "email" field. It is called by the builders before save.
 	EmailValidator func(string) error
-	// DefaultPhone holds the default value on creation for the "phone" field.
-	DefaultPhone string
-	// PhoneValidator is a validator for the "phone" field. It is called by the builders before save.
-	PhoneValidator func(string) error
+	// DefaultMobile holds the default value on creation for the "mobile" field.
+	DefaultMobile string
+	// MobileValidator is a validator for the "mobile" field. It is called by the builders before save.
+	MobileValidator func(string) error
+	// DefaultTelephone holds the default value on creation for the "telephone" field.
+	DefaultTelephone string
+	// TelephoneValidator is a validator for the "telephone" field. It is called by the builders before save.
+	TelephoneValidator func(string) error
 	// AvatarValidator is a validator for the "avatar" field. It is called by the builders before save.
 	AvatarValidator func(string) error
 	// DefaultAddress holds the default value on creation for the "address" field.
 	DefaultAddress string
 	// AddressValidator is a validator for the "address" field. It is called by the builders before save.
 	AddressValidator func(string) error
+	// DefaultRegion holds the default value on creation for the "region" field.
+	DefaultRegion string
+	// RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	RegionValidator func(string) error
 	// DescriptionValidator is a validator for the "description" field. It is called by the builders before save.
 	DescriptionValidator func(string) error
 	// DefaultLastLoginIP holds the default value on creation for the "last_login_ip" field.
@@ -236,6 +255,11 @@ func ByDeleteTime(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDeleteTime, opts...).ToFunc()
 }
 
+// ByRemark orders the results by the remark field.
+func ByRemark(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRemark, opts...).ToFunc()
+}
+
 // ByStatus orders the results by the status field.
 func ByStatus(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldStatus, opts...).ToFunc()
@@ -249,26 +273,6 @@ func ByUsername(opts ...sql.OrderTermOption) OrderOption {
 // ByPassword orders the results by the password field.
 func ByPassword(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldPassword, opts...).ToFunc()
-}
-
-// ByRoleID orders the results by the role_id field.
-func ByRoleID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldRoleID, opts...).ToFunc()
-}
-
-// ByOrgID orders the results by the org_id field.
-func ByOrgID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldOrgID, opts...).ToFunc()
-}
-
-// ByPositionID orders the results by the position_id field.
-func ByPositionID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldPositionID, opts...).ToFunc()
-}
-
-// ByWorkID orders the results by the work_id field.
-func ByWorkID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldWorkID, opts...).ToFunc()
 }
 
 // ByNickName orders the results by the nick_name field.
@@ -286,9 +290,14 @@ func ByEmail(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldEmail, opts...).ToFunc()
 }
 
-// ByPhone orders the results by the phone field.
-func ByPhone(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldPhone, opts...).ToFunc()
+// ByMobile orders the results by the mobile field.
+func ByMobile(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldMobile, opts...).ToFunc()
+}
+
+// ByTelephone orders the results by the telephone field.
+func ByTelephone(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTelephone, opts...).ToFunc()
 }
 
 // ByAvatar orders the results by the avatar field.
@@ -304,6 +313,11 @@ func ByGender(opts ...sql.OrderTermOption) OrderOption {
 // ByAddress orders the results by the address field.
 func ByAddress(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldAddress, opts...).ToFunc()
+}
+
+// ByRegion orders the results by the region field.
+func ByRegion(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRegion, opts...).ToFunc()
 }
 
 // ByDescription orders the results by the description field.
@@ -324,4 +338,24 @@ func ByLastLoginTime(opts ...sql.OrderTermOption) OrderOption {
 // ByLastLoginIP orders the results by the last_login_ip field.
 func ByLastLoginIP(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldLastLoginIP, opts...).ToFunc()
+}
+
+// ByRoleID orders the results by the role_id field.
+func ByRoleID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRoleID, opts...).ToFunc()
+}
+
+// ByOrgID orders the results by the org_id field.
+func ByOrgID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOrgID, opts...).ToFunc()
+}
+
+// ByPositionID orders the results by the position_id field.
+func ByPositionID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldPositionID, opts...).ToFunc()
+}
+
+// ByWorkID orders the results by the work_id field.
+func ByWorkID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldWorkID, opts...).ToFunc()
 }

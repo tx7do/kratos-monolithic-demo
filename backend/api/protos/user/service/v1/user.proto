@@ -56,40 +56,112 @@ enum UserAuthority {
   REFRESH_TOKEN = 4; // 刷新令牌
 }
 
+// 用户性别
+enum UserGender {
+  SECRET = 0;  // 未知
+  MALE = 1;     // 男性
+  FEMALE = 2;   // 女性
+}
+
+// 用户状态
+enum UserStatus {
+  OFF = 0;
+  ON = 1;
+}
+
 // 用户
 message User {
   uint32 id = 1; // 用户ID
+
   optional uint32 roleId = 2 [json_name = "roleId", (gnostic.openapi.v3.property) = {description: "角色ID"}];  // 角色ID
   optional uint32 workId = 3 [json_name = "workId", (gnostic.openapi.v3.property) = {description: "工号"}];  // 工号
   optional uint32 orgId = 4 [json_name = "orgId", (gnostic.openapi.v3.property) = {description: "部门ID"}];  // 部门ID
   optional uint32 positionId = 5 [json_name = "positionId", (gnostic.openapi.v3.property) = {description: "岗位ID"}];  // 岗位ID
   optional uint32 creatorId = 6 [json_name = "creatorId", (gnostic.openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
 
-  optional string userName = 10 [json_name = "userName", (gnostic.openapi.v3.property) = {description: "登录名"}]; // 登录名
-  optional string nickName = 11 [json_name = "nickName", (gnostic.openapi.v3.property) = {description: "昵称"}]; // 昵称
-  optional string realName = 12 [json_name = "realName", (gnostic.openapi.v3.property) = {description: "真实姓名"}];  // 真实姓名
-  optional string avatar = 13 [json_name = "avatar", (gnostic.openapi.v3.property) = {description: "头像"}];  // 头像
-  optional string email = 14 [json_name = "email", (gnostic.openapi.v3.property) = {description: "邮箱"}]; // 邮箱
-  optional string phone = 15 [json_name = "phone", (gnostic.openapi.v3.property) = {description: "手机号"}]; // 手机号
-  optional string gender = 16 [json_name = "gender", (gnostic.openapi.v3.property) = {description: "性别"}];  // 性别
-  optional string address = 17 [json_name = "address", (gnostic.openapi.v3.property) = {description: "住址"}]; // 住址
-  optional string description = 18 [json_name = "description", (gnostic.openapi.v3.property) = {description: "个人描述"}]; // 个人描述
+  optional string user_name = 10 [
+    json_name = "userName",
+    (gnostic.openapi.v3.property) = {description: "登录名"}
+  ]; // 登录名
 
-  optional int64 lastLoginTime = 20 [json_name = "lastLoginTime", (gnostic.openapi.v3.property) = {description: "最后登录时间"}];  // 最后登录时间
-  optional string lastLoginIp = 21 [json_name = "lastLoginIp", (gnostic.openapi.v3.property) = {description: "最后登录IP"}];  // 最后登录IP
-  optional string status = 22 [(gnostic.openapi.v3.property) = {
+  optional string nick_name = 11 [
+    json_name = "nickName",
+    (gnostic.openapi.v3.property) = {description: "昵称"}
+  ]; // 昵称
+
+  optional string real_name = 12 [
+    json_name = "realName",
+    (gnostic.openapi.v3.property) = {description: "真实姓名"}
+  ]; // 真实姓名
+
+  optional string avatar = 13 [
+    json_name = "avatar",
+    (gnostic.openapi.v3.property) = {description: "头像"}
+  ]; // 头像
+
+  optional string email = 14 [
+    json_name = "email",
+    (gnostic.openapi.v3.property) = {description: "邮箱"}
+  ]; // 邮箱
+
+  optional string mobile = 15 [
+    json_name = "mobile",
+    (gnostic.openapi.v3.property) = {description: "手机号"}
+  ]; // 手机号
+
+  optional string telephone = 16 [
+    json_name = "telephone",
+    (gnostic.openapi.v3.property) = {description: "座机号"}
+  ]; // 手机号
+
+  optional UserGender gender = 17 [
+    json_name = "gender",
+    (gnostic.openapi.v3.property) = {description: "性别"}
+  ]; // 性别
+
+  optional string address = 18 [
+    json_name = "address",
+    (gnostic.openapi.v3.property) = {description: "住址"}
+  ]; // 住址
+
+  optional string region = 19 [
+    json_name = "region",
+    (gnostic.openapi.v3.property) = {description: "国家地区"}
+  ]; // 国家地区
+
+  optional string description = 20 [
+    json_name = "description",
+    (gnostic.openapi.v3.property) = {description: "个人描述"}
+  ]; // 个人描述
+
+  optional string remark = 21 [
+    json_name = "remark",
+    (gnostic.openapi.v3.property) = {description: "备注名"}
+  ]; // 备注名
+
+  optional int64 last_login_time = 30 [
+    json_name = "lastLoginTime",
+    (gnostic.openapi.v3.property) = {description: "最后登录时间"}
+  ]; // 最后登录时间
+
+  optional string last_login_ip = 31 [
+    json_name = "lastLoginIp",
+    (gnostic.openapi.v3.property) = {description: "最后登录IP"}
+  ]; // 最后登录IP
+
+  optional UserStatus status = 32 [(gnostic.openapi.v3.property) = {
     description: "用户状态"
     default: {string: "ON"}
-    enum: [{yaml: "ON"}, {yaml: "OFF"}]
   }]; // 用户状态
-  optional UserAuthority authority = 23 [(gnostic.openapi.v3.property) = {
+
+  optional UserAuthority authority = 33 [(gnostic.openapi.v3.property) = {
     description: "权限"
     default: {string: "CUSTOMER_USER"}
   }]; // 权限
 
-  optional google.protobuf.Timestamp create_time = 30 [json_name = "createTime"];
-  optional google.protobuf.Timestamp update_time = 31 [json_name = "updateTime"];
-  optional google.protobuf.Timestamp delete_time = 32 [json_name = "deleteTime"];
+  optional google.protobuf.Timestamp create_time = 100 [json_name = "createTime"];
+  optional google.protobuf.Timestamp update_time = 101 [json_name = "updateTime"];
+  optional google.protobuf.Timestamp delete_time = 102 [json_name = "deleteTime"];
 }
 
 // 获取用户列表 - 答复

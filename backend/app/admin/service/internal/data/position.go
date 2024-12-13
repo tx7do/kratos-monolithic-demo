@@ -2,13 +2,16 @@ package data
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
 
 	entgo "github.com/tx7do/go-utils/entgo/query"
-	util "github.com/tx7do/go-utils/timeutil"
+	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
+	"github.com/tx7do/go-utils/fieldmaskutil"
+	timeutil "github.com/tx7do/go-utils/timeutil"
 
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent"
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent/position"
@@ -42,9 +45,9 @@ func (r *PositionRepo) convertEntToProto(in *ent.Position) *userV1.Position {
 		OrderNo:    &in.OrderNo,
 		ParentId:   &in.ParentID,
 		Status:     (*string)(in.Status),
-		CreateTime: util.TimeToTimestamppb(in.CreateTime),
-		UpdateTime: util.TimeToTimestamppb(in.UpdateTime),
-		DeleteTime: util.TimeToTimestamppb(in.DeleteTime),
+		CreateTime: timeutil.TimeToTimestamppb(in.CreateTime),
+		UpdateTime: timeutil.TimeToTimestamppb(in.UpdateTime),
+		DeleteTime: timeutil.TimeToTimestamppb(in.DeleteTime),
 	}
 }
 
@@ -131,6 +134,14 @@ func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionReq
 }
 
 func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionRequest) error {
+	if req.UpdateMask != nil {
+		req.UpdateMask.Normalize()
+		if !req.UpdateMask.IsValid(req.Position) {
+			return errors.New("invalid field mask")
+		}
+		fieldmaskutil.Filter(req.GetPosition(), req.UpdateMask.GetPaths())
+	}
+
 	builder := r.data.db.Client().Position.UpdateOneID(req.Position.Id).
 		SetNillableName(req.Position.Name).
 		SetNillableParentID(req.Position.ParentId).
@@ -139,6 +150,14 @@ func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionReq
 		SetNillableRemark(req.Position.Remark).
 		SetNillableStatus((*position.Status)(req.Position.Status)).
 		SetUpdateTime(time.Now())
+
+	if req.UpdateMask != nil {
+		nilPaths := fieldmaskutil.NilValuePaths(req.Position, req.GetUpdateMask().GetPaths())
+		_, nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
+		if nilUpdater != nil {
+			builder.Modify(nilUpdater)
+		}
+	}
 
 	err := builder.Exec(ctx)
 	if err != nil {

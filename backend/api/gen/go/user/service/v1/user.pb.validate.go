@@ -98,8 +98,12 @@ func (m *User) validate(all bool) error {
 		// no validation rules for Email
 	}
 
-	if m.Phone != nil {
-		// no validation rules for Phone
+	if m.Mobile != nil {
+		// no validation rules for Mobile
+	}
+
+	if m.Telephone != nil {
+		// no validation rules for Telephone
 	}
 
 	if m.Gender != nil {
@@ -110,8 +114,16 @@ func (m *User) validate(all bool) error {
 		// no validation rules for Address
 	}
 
+	if m.Region != nil {
+		// no validation rules for Region
+	}
+
 	if m.Description != nil {
 		// no validation rules for Description
+	}
+
+	if m.Remark != nil {
+		// no validation rules for Remark
 	}
 
 	if m.LastLoginTime != nil {

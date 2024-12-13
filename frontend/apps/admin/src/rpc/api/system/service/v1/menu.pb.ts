@@ -37,7 +37,18 @@ export interface Menu {
   deleteTime?: Timestamp | null | undefined;
 }
 
-/** 路由元信息 */
+/** 路由项 */
+export interface RouteItem {
+  children: RouteItem[];
+  path?: string | null | undefined;
+  redirect?: string | null | undefined;
+  alias?: string | null | undefined;
+  name?: string | null | undefined;
+  component?: string | null | undefined;
+  meta?: RouteMeta | null | undefined;
+}
+
+/** 路由元数据 */
 export interface RouteMeta {
   activeIcon?: string | null | undefined;
   activePath?: string | null | undefined;

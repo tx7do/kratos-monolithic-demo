@@ -7,7 +7,6 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
-	"regexp"
 )
 
 // User holds the schema definition for the User entity.
@@ -32,12 +31,11 @@ func (User) Fields() []ent.Field {
 		field.String("username").
 			Comment("用户名").
 			Unique().
-			MaxLen(50).
+			MaxLen(320).
 			NotEmpty().
 			Immutable().
 			Optional().
-			Nillable().
-			Match(regexp.MustCompile("^[a-zA-Z0-9]{4,16}$")),
+			Nillable(),
 
 		field.String("password").
 			Comment("登录密码").
@@ -46,48 +44,35 @@ func (User) Fields() []ent.Field {
 			Nillable().
 			NotEmpty(),
 
-		field.Uint32("role_id").
-			Comment("角色ID").
-			Optional().
-			Nillable(),
-
-		field.Uint32("org_id").
-			Comment("部门ID").
-			Optional().
-			Nillable(),
-
-		field.Uint32("position_id").
-			Comment("职位ID").
-			Optional().
-			Nillable(),
-
-		field.Uint32("work_id").
-			Comment("员工工号").
-			Optional().
-			Nillable(),
-
 		field.String("nick_name").
 			Comment("昵称").
-			MaxLen(128).
+			MaxLen(255).
 			Optional().
 			Nillable(),
 
 		field.String("real_name").
 			Comment("真实名字").
-			MaxLen(128).
+			MaxLen(255).
 			Optional().
 			Nillable(),
 
 		field.String("email").
 			Comment("电子邮箱").
-			MaxLen(127).
+			MaxLen(320).
 			Optional().
 			Nillable(),
 
-		field.String("phone").
+		field.String("mobile").
 			Comment("手机号码").
 			Default("").
-			MaxLen(11).
+			MaxLen(255).
+			Optional().
+			Nillable(),
+
+		field.String("telephone").
+			Comment("座机号码").
+			Default("").
+			MaxLen(255).
 			Optional().
 			Nillable(),
 
@@ -111,6 +96,13 @@ func (User) Fields() []ent.Field {
 			Comment("地址").
 			Default("").
 			MaxLen(2048).
+			Optional().
+			Nillable(),
+
+		field.String("region").
+			Comment("国家地区").
+			Default("").
+			MaxLen(255).
 			Optional().
 			Nillable(),
 
@@ -144,6 +136,26 @@ func (User) Fields() []ent.Field {
 			MaxLen(64).
 			Optional().
 			Nillable(),
+
+		field.Uint32("role_id").
+			Comment("角色ID").
+			Optional().
+			Nillable(),
+
+		field.Uint32("org_id").
+			Comment("部门ID").
+			Optional().
+			Nillable(),
+
+		field.Uint32("position_id").
+			Comment("职位ID").
+			Optional().
+			Nillable(),
+
+		field.Uint32("work_id").
+			Comment("员工工号").
+			Optional().
+			Nillable(),
 	}
 }
 
@@ -153,6 +165,7 @@ func (User) Mixin() []ent.Mixin {
 		mixin.AutoIncrementId{},
 		mixin.CreateBy{},
 		mixin.Time{},
+		mixin.Remark{},
 		mixin.SwitchStatus{},
 	}
 }

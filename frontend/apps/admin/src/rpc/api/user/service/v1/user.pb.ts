@@ -37,6 +37,22 @@ export enum UserAuthority {
   REFRESH_TOKEN = "REFRESH_TOKEN",
 }
 
+/** 用户性别 */
+export enum UserGender {
+  /** SECRET - 未知 */
+  SECRET = "SECRET",
+  /** MALE - 男性 */
+  MALE = "MALE",
+  /** FEMALE - 女性 */
+  FEMALE = "FEMALE",
+}
+
+/** 用户状态 */
+export enum UserStatus {
+  OFF = "OFF",
+  ON = "ON",
+}
+
 /** 用户 */
 export interface User {
   /** 用户ID */
@@ -92,13 +108,18 @@ export interface User {
     | null
     | undefined;
   /** 手机号 */
-  phone?:
+  mobile?:
+    | string
+    | null
+    | undefined;
+  /** 手机号 */
+  telephone?:
     | string
     | null
     | undefined;
   /** 性别 */
   gender?:
-    | string
+    | UserGender
     | null
     | undefined;
   /** 住址 */
@@ -106,8 +127,18 @@ export interface User {
     | string
     | null
     | undefined;
+  /** 国家地区 */
+  region?:
+    | string
+    | null
+    | undefined;
   /** 个人描述 */
   description?:
+    | string
+    | null
+    | undefined;
+  /** 备注名 */
+  remark?:
     | string
     | null
     | undefined;
@@ -123,7 +154,7 @@ export interface User {
     | undefined;
   /** 用户状态 */
   status?:
-    | string
+    | UserStatus
     | null
     | undefined;
   /** 权限 */

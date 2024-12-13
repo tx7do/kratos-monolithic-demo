@@ -192,25 +192,11 @@ paths:
                   required: true
                   schema:
                     type: string
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: updateMask
-                  in: query
-                  schema:
-                    type: string
-                    format: field-mask
-                - name: allowMissing
-                  in: query
-                  schema:
-                    type: boolean
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Menu'
+                            $ref: '#/components/schemas/UpdateMenuRequest'
                 required: true
             responses:
                 "200":
@@ -1239,24 +1225,27 @@ components:
         RouteItem:
             type: object
             properties:
-                name:
-                    type: string
-                alias:
-                    type: string
-                path:
-                    type: string
-                component:
-                    type: string
-                redirect:
-                    type: string
-                caseSensitive:
-                    type: boolean
-                meta:
-                    $ref: '#/components/schemas/RouteMeta'
                 children:
                     type: array
                     items:
                         $ref: '#/components/schemas/RouteItem'
+                path:
+                    type: string
+                    description: 路由路径
+                redirect:
+                    type: string
+                    description: 重定向地址
+                alias:
+                    type: string
+                    description: 路由别名
+                name:
+                    type: string
+                    description: 路由命名，然后我们可以使用 name 而不是 path 来传递 to 属性给 <router-link>。
+                component:
+                    type: string
+                    description: 指向的组件
+                meta:
+                    $ref: '#/components/schemas/RouteMeta'
             description: 路由项
         RouteMeta:
             type: object
@@ -1344,7 +1333,26 @@ components:
                 title:
                     type: string
                     description: 标题名称，路由上显示的标题
-            description: 路由元信息
+            description: 路由元数据
+        UpdateMenuRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                menu:
+                    $ref: '#/components/schemas/Menu'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新菜单 - 请求
         User:
             type: object
             properties:
@@ -1386,18 +1394,32 @@ components:
                 email:
                     type: string
                     description: 邮箱
-                phone:
+                mobile:
                     type: string
                     description: 手机号
+                telephone:
+                    type: string
+                    description: 座机号
                 gender:
+                    enum:
+                        - SECRET
+                        - MALE
+                        - FEMALE
                     type: string
                     description: 性别
+                    format: enum
                 address:
                     type: string
                     description: 住址
+                region:
+                    type: string
+                    description: 国家地区
                 description:
                     type: string
                     description: 个人描述
+                remark:
+                    type: string
+                    description: 备注名
                 lastLoginTime:
                     type: string
                     description: 最后登录时间
@@ -1406,11 +1428,12 @@ components:
                     description: 最后登录IP
                 status:
                     enum:
-                        - ON
                         - OFF
+                        - ON
                     type: string
                     default: ON
                     description: 用户状态
+                    format: enum
                 authority:
                     enum:
                         - SYS_ADMIN

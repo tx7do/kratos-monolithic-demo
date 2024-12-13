@@ -37,7 +37,7 @@ service MenuService {
   rpc UpdateMenu (system.service.v1.UpdateMenuRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       put: "/admin/v1/menus/{menu.id}"
-      body: "menu"
+      body: "*"
     };
   }
 

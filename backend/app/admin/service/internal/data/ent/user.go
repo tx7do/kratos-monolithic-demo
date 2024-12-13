@@ -26,20 +26,14 @@ type User struct {
 	UpdateTime *time.Time `json:"update_time,omitempty"`
 	// 删除时间
 	DeleteTime *time.Time `json:"delete_time,omitempty"`
+	// 备注
+	Remark *string `json:"remark,omitempty"`
 	// 状态
 	Status *user.Status `json:"status,omitempty"`
 	// 用户名
 	Username *string `json:"username,omitempty"`
 	// 登录密码
 	Password *string `json:"password,omitempty"`
-	// 角色ID
-	RoleID *uint32 `json:"role_id,omitempty"`
-	// 部门ID
-	OrgID *uint32 `json:"org_id,omitempty"`
-	// 职位ID
-	PositionID *uint32 `json:"position_id,omitempty"`
-	// 员工工号
-	WorkID *uint32 `json:"work_id,omitempty"`
 	// 昵称
 	NickName *string `json:"nick_name,omitempty"`
 	// 真实名字
@@ -47,13 +41,17 @@ type User struct {
 	// 电子邮箱
 	Email *string `json:"email,omitempty"`
 	// 手机号码
-	Phone *string `json:"phone,omitempty"`
+	Mobile *string `json:"mobile,omitempty"`
+	// 座机号码
+	Telephone *string `json:"telephone,omitempty"`
 	// 头像
 	Avatar *string `json:"avatar,omitempty"`
 	// 性别
 	Gender *user.Gender `json:"gender,omitempty"`
 	// 地址
 	Address *string `json:"address,omitempty"`
+	// 国家地区
+	Region *string `json:"region,omitempty"`
 	// 个人说明
 	Description *string `json:"description,omitempty"`
 	// 授权
@@ -61,7 +59,15 @@ type User struct {
 	// 最后一次登录的时间
 	LastLoginTime *int64 `json:"last_login_time,omitempty"`
 	// 最后一次登录的IP
-	LastLoginIP  *string `json:"last_login_ip,omitempty"`
+	LastLoginIP *string `json:"last_login_ip,omitempty"`
+	// 角色ID
+	RoleID *uint32 `json:"role_id,omitempty"`
+	// 部门ID
+	OrgID *uint32 `json:"org_id,omitempty"`
+	// 职位ID
+	PositionID *uint32 `json:"position_id,omitempty"`
+	// 员工工号
+	WorkID       *uint32 `json:"work_id,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -70,9 +76,9 @@ func (*User) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case user.FieldID, user.FieldCreateBy, user.FieldRoleID, user.FieldOrgID, user.FieldPositionID, user.FieldWorkID, user.FieldLastLoginTime:
+		case user.FieldID, user.FieldCreateBy, user.FieldLastLoginTime, user.FieldRoleID, user.FieldOrgID, user.FieldPositionID, user.FieldWorkID:
 			values[i] = new(sql.NullInt64)
-		case user.FieldStatus, user.FieldUsername, user.FieldPassword, user.FieldNickName, user.FieldRealName, user.FieldEmail, user.FieldPhone, user.FieldAvatar, user.FieldGender, user.FieldAddress, user.FieldDescription, user.FieldAuthority, user.FieldLastLoginIP:
+		case user.FieldRemark, user.FieldStatus, user.FieldUsername, user.FieldPassword, user.FieldNickName, user.FieldRealName, user.FieldEmail, user.FieldMobile, user.FieldTelephone, user.FieldAvatar, user.FieldGender, user.FieldAddress, user.FieldRegion, user.FieldDescription, user.FieldAuthority, user.FieldLastLoginIP:
 			values[i] = new(sql.NullString)
 		case user.FieldCreateTime, user.FieldUpdateTime, user.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
@@ -125,6 +131,13 @@ func (u *User) assignValues(columns []string, values []any) error {
 				u.DeleteTime = new(time.Time)
 				*u.DeleteTime = value.Time
 			}
+		case user.FieldRemark:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field remark", values[i])
+			} else if value.Valid {
+				u.Remark = new(string)
+				*u.Remark = value.String
+			}
 		case user.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
@@ -145,34 +158,6 @@ func (u *User) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				u.Password = new(string)
 				*u.Password = value.String
-			}
-		case user.FieldRoleID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field role_id", values[i])
-			} else if value.Valid {
-				u.RoleID = new(uint32)
-				*u.RoleID = uint32(value.Int64)
-			}
-		case user.FieldOrgID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field org_id", values[i])
-			} else if value.Valid {
-				u.OrgID = new(uint32)
-				*u.OrgID = uint32(value.Int64)
-			}
-		case user.FieldPositionID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field position_id", values[i])
-			} else if value.Valid {
-				u.PositionID = new(uint32)
-				*u.PositionID = uint32(value.Int64)
-			}
-		case user.FieldWorkID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field work_id", values[i])
-			} else if value.Valid {
-				u.WorkID = new(uint32)
-				*u.WorkID = uint32(value.Int64)
 			}
 		case user.FieldNickName:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -195,12 +180,19 @@ func (u *User) assignValues(columns []string, values []any) error {
 				u.Email = new(string)
 				*u.Email = value.String
 			}
-		case user.FieldPhone:
+		case user.FieldMobile:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field phone", values[i])
+				return fmt.Errorf("unexpected type %T for field mobile", values[i])
 			} else if value.Valid {
-				u.Phone = new(string)
-				*u.Phone = value.String
+				u.Mobile = new(string)
+				*u.Mobile = value.String
+			}
+		case user.FieldTelephone:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field telephone", values[i])
+			} else if value.Valid {
+				u.Telephone = new(string)
+				*u.Telephone = value.String
 			}
 		case user.FieldAvatar:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -222,6 +214,13 @@ func (u *User) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				u.Address = new(string)
 				*u.Address = value.String
+			}
+		case user.FieldRegion:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field region", values[i])
+			} else if value.Valid {
+				u.Region = new(string)
+				*u.Region = value.String
 			}
 		case user.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -250,6 +249,34 @@ func (u *User) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				u.LastLoginIP = new(string)
 				*u.LastLoginIP = value.String
+			}
+		case user.FieldRoleID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field role_id", values[i])
+			} else if value.Valid {
+				u.RoleID = new(uint32)
+				*u.RoleID = uint32(value.Int64)
+			}
+		case user.FieldOrgID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field org_id", values[i])
+			} else if value.Valid {
+				u.OrgID = new(uint32)
+				*u.OrgID = uint32(value.Int64)
+			}
+		case user.FieldPositionID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field position_id", values[i])
+			} else if value.Valid {
+				u.PositionID = new(uint32)
+				*u.PositionID = uint32(value.Int64)
+			}
+		case user.FieldWorkID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field work_id", values[i])
+			} else if value.Valid {
+				u.WorkID = new(uint32)
+				*u.WorkID = uint32(value.Int64)
 			}
 		default:
 			u.selectValues.Set(columns[i], values[i])
@@ -307,6 +334,11 @@ func (u *User) String() string {
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
+	if v := u.Remark; v != nil {
+		builder.WriteString("remark=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
 	if v := u.Status; v != nil {
 		builder.WriteString("status=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
@@ -320,26 +352,6 @@ func (u *User) String() string {
 	if v := u.Password; v != nil {
 		builder.WriteString("password=")
 		builder.WriteString(*v)
-	}
-	builder.WriteString(", ")
-	if v := u.RoleID; v != nil {
-		builder.WriteString("role_id=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
-	if v := u.OrgID; v != nil {
-		builder.WriteString("org_id=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
-	if v := u.PositionID; v != nil {
-		builder.WriteString("position_id=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
-	if v := u.WorkID; v != nil {
-		builder.WriteString("work_id=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	if v := u.NickName; v != nil {
@@ -357,8 +369,13 @@ func (u *User) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := u.Phone; v != nil {
-		builder.WriteString("phone=")
+	if v := u.Mobile; v != nil {
+		builder.WriteString("mobile=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := u.Telephone; v != nil {
+		builder.WriteString("telephone=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
@@ -374,6 +391,11 @@ func (u *User) String() string {
 	builder.WriteString(", ")
 	if v := u.Address; v != nil {
 		builder.WriteString("address=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := u.Region; v != nil {
+		builder.WriteString("region=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
@@ -395,6 +417,26 @@ func (u *User) String() string {
 	if v := u.LastLoginIP; v != nil {
 		builder.WriteString("last_login_ip=")
 		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := u.RoleID; v != nil {
+		builder.WriteString("role_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := u.OrgID; v != nil {
+		builder.WriteString("org_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := u.PositionID; v != nil {
+		builder.WriteString("position_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := u.WorkID; v != nil {
+		builder.WriteString("work_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteByte(')')
 	return builder.String()

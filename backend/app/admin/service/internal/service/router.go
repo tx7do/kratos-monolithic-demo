@@ -10,10 +10,9 @@ import (
 
 	"kratos-monolithic-demo/app/admin/service/internal/data"
 
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	adminV1 "kratos-monolithic-demo/api/gen/go/admin/service/v1"
 	systemV1 "kratos-monolithic-demo/api/gen/go/system/service/v1"
-
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 )
 
 type RouterService struct {
@@ -35,35 +34,28 @@ func (s *RouterService) ListPermissionCode(_ context.Context, _ *emptypb.Empty) 
 	return &adminV1.ListPermissionCodeResponse{}, nil
 }
 
-func fillRouteItem(menus []*systemV1.Menu) []*adminV1.RouteItem {
+func fillRouteItem(menus []*systemV1.Menu) []*systemV1.RouteItem {
 	if len(menus) == 0 {
 		return nil
 	}
 
-	var routers []*adminV1.RouteItem
+	var routers []*systemV1.RouteItem
 
 	for _, v := range menus {
-		if !v.GetShow() {
+		if v.GetStatus() != "ON" {
 			continue
 		}
 		if v.GetType() == systemV1.MenuType_BUTTON {
 			continue
 		}
 
-		item := &adminV1.RouteItem{
+		item := &systemV1.RouteItem{
 			Path:      v.Path,
 			Component: v.Component,
 			Name:      v.Name,
 			Redirect:  v.Redirect,
-			Meta: &adminV1.RouteMeta{
-				OrderNo:           v.OrderNo,
-				Title:             v.Title,
-				Icon:              v.Icon,
-				HideBreadcrumb:    v.HideBreadcrumb,
-				HideTab:           v.HideTab,
-				HideMenu:          v.HideMenu,
-				CurrentActiveMenu: v.CurrentActiveMenu,
-			},
+			Alias:     v.Alias,
+			Meta:      v.Meta,
 		}
 
 		if len(v.Children) > 0 {

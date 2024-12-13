@@ -128,24 +128,27 @@ var schemaGraph = func() *sqlgraph.Schema {
 			user.FieldCreateTime:    {Type: field.TypeTime, Column: user.FieldCreateTime},
 			user.FieldUpdateTime:    {Type: field.TypeTime, Column: user.FieldUpdateTime},
 			user.FieldDeleteTime:    {Type: field.TypeTime, Column: user.FieldDeleteTime},
+			user.FieldRemark:        {Type: field.TypeString, Column: user.FieldRemark},
 			user.FieldStatus:        {Type: field.TypeEnum, Column: user.FieldStatus},
 			user.FieldUsername:      {Type: field.TypeString, Column: user.FieldUsername},
 			user.FieldPassword:      {Type: field.TypeString, Column: user.FieldPassword},
-			user.FieldRoleID:        {Type: field.TypeUint32, Column: user.FieldRoleID},
-			user.FieldOrgID:         {Type: field.TypeUint32, Column: user.FieldOrgID},
-			user.FieldPositionID:    {Type: field.TypeUint32, Column: user.FieldPositionID},
-			user.FieldWorkID:        {Type: field.TypeUint32, Column: user.FieldWorkID},
 			user.FieldNickName:      {Type: field.TypeString, Column: user.FieldNickName},
 			user.FieldRealName:      {Type: field.TypeString, Column: user.FieldRealName},
 			user.FieldEmail:         {Type: field.TypeString, Column: user.FieldEmail},
-			user.FieldPhone:         {Type: field.TypeString, Column: user.FieldPhone},
+			user.FieldMobile:        {Type: field.TypeString, Column: user.FieldMobile},
+			user.FieldTelephone:     {Type: field.TypeString, Column: user.FieldTelephone},
 			user.FieldAvatar:        {Type: field.TypeString, Column: user.FieldAvatar},
 			user.FieldGender:        {Type: field.TypeEnum, Column: user.FieldGender},
 			user.FieldAddress:       {Type: field.TypeString, Column: user.FieldAddress},
+			user.FieldRegion:        {Type: field.TypeString, Column: user.FieldRegion},
 			user.FieldDescription:   {Type: field.TypeString, Column: user.FieldDescription},
 			user.FieldAuthority:     {Type: field.TypeEnum, Column: user.FieldAuthority},
 			user.FieldLastLoginTime: {Type: field.TypeInt64, Column: user.FieldLastLoginTime},
 			user.FieldLastLoginIP:   {Type: field.TypeString, Column: user.FieldLastLoginIP},
+			user.FieldRoleID:        {Type: field.TypeUint32, Column: user.FieldRoleID},
+			user.FieldOrgID:         {Type: field.TypeUint32, Column: user.FieldOrgID},
+			user.FieldPositionID:    {Type: field.TypeUint32, Column: user.FieldPositionID},
+			user.FieldWorkID:        {Type: field.TypeUint32, Column: user.FieldWorkID},
 		},
 	}
 	graph.MustAddE(
@@ -795,6 +798,11 @@ func (f *UserFilter) WhereDeleteTime(p entql.TimeP) {
 	f.Where(p.Field(user.FieldDeleteTime))
 }
 
+// WhereRemark applies the entql string predicate on the remark field.
+func (f *UserFilter) WhereRemark(p entql.StringP) {
+	f.Where(p.Field(user.FieldRemark))
+}
+
 // WhereStatus applies the entql string predicate on the status field.
 func (f *UserFilter) WhereStatus(p entql.StringP) {
 	f.Where(p.Field(user.FieldStatus))
@@ -808,26 +816,6 @@ func (f *UserFilter) WhereUsername(p entql.StringP) {
 // WherePassword applies the entql string predicate on the password field.
 func (f *UserFilter) WherePassword(p entql.StringP) {
 	f.Where(p.Field(user.FieldPassword))
-}
-
-// WhereRoleID applies the entql uint32 predicate on the role_id field.
-func (f *UserFilter) WhereRoleID(p entql.Uint32P) {
-	f.Where(p.Field(user.FieldRoleID))
-}
-
-// WhereOrgID applies the entql uint32 predicate on the org_id field.
-func (f *UserFilter) WhereOrgID(p entql.Uint32P) {
-	f.Where(p.Field(user.FieldOrgID))
-}
-
-// WherePositionID applies the entql uint32 predicate on the position_id field.
-func (f *UserFilter) WherePositionID(p entql.Uint32P) {
-	f.Where(p.Field(user.FieldPositionID))
-}
-
-// WhereWorkID applies the entql uint32 predicate on the work_id field.
-func (f *UserFilter) WhereWorkID(p entql.Uint32P) {
-	f.Where(p.Field(user.FieldWorkID))
 }
 
 // WhereNickName applies the entql string predicate on the nick_name field.
@@ -845,9 +833,14 @@ func (f *UserFilter) WhereEmail(p entql.StringP) {
 	f.Where(p.Field(user.FieldEmail))
 }
 
-// WherePhone applies the entql string predicate on the phone field.
-func (f *UserFilter) WherePhone(p entql.StringP) {
-	f.Where(p.Field(user.FieldPhone))
+// WhereMobile applies the entql string predicate on the mobile field.
+func (f *UserFilter) WhereMobile(p entql.StringP) {
+	f.Where(p.Field(user.FieldMobile))
+}
+
+// WhereTelephone applies the entql string predicate on the telephone field.
+func (f *UserFilter) WhereTelephone(p entql.StringP) {
+	f.Where(p.Field(user.FieldTelephone))
 }
 
 // WhereAvatar applies the entql string predicate on the avatar field.
@@ -863,6 +856,11 @@ func (f *UserFilter) WhereGender(p entql.StringP) {
 // WhereAddress applies the entql string predicate on the address field.
 func (f *UserFilter) WhereAddress(p entql.StringP) {
 	f.Where(p.Field(user.FieldAddress))
+}
+
+// WhereRegion applies the entql string predicate on the region field.
+func (f *UserFilter) WhereRegion(p entql.StringP) {
+	f.Where(p.Field(user.FieldRegion))
 }
 
 // WhereDescription applies the entql string predicate on the description field.
@@ -883,4 +881,24 @@ func (f *UserFilter) WhereLastLoginTime(p entql.Int64P) {
 // WhereLastLoginIP applies the entql string predicate on the last_login_ip field.
 func (f *UserFilter) WhereLastLoginIP(p entql.StringP) {
 	f.Where(p.Field(user.FieldLastLoginIP))
+}
+
+// WhereRoleID applies the entql uint32 predicate on the role_id field.
+func (f *UserFilter) WhereRoleID(p entql.Uint32P) {
+	f.Where(p.Field(user.FieldRoleID))
+}
+
+// WhereOrgID applies the entql uint32 predicate on the org_id field.
+func (f *UserFilter) WhereOrgID(p entql.Uint32P) {
+	f.Where(p.Field(user.FieldOrgID))
+}
+
+// WherePositionID applies the entql uint32 predicate on the position_id field.
+func (f *UserFilter) WherePositionID(p entql.Uint32P) {
+	f.Where(p.Field(user.FieldPositionID))
+}
+
+// WhereWorkID applies the entql uint32 predicate on the work_id field.
+func (f *UserFilter) WhereWorkID(p entql.Uint32P) {
+	f.Where(p.Field(user.FieldWorkID))
 }

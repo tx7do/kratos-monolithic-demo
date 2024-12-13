@@ -335,6 +335,192 @@ var _ interface {
 	ErrorName() string
 } = MenuValidationError{}
 
+// Validate checks the field values on RouteItem with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *RouteItem) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RouteItem with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in RouteItemMultiError, or nil
+// if none found.
+func (m *RouteItem) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RouteItem) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetChildren() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RouteItemValidationError{
+						field:  fmt.Sprintf("Children[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RouteItemValidationError{
+						field:  fmt.Sprintf("Children[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return RouteItemValidationError{
+					field:  fmt.Sprintf("Children[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.Path != nil {
+		// no validation rules for Path
+	}
+
+	if m.Redirect != nil {
+		// no validation rules for Redirect
+	}
+
+	if m.Alias != nil {
+		// no validation rules for Alias
+	}
+
+	if m.Name != nil {
+		// no validation rules for Name
+	}
+
+	if m.Component != nil {
+		// no validation rules for Component
+	}
+
+	if m.Meta != nil {
+
+		if all {
+			switch v := interface{}(m.GetMeta()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RouteItemValidationError{
+						field:  "Meta",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RouteItemValidationError{
+						field:  "Meta",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetMeta()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return RouteItemValidationError{
+					field:  "Meta",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return RouteItemMultiError(errors)
+	}
+
+	return nil
+}
+
+// RouteItemMultiError is an error wrapping multiple validation errors returned
+// by RouteItem.ValidateAll() if the designated constraints aren't met.
+type RouteItemMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RouteItemMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RouteItemMultiError) AllErrors() []error { return m }
+
+// RouteItemValidationError is the validation error returned by
+// RouteItem.Validate if the designated constraints aren't met.
+type RouteItemValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RouteItemValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RouteItemValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RouteItemValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RouteItemValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RouteItemValidationError) ErrorName() string { return "RouteItemValidationError" }
+
+// Error satisfies the builtin error interface
+func (e RouteItemValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRouteItem.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RouteItemValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RouteItemValidationError{}
+
 // Validate checks the field values on RouteMeta with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.

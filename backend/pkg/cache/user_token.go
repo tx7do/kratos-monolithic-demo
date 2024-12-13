@@ -7,9 +7,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/uuid"
 	"github.com/redis/go-redis/v9"
+
+	"github.com/go-kratos/kratos/v2/log"
 
 	authn "github.com/tx7do/kratos-authn/engine"
 	authnEngine "github.com/tx7do/kratos-authn/engine"
@@ -24,6 +25,9 @@ type UserToken struct {
 
 	accessTokenKeyPrefix  string
 	refreshTokenKeyPrefix string
+
+	accessTokenExpires  int32
+	refreshTokenExpires int32
 }
 
 func NewUserToken(
@@ -40,28 +44,9 @@ func NewUserToken(
 		authenticator:         authenticator,
 		accessTokenKeyPrefix:  accessTokenKeyPrefix,
 		refreshTokenKeyPrefix: refreshTokenKeyPrefix,
+		accessTokenExpires:    0,
+		refreshTokenExpires:   0,
 	}
-}
-
-// createAccessJwtToken 生成JWT访问令牌
-func (r *UserToken) createAccessJwtToken(_ string, userId uint32) string {
-	principal := authn.AuthClaims{
-		Subject: strconv.FormatUint(uint64(userId), 10),
-		Scopes:  make(authn.ScopeSet),
-	}
-
-	signedToken, err := r.authenticator.CreateIdentity(principal)
-	if err != nil {
-		return ""
-	}
-
-	return signedToken
-}
-
-// createRefreshToken 生成刷新令牌
-func (r *UserToken) createRefreshToken() string {
-	strUUID := uuid.New()
-	return strUUID.String()
 }
 
 // GenerateToken 创建令牌
@@ -71,7 +56,7 @@ func (r *UserToken) GenerateToken(ctx context.Context, user *userV1.User) (acces
 		return
 	}
 
-	if err = r.setAccessTokenToRedis(ctx, user.GetId(), accessToken, 0); err != nil {
+	if err = r.setAccessTokenToRedis(ctx, user.GetId(), accessToken, r.accessTokenExpires); err != nil {
 		return
 	}
 
@@ -80,7 +65,7 @@ func (r *UserToken) GenerateToken(ctx context.Context, user *userV1.User) (acces
 		return
 	}
 
-	if err = r.setRefreshTokenToRedis(ctx, user.GetId(), refreshToken, 0); err != nil {
+	if err = r.setRefreshTokenToRedis(ctx, user.GetId(), refreshToken, r.refreshTokenExpires); err != nil {
 		return
 	}
 
@@ -94,7 +79,7 @@ func (r *UserToken) GenerateAccessToken(ctx context.Context, userId uint32, user
 		return
 	}
 
-	if err = r.setAccessTokenToRedis(ctx, userId, accessToken, 0); err != nil {
+	if err = r.setAccessTokenToRedis(ctx, userId, accessToken, r.accessTokenExpires); err != nil {
 		return
 	}
 
@@ -108,7 +93,7 @@ func (r *UserToken) GenerateRefreshToken(ctx context.Context, user *userV1.User)
 		return
 	}
 
-	if err = r.setRefreshTokenToRedis(ctx, user.GetId(), refreshToken, 0); err != nil {
+	if err = r.setRefreshTokenToRedis(ctx, user.GetId(), refreshToken, r.refreshTokenExpires); err != nil {
 		return
 	}
 
@@ -141,7 +126,7 @@ func (r *UserToken) GetRefreshToken(ctx context.Context, userId uint32) string {
 
 // IsExistAccessToken 访问令牌是否存在
 func (r *UserToken) IsExistAccessToken(ctx context.Context, userId uint32) bool {
-	key := fmt.Sprintf("%s%d", r.accessTokenKeyPrefix, userId)
+	key := r.makeAccessTokenKey(userId)
 	n, err := r.rdb.Exists(ctx, key).Result()
 	if err != nil {
 		return false
@@ -151,7 +136,7 @@ func (r *UserToken) IsExistAccessToken(ctx context.Context, userId uint32) bool 
 
 // IsExistRefreshToken 刷新令牌是否存在
 func (r *UserToken) IsExistRefreshToken(ctx context.Context, userId uint32) bool {
-	key := fmt.Sprintf("%s%d", r.refreshTokenKeyPrefix, userId)
+	key := r.makeRefreshTokenKey(userId)
 	n, err := r.rdb.Exists(ctx, key).Result()
 	if err != nil {
 		return false
@@ -159,13 +144,15 @@ func (r *UserToken) IsExistRefreshToken(ctx context.Context, userId uint32) bool
 	return n > 0
 }
 
+// setAccessTokenToRedis 设置访问令牌
 func (r *UserToken) setAccessTokenToRedis(ctx context.Context, userId uint32, token string, expires int32) error {
-	key := fmt.Sprintf("%s%d", r.accessTokenKeyPrefix, userId)
+	key := r.makeAccessTokenKey(userId)
 	return r.rdb.Set(ctx, key, token, time.Duration(expires)).Err()
 }
 
+// getAccessTokenFromRedis 获取访问令牌
 func (r *UserToken) getAccessTokenFromRedis(ctx context.Context, userId uint32) string {
-	key := fmt.Sprintf("%s%d", r.accessTokenKeyPrefix, userId)
+	key := r.makeAccessTokenKey(userId)
 	result, err := r.rdb.Get(ctx, key).Result()
 	if err != nil {
 		if !errors.Is(err, redis.Nil) {
@@ -176,18 +163,21 @@ func (r *UserToken) getAccessTokenFromRedis(ctx context.Context, userId uint32) 
 	return result
 }
 
+// deleteAccessTokenFromRedis 删除访问令牌
 func (r *UserToken) deleteAccessTokenFromRedis(ctx context.Context, userId uint32) error {
-	key := fmt.Sprintf("%s%d", r.accessTokenKeyPrefix, userId)
+	key := r.makeAccessTokenKey(userId)
 	return r.rdb.Del(ctx, key).Err()
 }
 
+// setRefreshTokenToRedis 设置刷新令牌
 func (r *UserToken) setRefreshTokenToRedis(ctx context.Context, userId uint32, token string, expires int32) error {
-	key := fmt.Sprintf("%s%d", r.refreshTokenKeyPrefix, userId)
+	key := r.makeRefreshTokenKey(userId)
 	return r.rdb.Set(ctx, key, token, time.Duration(expires)).Err()
 }
 
+// getRefreshTokenFromRedis 获取刷新令牌
 func (r *UserToken) getRefreshTokenFromRedis(ctx context.Context, userId uint32) string {
-	key := fmt.Sprintf("%s%d", r.refreshTokenKeyPrefix, userId)
+	key := r.makeRefreshTokenKey(userId)
 	result, err := r.rdb.Get(ctx, key).Result()
 	if err != nil {
 		if !errors.Is(err, redis.Nil) {
@@ -198,7 +188,39 @@ func (r *UserToken) getRefreshTokenFromRedis(ctx context.Context, userId uint32)
 	return result
 }
 
+// deleteRefreshTokenFromRedis 删除刷新令牌
 func (r *UserToken) deleteRefreshTokenFromRedis(ctx context.Context, userId uint32) error {
-	key := fmt.Sprintf("%s%d", r.refreshTokenKeyPrefix, userId)
+	key := r.makeRefreshTokenKey(userId)
 	return r.rdb.Del(ctx, key).Err()
+}
+
+// createAccessJwtToken 生成JWT访问令牌
+func (r *UserToken) createAccessJwtToken(_ string, userId uint32) string {
+	principal := authn.AuthClaims{
+		Subject: strconv.FormatUint(uint64(userId), 10),
+		Scopes:  make(authn.ScopeSet),
+	}
+
+	signedToken, err := r.authenticator.CreateIdentity(principal)
+	if err != nil {
+		r.log.Error("create access token failed: [%v]", err)
+	}
+
+	return signedToken
+}
+
+// createRefreshToken 生成刷新令牌
+func (r *UserToken) createRefreshToken() string {
+	strUUID := uuid.New()
+	return strUUID.String()
+}
+
+// makeAccessTokenKey 生成访问令牌键
+func (r *UserToken) makeAccessTokenKey(userId uint32) string {
+	return fmt.Sprintf("%s%d", r.accessTokenKeyPrefix, userId)
+}
+
+// makeRefreshTokenKey 生成刷新令牌键
+func (r *UserToken) makeRefreshTokenKey(userId uint32) string {
+	return fmt.Sprintf("%s%d", r.refreshTokenKeyPrefix, userId)
 }

@@ -2,13 +2,16 @@ package data
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
 
 	"github.com/tx7do/go-utils/entgo/query"
-	util "github.com/tx7do/go-utils/timeutil"
+	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
+	"github.com/tx7do/go-utils/fieldmaskutil"
+	timeutil "github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
 
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent"
@@ -68,9 +71,9 @@ func (r *MenuRepo) convertEntToProto(in *ent.Menu) *systemV1.Menu {
 		Component:  in.Component,
 		Meta:       in.Meta,
 		Status:     (*string)(in.Status),
-		CreateTime: util.TimeToTimestamppb(in.CreateTime),
-		UpdateTime: util.TimeToTimestamppb(in.UpdateTime),
-		DeleteTime: util.TimeToTimestamppb(in.DeleteTime),
+		CreateTime: timeutil.TimeToTimestamppb(in.CreateTime),
+		UpdateTime: timeutil.TimeToTimestamppb(in.UpdateTime),
+		DeleteTime: timeutil.TimeToTimestamppb(in.DeleteTime),
 	}
 }
 
@@ -176,7 +179,6 @@ func (r *MenuRepo) Get(ctx context.Context, req *systemV1.GetMenuRequest) (*syst
 
 func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) error {
 	builder := r.data.db.Client().Menu.Create().
-		SetID(req.Menu.GetId()).
 		SetNillableParentID(req.Menu.ParentId).
 		SetNillableType(r.convertMenuTypeToEnt(req.Menu.Type)).
 		SetNillablePath(req.Menu.Path).
@@ -184,12 +186,16 @@ func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) 
 		SetNillableAlias(req.Menu.Alias).
 		SetNillableName(req.Menu.Name).
 		SetNillableComponent(req.Menu.Component).
-		SetMeta(req.Menu.Meta).
+		//SetMeta(req.Menu.Meta).
 		SetNillableStatus((*menu.Status)(req.Menu.Status)).
 		SetCreateTime(time.Now())
 
-	if req.Menu.Type != nil {
-		builder.SetType((menu.Type)(req.Menu.Type.String()))
+	if req.Menu.Meta != nil {
+		builder.SetMeta(req.Menu.Meta)
+	}
+
+	if req.Menu.Id != nil {
+		builder.SetID(req.Menu.GetId())
 	}
 
 	err := builder.Exec(ctx)
@@ -202,6 +208,18 @@ func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) 
 }
 
 func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) error {
+	r.log.Infof("UPDATE 1: [%v] [%v]", req.Menu, req.Menu.Meta)
+
+	if req.UpdateMask != nil {
+		req.UpdateMask.Normalize()
+		if !req.UpdateMask.IsValid(req.Menu) {
+			return errors.New("invalid field mask")
+		}
+		fieldmaskutil.Filter(req.GetMenu(), req.UpdateMask.GetPaths())
+	}
+
+	r.log.Infof("UPDATE: [%v] [%v]", req.Menu, req.Menu.Meta)
+
 	builder := r.data.db.Client().Menu.UpdateOneID(req.Menu.GetId()).
 		SetNillableParentID(req.Menu.ParentId).
 		SetNillableType(r.convertMenuTypeToEnt(req.Menu.Type)).
@@ -210,12 +228,20 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) 
 		SetNillableAlias(req.Menu.Alias).
 		SetNillableName(req.Menu.Name).
 		SetNillableComponent(req.Menu.Component).
-		SetMeta(req.Menu.Meta).
+		//SetMeta(req.Menu.Meta).
 		SetNillableStatus((*menu.Status)(req.Menu.Status)).
 		SetUpdateTime(time.Now())
 
-	if req.Menu.Type != nil {
-		builder.SetType((menu.Type)(req.Menu.Type.String()))
+	if req.Menu.Meta != nil {
+		builder.SetMeta(req.Menu.Meta)
+	}
+
+	if req.UpdateMask != nil {
+		nilPaths := fieldmaskutil.NilValuePaths(req.Menu, req.GetUpdateMask().GetPaths())
+		_, nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
+		if nilUpdater != nil {
+			builder.Modify(nilUpdater)
+		}
 	}
 
 	err := builder.Exec(ctx)

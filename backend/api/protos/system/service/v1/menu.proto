@@ -3,11 +3,13 @@ syntax = "proto3";
 package system.service.v1;
 
 import "gnostic/openapi/v3/annotations.proto";
+
 import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/field_mask.proto";
-import "google/api/field_behavior.proto";
 
 import "pagination/v1/pagination.proto";
 
@@ -132,7 +134,61 @@ message Menu {
   optional google.protobuf.Timestamp delete_time = 32 [json_name = "deleteTime"];
 }
 
-// 路由元信息
+// 路由项
+message RouteItem {
+  repeated RouteItem children = 1 [json_name = "children"];
+
+  optional string path = 10 [
+    json_name = "path",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "路由路径"
+    }
+  ];
+
+  optional string redirect = 11 [
+    json_name = "redirect",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "重定向地址"
+    }
+  ];
+
+  optional string alias = 12 [
+    json_name = "alias",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "路由别名"
+    }
+  ];
+
+  optional string name = 13 [
+    json_name = "name",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "路由命名，然后我们可以使用 name 而不是 path 来传递 to 属性给 <router-link>。"
+    }
+  ];
+
+  optional string component = 14 [
+    json_name = "component",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "指向的组件"
+    }
+  ];
+
+  optional RouteMeta meta = 15 [
+    json_name = "meta",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "路由元信息"
+    }
+  ];
+
+}
+
+// 路由元数据
 message RouteMeta {
   optional string active_icon = 1 [
     json_name = "activeIcon",

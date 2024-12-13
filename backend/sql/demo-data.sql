@@ -1,13 +1,13 @@
 -- 默认的角色
-TRUNCATE TABLE kratos_monolithic.public.role;
-INSERT INTO kratos_monolithic.public.role(id, parent_id, create_by, order_no, name, code, status, remark, create_time)
+TRUNCATE TABLE kratos_monolithic.public.roles;
+INSERT INTO kratos_monolithic.public.roles(id, parent_id, create_by, order_no, name, code, status, remark, create_time)
 VALUES (1, null, 0, 1, '系统管理员', 'SYS_ADMIN', 'ON', '系统管理员拥有对整个系统的管理权限', now()),
        (3, null, 0, 3, '普通用户', 'CUSTOMER_USER', 'ON', '普通用户没有管理权限，只有设备和APP的使用权限', now()),
        (4, null, 0, 4, '游客', 'GUEST_USER', 'ON', '游客只有非常有限的数据读取权限', now());
 
 -- 后台目录
-TRUNCATE TABLE public.menu;
-INSERT INTO public.menu(id, parent_id, order_no, type, name, title, path, redirect, component, icon, status, current_active_menu, keep_alive, is_ext, show, hide_tab, hide_menu, hide_breadcrumb, create_time)
+TRUNCATE TABLE public.menus;
+INSERT INTO public.menus(id, parent_id, order_no, type, name, title, path, redirect, component, icon, status, current_active_menu, keep_alive, is_ext, show, hide_tab, hide_menu, hide_breadcrumb, create_time)
 VALUES (1, null, 1, 'FOLDER', 'Dashboard', 'routes.menu.dashboard.index', '/dashboard', '/dashboard/location', 'LAYOUT', 'ant-design:dashboard-outlined', 'ON', null, 'f', 'f', 't', 'f', 'f', 'f', now()),
        (2, 1, 2, 'MENU', 'AnalysisViewer', 'routes.menu.dashboard.analysis', 'analysis', null, 'app/dashboard/analysis/index', 'ant-design:bar-chart-outlined', 'ON', null, 'f', 'f', 't', 'f', 'f', 'f', now()),
 

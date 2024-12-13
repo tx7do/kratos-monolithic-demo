@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"errors"
 	"sort"
 	"time"
 
@@ -9,7 +10,9 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 
 	entgo "github.com/tx7do/go-utils/entgo/query"
-	util "github.com/tx7do/go-utils/timeutil"
+	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
+	"github.com/tx7do/go-utils/fieldmaskutil"
+	timeutil "github.com/tx7do/go-utils/timeutil"
 
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent"
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent/organization"
@@ -42,9 +45,9 @@ func (r *OrganizationRepo) convertEntToProto(in *ent.Organization) *userV1.Organ
 		OrderNo:    in.OrderNo,
 		ParentId:   in.ParentID,
 		Status:     (*string)(in.Status),
-		CreateTime: util.TimeToTimestamppb(in.CreateTime),
-		UpdateTime: util.TimeToTimestamppb(in.UpdateTime),
-		DeleteTime: util.TimeToTimestamppb(in.DeleteTime),
+		CreateTime: timeutil.TimeToTimestamppb(in.CreateTime),
+		UpdateTime: timeutil.TimeToTimestamppb(in.UpdateTime),
+		DeleteTime: timeutil.TimeToTimestamppb(in.DeleteTime),
 	}
 }
 
@@ -178,6 +181,13 @@ func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganiz
 }
 
 func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganizationRequest) error {
+	if req.UpdateMask != nil {
+		req.UpdateMask.Normalize()
+		if !req.UpdateMask.IsValid(req.Org) {
+			return errors.New("invalid field mask")
+		}
+		fieldmaskutil.Filter(req.GetOrg(), req.UpdateMask.GetPaths())
+	}
 
 	builder := r.data.db.Client().Organization.UpdateOneID(req.Org.Id).
 		SetNillableName(req.Org.Name).
@@ -186,6 +196,14 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganiz
 		SetNillableRemark(req.Org.Remark).
 		SetNillableStatus((*organization.Status)(req.Org.Status)).
 		SetUpdateTime(time.Now())
+
+	if req.UpdateMask != nil {
+		nilPaths := fieldmaskutil.NilValuePaths(req.Org, req.GetUpdateMask().GetPaths())
+		_, nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
+		if nilUpdater != nil {
+			builder.Modify(nilUpdater)
+		}
+	}
 
 	err := builder.Exec(ctx)
 	if err != nil {
