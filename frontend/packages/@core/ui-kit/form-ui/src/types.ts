@@ -308,6 +308,10 @@ export interface VbenFormProps<
     'componentBindEventMap' | 'componentMap' | 'form'
   > {
   /**
+   * 操作按钮是否反转（提交按钮前置）
+   */
+  actionButtonsReverse?: boolean;
+  /**
    * 表单操作区域class
    */
   actionWrapperClass?: ClassType;
@@ -341,6 +345,12 @@ export interface VbenFormProps<
    * 提交按钮参数
    */
   submitButtonOptions?: ActionButtonOptions;
+
+  /**
+   * 是否在字段值改变时提交表单
+   * @default false
+   */
+  submitOnChange?: boolean;
 
   /**
    * 是否在回车时提交表单

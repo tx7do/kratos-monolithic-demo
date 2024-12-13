@@ -35,16 +35,22 @@ export async function javascript(): Promise<Linter.Config[]> {
       },
       rules: {
         ...js.configs.recommended.rules,
-        'accessor-pairs': ['error', { enforceForClassMembers: true, setWithoutGet: true }],
+        'accessor-pairs': [
+          'error',
+          { enforceForClassMembers: true, setWithoutGet: true },
+        ],
         'array-callback-return': 'error',
         'block-scoped-var': 'error',
         'constructor-super': 'error',
         'default-case-last': 'error',
         'dot-notation': ['error', { allowKeywords: true }],
         eqeqeq: ['error', 'always'],
-        // 'keyword-spacing': 'off',
+        'keyword-spacing': 'off',
 
-        'new-cap': ['error', { capIsNew: false, newIsCap: true, properties: true }],
+        'new-cap': [
+          'error',
+          { capIsNew: false, newIsCap: true, properties: true },
+        ],
         'no-alert': 'error',
         'no-array-constructor': 'error',
         'no-async-promise-executor': 'error',
@@ -86,8 +92,8 @@ export async function javascript(): Promise<Linter.Config[]> {
         'no-multi-str': 'error',
         'no-new': 'error',
         'no-new-func': 'error',
-        // 'no-new-object': 'error',
-        // 'no-new-symbol': 'error',
+        'no-new-object': 'error',
+        'no-new-symbol': 'error',
         'no-new-wrappers': 'error',
         'no-obj-calls': 'error',
         'no-octal': 'error',
@@ -104,7 +110,8 @@ export async function javascript(): Promise<Linter.Config[]> {
         'no-restricted-properties': [
           'error',
           {
-            message: 'Use `Object.getPrototypeOf` or `Object.setPrototypeOf` instead.',
+            message:
+              'Use `Object.getPrototypeOf` or `Object.setPrototypeOf` instead.',
             property: '__proto__',
           },
           {
@@ -166,7 +173,10 @@ export async function javascript(): Promise<Linter.Config[]> {
             vars: 'all',
           },
         ],
-        'no-use-before-define': ['error', { classes: false, functions: false, variables: true }],
+        'no-use-before-define': [
+          'error',
+          { classes: false, functions: false, variables: true },
+        ],
         'no-useless-backreference': 'error',
         'no-useless-call': 'error',
         'no-useless-catch': 'error',
@@ -176,7 +186,11 @@ export async function javascript(): Promise<Linter.Config[]> {
         'no-useless-return': 'error',
         'no-var': 'error',
         'no-with': 'error',
-        'object-shorthand': ['error', 'always', { avoidQuotes: true, ignoreConstructors: false }],
+        'object-shorthand': [
+          'error',
+          'always',
+          { avoidQuotes: true, ignoreConstructors: false },
+        ],
         'one-var': ['error', { initialized: 'never' }],
         'prefer-arrow-callback': [
           'error',
@@ -199,8 +213,8 @@ export async function javascript(): Promise<Linter.Config[]> {
         'prefer-rest-params': 'error',
         'prefer-spread': 'error',
         'prefer-template': 'error',
-        // 'space-before-function-paren': 'off',
-        // 'spaced-comment': 'error',
+        'space-before-function-paren': 'off',
+        'spaced-comment': 'error',
         'symbol-description': 'error',
         'unicode-bom': ['error', 'never'],
 
@@ -214,7 +228,10 @@ export async function javascript(): Promise<Linter.Config[]> {
             varsIgnorePattern: '^_',
           },
         ],
-        'use-isnan': ['error', { enforceForIndexOf: true, enforceForSwitchCase: true }],
+        'use-isnan': [
+          'error',
+          { enforceForIndexOf: true, enforceForSwitchCase: true },
+        ],
         'valid-typeof': ['error', { requireStringLiterals: true }],
 
         'vars-on-top': 'error',

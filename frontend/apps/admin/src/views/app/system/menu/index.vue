@@ -73,7 +73,7 @@
 
     columns: [
       { title: '序号', type: 'seq', width: 50 },
-      { title: '菜单名称', field: 'title' },
+      { title: '菜单名称', field: 'title', slots: { default: 'title' } },
       { title: '排序', field: 'orderNo' },
       { title: '权限标识', field: 'permissionCode' },
       { title: '路由地址', field: 'path' },
@@ -169,6 +169,9 @@
     <Grid :table-title="$t('menu.system.menu')">
       <template #toolbar-tools>
         <Button type="primary" @click="handleCreate">创建菜单</Button>
+      </template>
+      <template #title="{ row }">
+        <span style="marginRight: '15px'"></span>
       </template>
       <template #status="{ row }">
         <Switch

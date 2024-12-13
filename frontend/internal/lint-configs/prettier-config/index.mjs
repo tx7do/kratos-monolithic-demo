@@ -1,6 +1,5 @@
 export default {
   endOfLine: 'auto',
-  htmlWhitespaceSensitivity: 'strict',
   overrides: [
     {
       files: ['*.json5'],
@@ -11,10 +10,9 @@ export default {
     },
   ],
   plugins: ['prettier-plugin-tailwindcss'],
-  printWidth: 100,
+  printWidth: 80,
   proseWrap: 'never',
   semi: true,
   singleQuote: true,
   trailingComma: 'all',
-  vueIndentScriptAndStyle: true,
 };
