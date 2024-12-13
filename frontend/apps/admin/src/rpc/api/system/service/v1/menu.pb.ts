@@ -21,32 +21,47 @@ export enum MenuType {
 
 /** 菜单 */
 export interface Menu {
-  id: number;
+  id?: number | null | undefined;
   parentId?: number | null | undefined;
-  orderNo?: number | null | undefined;
-  name?: string | null | undefined;
-  type?: MenuType | null | undefined;
   status?: string | null | undefined;
-  path?: string | null | undefined;
-  title?: string | null | undefined;
-  component?: string | null | undefined;
-  icon?: string | null | undefined;
-  permissions: string[];
+  type?: MenuType | null | undefined;
   children: Menu[];
-  keepAlive?: boolean | null | undefined;
-  show?: boolean | null | undefined;
-  isExt?: boolean | null | undefined;
-  extUrl?: string | null | undefined;
-  hideBreadcrumb?: boolean | null | undefined;
-  hideTab?: boolean | null | undefined;
-  hideMenu?: boolean | null | undefined;
-  hideChildrenInMenu?: boolean | null | undefined;
-  hidePathForChildren?: boolean | null | undefined;
-  currentActiveMenu?: string | null | undefined;
+  path?: string | null | undefined;
   redirect?: string | null | undefined;
+  alias?: string | null | undefined;
+  name?: string | null | undefined;
+  component?: string | null | undefined;
+  meta?: RouteMeta | null | undefined;
   createTime?: Timestamp | null | undefined;
   updateTime?: Timestamp | null | undefined;
   deleteTime?: Timestamp | null | undefined;
+}
+
+/** 路由元信息 */
+export interface RouteMeta {
+  activeIcon?: string | null | undefined;
+  activePath?: string | null | undefined;
+  affixTab?: boolean | null | undefined;
+  affixTabOrder?: number | null | undefined;
+  authority: string[];
+  badge?: string | null | undefined;
+  badgeType?: string | null | undefined;
+  badgeVariants?: string | null | undefined;
+  hideChildrenInMenu?: boolean | null | undefined;
+  hideInBreadcrumb?: boolean | null | undefined;
+  hideInMenu?: boolean | null | undefined;
+  hideInTab?: boolean | null | undefined;
+  icon?: string | null | undefined;
+  iframeSrc?: string | null | undefined;
+  ignoreAccess?: boolean | null | undefined;
+  keepAlive?: boolean | null | undefined;
+  link?: string | null | undefined;
+  loaded?: boolean | null | undefined;
+  maxNumOfOpenTab?: number | null | undefined;
+  menuVisibleWithForbidden?: boolean | null | undefined;
+  openInNewWindow?: boolean | null | undefined;
+  order?: number | null | undefined;
+  title?: string | null | undefined;
 }
 
 /** 查询菜单列表 - 回应 */
