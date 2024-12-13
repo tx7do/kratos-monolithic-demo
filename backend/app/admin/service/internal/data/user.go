@@ -13,7 +13,7 @@ import (
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
-	timeUtil "github.com/tx7do/go-utils/timeutil"
+	timeutil "github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
 
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent"
@@ -130,9 +130,9 @@ func (r *UserRepo) convertEntToProto(in *ent.User) *userV1.User {
 		Gender:        r.convertUserGenderToProto(in.Gender),
 		Authority:     r.convertUserAuthorityToProto(in.Authority),
 		Status:        r.convertUserStatusToProto(in.Status),
-		CreateTime:    timeUtil.TimeToTimestamppb(in.CreateTime),
-		UpdateTime:    timeUtil.TimeToTimestamppb(in.UpdateTime),
-		DeleteTime:    timeUtil.TimeToTimestamppb(in.DeleteTime),
+		CreateTime:    timeutil.TimeToTimestamppb(in.CreateTime),
+		UpdateTime:    timeutil.TimeToTimestamppb(in.UpdateTime),
+		DeleteTime:    timeutil.TimeToTimestamppb(in.DeleteTime),
 	}
 }
 
@@ -191,6 +191,12 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 	}, nil
 }
 
+func (r *UserRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
+	return r.data.db.Client().User.Query().
+		Where(user.IDEQ(id)).
+		Exist(ctx)
+}
+
 func (r *UserRepo) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1.User, error) {
 	ret, err := r.data.db.Client().User.Get(ctx, req.GetId())
 	if err != nil && !ent.IsNotFound(err) {
@@ -204,6 +210,10 @@ func (r *UserRepo) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1
 }
 
 func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) error {
+	if req.User == nil {
+		return errors.New("invalid request")
+	}
+
 	ph, err := crypto.HashPassword(req.GetPassword())
 	if err != nil {
 		return err
@@ -232,8 +242,13 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) er
 		SetNillableOrgID(req.User.OrgId).
 		SetNillableRoleID(req.User.RoleId).
 		SetNillableWorkID(req.User.WorkId).
-		SetNillablePositionID(req.User.PositionId).
-		SetCreateTime(time.Now())
+		SetNillablePositionID(req.User.PositionId)
+
+	if req.User.CreateTime == nil {
+		builder.SetCreateTime(time.Now())
+	} else {
+		builder.SetCreateTime(*timeutil.TimestamppbToTime(req.User.CreateTime))
+	}
 
 	err = builder.Exec(ctx)
 	if err != nil {
@@ -245,6 +260,21 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) er
 }
 
 func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) error {
+	if req.User == nil {
+		return errors.New("invalid request")
+	}
+
+	// 如果不存在则创建
+	if req.GetAllowMissing() {
+		exist, err := r.IsExist(ctx, req.GetUser().GetId())
+		if err != nil {
+			return err
+		}
+		if !exist {
+			return r.Create(ctx, &userV1.CreateUserRequest{User: req.User, OperatorId: req.OperatorId})
+		}
+	}
+
 	if req.UpdateMask != nil {
 		req.UpdateMask.Normalize()
 		if !req.UpdateMask.IsValid(req.User) {
@@ -253,7 +283,7 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		fieldmaskutil.Filter(req.GetUser(), req.UpdateMask.GetPaths())
 	}
 
-	builder := r.data.db.Client().User.UpdateOneID(req.User.Id).
+	builder := r.data.db.Client().User.UpdateOneID(req.User.GetId()).
 		SetNillableNickName(req.User.NickName).
 		SetNillableEmail(req.User.Email).
 		SetNillableRealName(req.User.RealName).
@@ -274,8 +304,13 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		SetNillableOrgID(req.User.OrgId).
 		SetNillableRoleID(req.User.RoleId).
 		SetNillableWorkID(req.User.WorkId).
-		SetNillablePositionID(req.User.PositionId).
-		SetUpdateTime(time.Now())
+		SetNillablePositionID(req.User.PositionId)
+
+	if req.User.UpdateTime == nil {
+		builder.SetUpdateTime(time.Now())
+	} else {
+		builder.SetUpdateTime(*timeutil.TimestamppbToTime(req.User.UpdateTime))
+	}
 
 	if len(req.GetPassword()) > 0 {
 		cryptoPassword, err := crypto.HashPassword(req.GetPassword())

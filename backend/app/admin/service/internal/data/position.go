@@ -105,6 +105,12 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 	}, err
 }
 
+func (r *PositionRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
+	return r.data.db.Client().Position.Query().
+		Where(position.IDEQ(id)).
+		Exist(ctx)
+}
+
 func (r *PositionRepo) Get(ctx context.Context, req *userV1.GetPositionRequest) (*userV1.Position, error) {
 	ret, err := r.data.db.Client().Position.Get(ctx, req.GetId())
 	if err != nil && !ent.IsNotFound(err) {
@@ -115,16 +121,26 @@ func (r *PositionRepo) Get(ctx context.Context, req *userV1.GetPositionRequest) 
 }
 
 func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionRequest) error {
-	err := r.data.db.Client().Position.Create().
+	if req.Position == nil {
+		return errors.New("invalid request")
+	}
+
+	builder := r.data.db.Client().Position.Create().
 		SetNillableName(req.Position.Name).
 		SetNillableParentID(req.Position.ParentId).
 		SetNillableOrderNo(req.Position.OrderNo).
 		SetNillableCode(req.Position.Code).
 		SetNillableStatus((*position.Status)(req.Position.Status)).
 		SetNillableRemark(req.Position.Remark).
-		SetCreateBy(req.GetOperatorId()).
-		SetCreateTime(time.Now()).
-		Exec(ctx)
+		SetCreateBy(req.GetOperatorId())
+
+	if req.Position.CreateTime == nil {
+		builder.SetCreateTime(time.Now())
+	} else {
+		builder.SetCreateTime(*timeutil.TimestamppbToTime(req.Position.CreateTime))
+	}
+
+	err := builder.Exec(ctx)
 	if err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
 		return err
@@ -134,6 +150,21 @@ func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionReq
 }
 
 func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionRequest) error {
+	if req.Position == nil {
+		return errors.New("invalid request")
+	}
+
+	// 如果不存在则创建
+	if req.GetAllowMissing() {
+		exist, err := r.IsExist(ctx, req.GetPosition().GetId())
+		if err != nil {
+			return err
+		}
+		if !exist {
+			return r.Create(ctx, &userV1.CreatePositionRequest{Position: req.Position, OperatorId: req.OperatorId})
+		}
+	}
+
 	if req.UpdateMask != nil {
 		req.UpdateMask.Normalize()
 		if !req.UpdateMask.IsValid(req.Position) {
@@ -142,14 +173,19 @@ func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionReq
 		fieldmaskutil.Filter(req.GetPosition(), req.UpdateMask.GetPaths())
 	}
 
-	builder := r.data.db.Client().Position.UpdateOneID(req.Position.Id).
+	builder := r.data.db.Client().Position.UpdateOneID(req.Position.GetId()).
 		SetNillableName(req.Position.Name).
 		SetNillableParentID(req.Position.ParentId).
 		SetNillableOrderNo(req.Position.OrderNo).
 		SetNillableCode(req.Position.Code).
 		SetNillableRemark(req.Position.Remark).
-		SetNillableStatus((*position.Status)(req.Position.Status)).
-		SetUpdateTime(time.Now())
+		SetNillableStatus((*position.Status)(req.Position.Status))
+
+	if req.Position.UpdateTime == nil {
+		builder.SetUpdateTime(time.Now())
+	} else {
+		builder.SetUpdateTime(*timeutil.TimestamppbToTime(req.Position.UpdateTime))
+	}
 
 	if req.UpdateMask != nil {
 		nilPaths := fieldmaskutil.NilValuePaths(req.Position, req.GetUpdateMask().GetPaths())

@@ -152,6 +152,12 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 	return &ret, err
 }
 
+func (r *OrganizationRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
+	return r.data.db.Client().Organization.Query().
+		Where(organization.IDEQ(id)).
+		Exist(ctx)
+}
+
 func (r *OrganizationRepo) Get(ctx context.Context, req *userV1.GetOrganizationRequest) (*userV1.Organization, error) {
 	ret, err := r.data.db.Client().Organization.Get(ctx, req.GetId())
 	if err != nil && !ent.IsNotFound(err) {
@@ -162,14 +168,23 @@ func (r *OrganizationRepo) Get(ctx context.Context, req *userV1.GetOrganizationR
 }
 
 func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganizationRequest) error {
+	if req.Org == nil {
+		return errors.New("invalid request")
+	}
+
 	builder := r.data.db.Client().Organization.Create().
 		SetNillableName(req.Org.Name).
 		SetNillableParentID(req.Org.ParentId).
 		SetNillableOrderNo(req.Org.OrderNo).
 		SetNillableRemark(req.Org.Remark).
 		SetNillableStatus((*organization.Status)(req.Org.Status)).
-		SetCreateTime(time.Now()).
 		SetCreateBy(req.GetOperatorId())
+
+	if req.Org.CreateTime == nil {
+		builder.SetCreateTime(time.Now())
+	} else {
+		builder.SetCreateTime(*timeutil.TimestamppbToTime(req.Org.CreateTime))
+	}
 
 	err := builder.Exec(ctx)
 	if err != nil {
@@ -181,6 +196,21 @@ func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganiz
 }
 
 func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganizationRequest) error {
+	if req.Org == nil {
+		return errors.New("invalid request")
+	}
+
+	// 如果不存在则创建
+	if req.GetAllowMissing() {
+		exist, err := r.IsExist(ctx, req.GetOrg().GetId())
+		if err != nil {
+			return err
+		}
+		if !exist {
+			return r.Create(ctx, &userV1.CreateOrganizationRequest{Org: req.Org, OperatorId: req.OperatorId})
+		}
+	}
+
 	if req.UpdateMask != nil {
 		req.UpdateMask.Normalize()
 		if !req.UpdateMask.IsValid(req.Org) {
@@ -189,13 +219,18 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganiz
 		fieldmaskutil.Filter(req.GetOrg(), req.UpdateMask.GetPaths())
 	}
 
-	builder := r.data.db.Client().Organization.UpdateOneID(req.Org.Id).
+	builder := r.data.db.Client().Organization.UpdateOneID(req.Org.GetId()).
 		SetNillableName(req.Org.Name).
 		SetNillableParentID(req.Org.ParentId).
 		SetNillableOrderNo(req.Org.OrderNo).
 		SetNillableRemark(req.Org.Remark).
-		SetNillableStatus((*organization.Status)(req.Org.Status)).
-		SetUpdateTime(time.Now())
+		SetNillableStatus((*organization.Status)(req.Org.Status))
+
+	if req.Org.UpdateTime == nil {
+		builder.SetUpdateTime(time.Now())
+	} else {
+		builder.SetUpdateTime(*timeutil.TimestamppbToTime(req.Org.UpdateTime))
+	}
 
 	if req.UpdateMask != nil {
 		nilPaths := fieldmaskutil.NilValuePaths(req.Org, req.GetUpdateMask().GetPaths())

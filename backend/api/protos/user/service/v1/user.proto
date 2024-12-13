@@ -214,7 +214,7 @@ message UpdateUserRequest {
   ];
 
   optional bool allow_missing = 5 [
-    (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增，并且在这种情况下`updateMask`字段将会被忽略。"},
+    (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。"},
     json_name = "allowMissing"
   ];
 }

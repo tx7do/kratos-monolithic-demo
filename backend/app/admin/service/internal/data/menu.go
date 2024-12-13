@@ -167,6 +167,12 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest) (*sy
 	}, nil
 }
 
+func (r *MenuRepo) IsExist(ctx context.Context, id int32) (bool, error) {
+	return r.data.db.Client().Menu.Query().
+		Where(menu.IDEQ(id)).
+		Exist(ctx)
+}
+
 func (r *MenuRepo) Get(ctx context.Context, req *systemV1.GetMenuRequest) (*systemV1.Menu, error) {
 	ret, err := r.data.db.Client().Menu.Get(ctx, req.GetId())
 	if err != nil && !ent.IsNotFound(err) {
@@ -178,6 +184,10 @@ func (r *MenuRepo) Get(ctx context.Context, req *systemV1.GetMenuRequest) (*syst
 }
 
 func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) error {
+	if req.Menu == nil {
+		return errors.New("invalid request")
+	}
+
 	builder := r.data.db.Client().Menu.Create().
 		SetNillableParentID(req.Menu.ParentId).
 		SetNillableType(r.convertMenuTypeToEnt(req.Menu.Type)).
@@ -186,9 +196,13 @@ func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) 
 		SetNillableAlias(req.Menu.Alias).
 		SetNillableName(req.Menu.Name).
 		SetNillableComponent(req.Menu.Component).
-		//SetMeta(req.Menu.Meta).
-		SetNillableStatus((*menu.Status)(req.Menu.Status)).
-		SetCreateTime(time.Now())
+		SetNillableStatus((*menu.Status)(req.Menu.Status))
+
+	if req.Menu.CreateTime == nil {
+		builder.SetCreateTime(time.Now())
+	} else {
+		builder.SetCreateTime(*timeutil.TimestamppbToTime(req.Menu.CreateTime))
+	}
 
 	if req.Menu.Meta != nil {
 		builder.SetMeta(req.Menu.Meta)
@@ -208,7 +222,20 @@ func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) 
 }
 
 func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) error {
-	r.log.Infof("UPDATE 1: [%v] [%v]", req.Menu, req.Menu.Meta)
+	if req.Menu == nil {
+		return errors.New("invalid request")
+	}
+
+	// 如果不存在则创建
+	if req.GetAllowMissing() {
+		exist, err := r.IsExist(ctx, req.GetMenu().GetId())
+		if err != nil {
+			return err
+		}
+		if !exist {
+			return r.Create(ctx, &systemV1.CreateMenuRequest{Menu: req.Menu, OperatorId: req.OperatorId})
+		}
+	}
 
 	if req.UpdateMask != nil {
 		req.UpdateMask.Normalize()
@@ -228,12 +255,16 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) 
 		SetNillableAlias(req.Menu.Alias).
 		SetNillableName(req.Menu.Name).
 		SetNillableComponent(req.Menu.Component).
-		//SetMeta(req.Menu.Meta).
-		SetNillableStatus((*menu.Status)(req.Menu.Status)).
-		SetUpdateTime(time.Now())
+		SetNillableStatus((*menu.Status)(req.Menu.Status))
+
+	if req.Menu.UpdateTime == nil {
+		builder.SetUpdateTime(time.Now())
+	} else {
+		builder.SetUpdateTime(*timeutil.TimestamppbToTime(req.Menu.UpdateTime))
+	}
 
 	if req.Menu.Meta != nil {
-		builder.SetMeta(req.Menu.Meta)
+		r.updateMetaField(builder, req.Menu.Meta)
 	}
 
 	if req.UpdateMask != nil {
@@ -251,6 +282,14 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) 
 	}
 
 	return nil
+}
+
+func (r *MenuRepo) updateMetaField(builder *ent.MenuUpdateOne, meta *systemV1.RouteMeta) {
+	builder.SetMeta(meta)
+
+	builder.Modify(func(u *sql.UpdateBuilder) {
+		//menu.FieldMeta.Update(u, sqljson.Value(meta))
+	})
 }
 
 func (r *MenuRepo) Delete(ctx context.Context, req *systemV1.DeleteMenuRequest) (bool, error) {

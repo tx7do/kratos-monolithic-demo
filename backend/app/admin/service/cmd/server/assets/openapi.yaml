@@ -1294,7 +1294,7 @@ components:
                     format: field-mask
                 allowMissing:
                     type: boolean
-                    description: 如果设置为true的时候，资源不存在则会新增，并且在这种情况下`updateMask`字段将会被忽略。
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新菜单 - 请求
         UpdateOrganizationRequest:
             type: object
@@ -1313,7 +1313,7 @@ components:
                     format: field-mask
                 allowMissing:
                     type: boolean
-                    description: 如果设置为true的时候，资源不存在则会新增，并且在这种情况下`updateMask`字段将会被忽略。
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新部门 - 请求
         UpdatePositionRequest:
             type: object
@@ -1332,7 +1332,7 @@ components:
                     format: field-mask
                 allowMissing:
                     type: boolean
-                    description: 如果设置为true的时候，资源不存在则会新增，并且在这种情况下`updateMask`字段将会被忽略。
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新职位 - 请求
         UpdateRoleRequest:
             type: object
@@ -1351,7 +1351,7 @@ components:
                     format: field-mask
                 allowMissing:
                     type: boolean
-                    description: 如果设置为true的时候，资源不存在则会新增，并且在这种情况下`updateMask`字段将会被忽略。
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新角色 - 请求
         UpdateUserRequest:
             required:
@@ -1374,7 +1374,7 @@ components:
                     format: field-mask
                 allowMissing:
                     type: boolean
-                    description: 如果设置为true的时候，资源不存在则会新增，并且在这种情况下`updateMask`字段将会被忽略。
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新用户 - 请求
         User:
             type: object

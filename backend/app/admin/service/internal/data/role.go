@@ -105,6 +105,12 @@ func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 	}, err
 }
 
+func (r *RoleRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
+	return r.data.db.Client().Role.Query().
+		Where(role.IDEQ(id)).
+		Exist(ctx)
+}
+
 func (r *RoleRepo) Get(ctx context.Context, req *userV1.GetRoleRequest) (*userV1.Role, error) {
 	ret, err := r.data.db.Client().Role.Get(ctx, req.GetId())
 	if err != nil && !ent.IsNotFound(err) {
@@ -115,16 +121,26 @@ func (r *RoleRepo) Get(ctx context.Context, req *userV1.GetRoleRequest) (*userV1
 }
 
 func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) error {
-	err := r.data.db.Client().Role.Create().
+	if req.Role == nil {
+		return errors.New("invalid request")
+	}
+
+	builder := r.data.db.Client().Role.Create().
 		SetNillableName(req.Role.Name).
 		SetNillableParentID(req.Role.ParentId).
 		SetNillableOrderNo(req.Role.OrderNo).
 		SetNillableCode(req.Role.Code).
 		SetNillableStatus((*role.Status)(req.Role.Status)).
 		SetNillableRemark(req.Role.Remark).
-		SetCreateBy(req.GetOperatorId()).
-		SetCreateTime(time.Now()).
-		Exec(ctx)
+		SetCreateBy(req.GetOperatorId())
+
+	if req.Role.CreateTime == nil {
+		builder.SetCreateTime(time.Now())
+	} else {
+		builder.SetCreateTime(*timeutil.TimestamppbToTime(req.Role.CreateTime))
+	}
+
+	err := builder.Exec(ctx)
 	if err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
 		return err
@@ -134,6 +150,21 @@ func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) er
 }
 
 func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) error {
+	if req.Role == nil {
+		return errors.New("invalid request")
+	}
+
+	// 如果不存在则创建
+	if req.GetAllowMissing() {
+		exist, err := r.IsExist(ctx, req.GetRole().GetId())
+		if err != nil {
+			return err
+		}
+		if !exist {
+			return r.Create(ctx, &userV1.CreateRoleRequest{Role: req.Role, OperatorId: req.OperatorId})
+		}
+	}
+
 	if req.UpdateMask != nil {
 		req.UpdateMask.Normalize()
 		if !req.UpdateMask.IsValid(req.Role) {
@@ -142,14 +173,19 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) er
 		fieldmaskutil.Filter(req.GetRole(), req.UpdateMask.GetPaths())
 	}
 
-	builder := r.data.db.Client().Role.UpdateOneID(req.Role.Id).
+	builder := r.data.db.Client().Role.UpdateOneID(req.Role.GetId()).
 		SetNillableName(req.Role.Name).
 		SetNillableParentID(req.Role.ParentId).
 		SetNillableOrderNo(req.Role.OrderNo).
 		SetNillableCode(req.Role.Code).
 		SetNillableRemark(req.Role.Remark).
-		SetNillableStatus((*role.Status)(req.Role.Status)).
-		SetUpdateTime(time.Now())
+		SetNillableStatus((*role.Status)(req.Role.Status))
+
+	if req.Role.UpdateTime == nil {
+		builder.SetUpdateTime(time.Now())
+	} else {
+		builder.SetUpdateTime(*timeutil.TimestamppbToTime(req.Role.UpdateTime))
+	}
 
 	if req.UpdateMask != nil {
 		nilPaths := fieldmaskutil.NilValuePaths(req.Role, req.GetUpdateMask().GetPaths())
