@@ -116,7 +116,7 @@ func _OrganizationService_CreateOrganization0_HTTP_Handler(srv OrganizationServi
 func _OrganizationService_UpdateOrganization0_HTTP_Handler(srv OrganizationServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.UpdateOrganizationRequest
-		if err := ctx.Bind(&in.Org); err != nil {
+		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
 		if err := ctx.BindQuery(&in); err != nil {
@@ -234,7 +234,7 @@ func (c *OrganizationServiceHTTPClientImpl) UpdateOrganization(ctx context.Conte
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationOrganizationServiceUpdateOrganization))
 	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "PUT", path, in.Org, &out, opts...)
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

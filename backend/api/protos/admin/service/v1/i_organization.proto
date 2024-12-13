@@ -37,7 +37,7 @@ service OrganizationService {
   rpc UpdateOrganization (user.service.v1.UpdateOrganizationRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       put: "/admin/v1/orgs/{org.id}"
-      body: "org"
+      body: "*"
     };
   }
 

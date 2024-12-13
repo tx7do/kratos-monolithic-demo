@@ -324,25 +324,11 @@ paths:
                   required: true
                   schema:
                     type: string
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: updateMask
-                  in: query
-                  schema:
-                    type: string
-                    format: field-mask
-                - name: allowMissing
-                  in: query
-                  schema:
-                    type: boolean
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Organization'
+                            $ref: '#/components/schemas/UpdateOrganizationRequest'
                 required: true
             responses:
                 "200":
@@ -483,25 +469,11 @@ paths:
                   required: true
                   schema:
                     type: string
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: updateMask
-                  in: query
-                  schema:
-                    type: string
-                    format: field-mask
-                - name: allowMissing
-                  in: query
-                  schema:
-                    type: boolean
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Position'
+                            $ref: '#/components/schemas/UpdatePositionRequest'
                 required: true
             responses:
                 "200":
@@ -648,25 +620,11 @@ paths:
                   required: true
                   schema:
                     type: string
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: updateMask
-                  in: query
-                  schema:
-                    type: string
-                    format: field-mask
-                - name: allowMissing
-                  in: query
-                  schema:
-                    type: boolean
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Role'
+                            $ref: '#/components/schemas/UpdateRoleRequest'
                 required: true
             responses:
                 "200":
@@ -744,21 +702,11 @@ paths:
                 - UserService
             description: 创建用户
             operationId: UserService_CreateUser
-            parameters:
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: password
-                  in: query
-                  schema:
-                    type: string
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/User'
+                            $ref: '#/components/schemas/CreateUserRequest'
                 required: true
             responses:
                 "200":
@@ -817,29 +765,11 @@ paths:
                   required: true
                   schema:
                     type: string
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: password
-                  in: query
-                  schema:
-                    type: string
-                - name: updateMask
-                  in: query
-                  schema:
-                    type: string
-                    format: field-mask
-                - name: allowMissing
-                  in: query
-                  schema:
-                    type: boolean
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/User'
+                            $ref: '#/components/schemas/UpdateUserRequest'
                 required: true
             responses:
                 "200":
@@ -891,6 +821,19 @@ components:
                 role:
                     $ref: '#/components/schemas/Role'
             description: 创建角色 - 请求
+        CreateUserRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                user:
+                    $ref: '#/components/schemas/User'
+                password:
+                    type: string
+            description: 创建用户 - 请求
         KratosStatus:
             type: object
             properties:
@@ -1353,6 +1296,86 @@ components:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新菜单 - 请求
+        UpdateOrganizationRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                org:
+                    $ref: '#/components/schemas/Organization'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新部门 - 请求
+        UpdatePositionRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                position:
+                    $ref: '#/components/schemas/Position'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新职位 - 请求
+        UpdateRoleRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                role:
+                    $ref: '#/components/schemas/Role'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新角色 - 请求
+        UpdateUserRequest:
+            required:
+                - user
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                user:
+                    $ref: '#/components/schemas/User'
+                password:
+                    type: string
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新用户 - 请求
         User:
             type: object
             properties:

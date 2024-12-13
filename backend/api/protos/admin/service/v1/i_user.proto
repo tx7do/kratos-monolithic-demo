@@ -29,7 +29,7 @@ service UserService {
   rpc CreateUser (user.service.v1.CreateUserRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/admin/v1/users"
-      body: "user"
+      body: "*"
     };
   }
 
@@ -37,7 +37,7 @@ service UserService {
   rpc UpdateUser (user.service.v1.UpdateUserRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       put: "/admin/v1/users/{user.id}"
-      body: "user"
+      body: "*"
     };
   }
 

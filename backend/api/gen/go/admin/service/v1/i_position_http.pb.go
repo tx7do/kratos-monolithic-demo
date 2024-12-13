@@ -116,7 +116,7 @@ func _PositionService_CreatePosition0_HTTP_Handler(srv PositionServiceHTTPServer
 func _PositionService_UpdatePosition0_HTTP_Handler(srv PositionServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.UpdatePositionRequest
-		if err := ctx.Bind(&in.Position); err != nil {
+		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
 		if err := ctx.BindQuery(&in); err != nil {
@@ -234,7 +234,7 @@ func (c *PositionServiceHTTPClientImpl) UpdatePosition(ctx context.Context, in *
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationPositionServiceUpdatePosition))
 	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "PUT", path, in.Position, &out, opts...)
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}
