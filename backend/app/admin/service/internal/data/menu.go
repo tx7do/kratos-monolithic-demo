@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"errors"
+	"strings"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -237,7 +238,14 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) 
 		}
 	}
 
+	var metaPaths []string
 	if req.UpdateMask != nil {
+		for _, v := range req.UpdateMask.GetPaths() {
+			if strings.HasPrefix(v, "meta.") {
+				metaPaths = append(metaPaths, strings.SplitAfter(v, "meta.")[1])
+			}
+		}
+
 		req.UpdateMask.Normalize()
 		if !req.UpdateMask.IsValid(req.Menu) {
 			return errors.New("invalid field mask")
@@ -245,9 +253,9 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) 
 		fieldmaskutil.Filter(req.GetMenu(), req.UpdateMask.GetPaths())
 	}
 
-	r.log.Infof("UPDATE: [%v] [%v]", req.Menu, req.Menu.Meta)
-
-	builder := r.data.db.Client().Menu.UpdateOneID(req.Menu.GetId()).
+	builder := r.data.db.Client().
+		//Debug().
+		Menu.UpdateOneID(req.Menu.GetId()).
 		SetNillableParentID(req.Menu.ParentId).
 		SetNillableType(r.convertMenuTypeToEnt(req.Menu.Type)).
 		SetNillablePath(req.Menu.Path).
@@ -264,12 +272,12 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) 
 	}
 
 	if req.Menu.Meta != nil {
-		r.updateMetaField(builder, req.Menu.Meta)
+		r.updateMetaField(builder, req.Menu.Meta, metaPaths)
 	}
 
 	if req.UpdateMask != nil {
 		nilPaths := fieldmaskutil.NilValuePaths(req.Menu, req.GetUpdateMask().GetPaths())
-		_, nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
+		nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
 		if nilUpdater != nil {
 			builder.Modify(nilUpdater)
 		}
@@ -284,12 +292,19 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) 
 	return nil
 }
 
-func (r *MenuRepo) updateMetaField(builder *ent.MenuUpdateOne, meta *systemV1.RouteMeta) {
-	builder.SetMeta(meta)
+func (r *MenuRepo) updateMetaField(builder *ent.MenuUpdateOne, meta *systemV1.RouteMeta, metaPaths []string) {
+	//builder.SetMeta(meta)
 
-	builder.Modify(func(u *sql.UpdateBuilder) {
-		//menu.FieldMeta.Update(u, sqljson.Value(meta))
-	})
+	// 删除空值
+	nullUpdater := entgoUpdate.SetJsonFieldValueUpdateBuilder(menu.FieldMeta, meta, metaPaths)
+	if nullUpdater != nil {
+		builder.Modify(nullUpdater)
+	}
+	// 更新字段
+	setUpdater := entgoUpdate.SetJsonNullFieldUpdateBuilder(menu.FieldMeta, meta, metaPaths)
+	if setUpdater != nil {
+		builder.Modify(setUpdater)
+	}
 }
 
 func (r *MenuRepo) Delete(ctx context.Context, req *systemV1.DeleteMenuRequest) (bool, error) {

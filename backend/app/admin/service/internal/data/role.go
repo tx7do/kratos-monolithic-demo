@@ -189,7 +189,7 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) er
 
 	if req.UpdateMask != nil {
 		nilPaths := fieldmaskutil.NilValuePaths(req.Role, req.GetUpdateMask().GetPaths())
-		_, nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
+		nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
 		if nilUpdater != nil {
 			builder.Modify(nilUpdater)
 		}

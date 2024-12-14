@@ -2,7 +2,6 @@ package data
 
 import (
 	"fmt"
-	adminV1 "kratos-monolithic-demo/api/gen/go/admin/service/v1"
 	"regexp"
 	"testing"
 
@@ -10,9 +9,11 @@ import (
 
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/trans"
+
 	"google.golang.org/genproto/protobuf/field_mask"
 	"google.golang.org/protobuf/proto"
 
+	adminV1 "kratos-monolithic-demo/api/gen/go/admin/service/v1"
 	userV1 "kratos-monolithic-demo/api/gen/go/user/service/v1"
 )
 

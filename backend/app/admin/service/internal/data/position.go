@@ -189,7 +189,7 @@ func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionReq
 
 	if req.UpdateMask != nil {
 		nilPaths := fieldmaskutil.NilValuePaths(req.Position, req.GetUpdateMask().GetPaths())
-		_, nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
+		nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
 		if nilUpdater != nil {
 			builder.Modify(nilUpdater)
 		}
