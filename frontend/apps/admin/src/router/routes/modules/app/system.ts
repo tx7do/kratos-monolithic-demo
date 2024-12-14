@@ -31,13 +31,12 @@ const system: RouteRecordRaw[] = [
           hideInTab: false,
           hideInMenu: true,
           title: $t('menu.system.user_detail'),
-          currentActiveMenu: '/system/user',
         },
         component: () => import('#/views/app/system/users/detail/index.vue'),
       },
 
       {
-        path: 'menu',
+        path: 'menus',
         name: 'MenuManagement',
         meta: {
           icon: 'lucide:square-menu',
@@ -46,7 +45,7 @@ const system: RouteRecordRaw[] = [
         component: () => import('#/views/app/system/menu/index.vue'),
       },
       {
-        path: 'org',
+        path: 'organizations',
         name: 'OrganizationManagement',
         meta: {
           icon: 'lucide:network',
@@ -56,7 +55,7 @@ const system: RouteRecordRaw[] = [
       },
 
       {
-        path: 'role',
+        path: 'roles',
         name: 'RoleManagement',
         meta: {
           icon: 'lucide:shield-check',
@@ -66,7 +65,7 @@ const system: RouteRecordRaw[] = [
         component: () => import('#/views/app/system/role/index.vue'),
       },
       {
-        path: 'position',
+        path: 'positions',
         name: 'PositionManagement',
         meta: {
           icon: 'lucide:id-card',

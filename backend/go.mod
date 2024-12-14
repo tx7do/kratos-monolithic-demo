@@ -22,10 +22,10 @@ require (
 	github.com/redis/go-redis/v9 v9.7.0
 	github.com/stretchr/testify v1.10.0
 	github.com/tx7do/go-utils v1.1.13
-	github.com/tx7do/go-utils/entgo v1.1.17
+	github.com/tx7do/go-utils/entgo v1.1.18
 	github.com/tx7do/kratos-authn v1.1.2
 	github.com/tx7do/kratos-authn/engine/jwt v1.1.2
-	github.com/tx7do/kratos-authn/middleware v1.1.2
+	github.com/tx7do/kratos-authn/middleware v1.1.3
 	github.com/tx7do/kratos-authz v1.0.2
 	github.com/tx7do/kratos-authz/middleware v1.0.2
 	github.com/tx7do/kratos-bootstrap/api v0.0.9

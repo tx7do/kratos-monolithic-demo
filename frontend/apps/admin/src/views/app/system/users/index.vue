@@ -24,7 +24,7 @@ const formOptions: VbenFormProps = {
   // 控制表单是否显示折叠按钮
   showCollapseButton: false,
   // 按下回车时是否提交表单
-  submitOnEnter: false,
+  submitOnEnter: true,
   schema: [
     {
       component: 'Input',
@@ -32,6 +32,7 @@ const formOptions: VbenFormProps = {
       label: '用户名称',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
       },
     },
     {
@@ -40,6 +41,7 @@ const formOptions: VbenFormProps = {
       label: '手机号码',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
       },
     },
   ],

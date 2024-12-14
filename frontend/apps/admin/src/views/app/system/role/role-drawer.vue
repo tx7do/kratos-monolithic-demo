@@ -28,12 +28,20 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'Input',
       fieldName: 'name',
       label: '角色名称',
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
       rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
     },
     {
       component: 'Input',
       fieldName: 'code',
       label: '角色值',
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
       rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
     },
 

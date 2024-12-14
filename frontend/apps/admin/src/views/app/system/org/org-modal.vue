@@ -30,6 +30,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       label: '部门名称',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
       },
       rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
     },
@@ -48,6 +49,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       label: '排序',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
       },
       rules: z
         .string()

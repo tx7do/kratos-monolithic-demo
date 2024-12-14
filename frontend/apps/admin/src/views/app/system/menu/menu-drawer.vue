@@ -41,6 +41,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       label: '菜单名称',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
       },
       rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
     },
@@ -58,6 +59,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       label: '排序',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
       },
     },
     {
@@ -71,6 +73,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       label: '路由地址',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
       },
     },
     {
@@ -79,6 +82,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       label: '组件路径',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
       },
     },
     {
@@ -87,6 +91,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       label: '权限标识',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
       },
     },
     {

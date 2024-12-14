@@ -1,7 +1,5 @@
 import type { Recordable, UserInfo } from '@vben/types';
 
-import type { LoginRequest } from '#/rpc';
-
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -37,9 +35,11 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       loginLoading.value = true;
 
-      const { access_token } = await defAuthnService.Login(
-        <LoginRequest>params,
-      );
+      const { access_token } = await defAuthnService.Login({
+        username: params.username,
+        password: params.password,
+        grant_type: 'password',
+      });
 
       // 如果成功获取到 accessToken
       if (access_token) {
