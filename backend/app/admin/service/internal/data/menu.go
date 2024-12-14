@@ -296,7 +296,7 @@ func (r *MenuRepo) updateMetaField(builder *ent.MenuUpdateOne, meta *systemV1.Ro
 	//builder.SetMeta(meta)
 
 	// 删除空值
-	nullUpdater := entgoUpdate.SetJsonFieldValueUpdateBuilder(menu.FieldMeta, meta, metaPaths)
+	nullUpdater := entgoUpdate.SetJsonFieldValueUpdateBuilder(menu.FieldMeta, meta, metaPaths, false)
 	if nullUpdater != nil {
 		builder.Modify(nullUpdater)
 	}
