@@ -85,35 +85,35 @@ paths:
                     format: int32
                 - name: pageSize
                   in: query
-                  description: 每页的行数
+                  description: 每一页的行数
                   schema:
                     type: integer
                     format: int32
                 - name: query
                   in: query
-                  description: 与过滤参数
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
                   schema:
                     type: string
                 - name: or
                   in: query
-                  description: 或过滤参数
+                  description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
                 - name: orderBy
                   in: query
-                  description: 排序条件
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
                   schema:
                     type: array
                     items:
                         type: string
-                - name: nopaging
+                - name: noPaging
                   in: query
-                  description: 是否不分页
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
                   schema:
                     type: boolean
-                - name: field_mask
+                - name: fieldMask
                   in: query
-                  description: 字段掩码
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
@@ -217,35 +217,35 @@ paths:
                     format: int32
                 - name: pageSize
                   in: query
-                  description: 每页的行数
+                  description: 每一页的行数
                   schema:
                     type: integer
                     format: int32
                 - name: query
                   in: query
-                  description: 与过滤参数
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
                   schema:
                     type: string
                 - name: or
                   in: query
-                  description: 或过滤参数
+                  description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
                 - name: orderBy
                   in: query
-                  description: 排序条件
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
                   schema:
                     type: array
                     items:
                         type: string
-                - name: nopaging
+                - name: noPaging
                   in: query
-                  description: 是否不分页
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
                   schema:
                     type: boolean
-                - name: field_mask
+                - name: fieldMask
                   in: query
-                  description: 字段掩码
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
@@ -362,35 +362,35 @@ paths:
                     format: int32
                 - name: pageSize
                   in: query
-                  description: 每页的行数
+                  description: 每一页的行数
                   schema:
                     type: integer
                     format: int32
                 - name: query
                   in: query
-                  description: 与过滤参数
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
                   schema:
                     type: string
                 - name: or
                   in: query
-                  description: 或过滤参数
+                  description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
                 - name: orderBy
                   in: query
-                  description: 排序条件
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
                   schema:
                     type: array
                     items:
                         type: string
-                - name: nopaging
+                - name: noPaging
                   in: query
-                  description: 是否不分页
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
                   schema:
                     type: boolean
-                - name: field_mask
+                - name: fieldMask
                   in: query
-                  description: 字段掩码
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
@@ -513,35 +513,35 @@ paths:
                     format: int32
                 - name: pageSize
                   in: query
-                  description: 每页的行数
+                  description: 每一页的行数
                   schema:
                     type: integer
                     format: int32
                 - name: query
                   in: query
-                  description: 与过滤参数
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
                   schema:
                     type: string
                 - name: or
                   in: query
-                  description: 或过滤参数
+                  description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
                 - name: orderBy
                   in: query
-                  description: 排序条件
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
                   schema:
                     type: array
                     items:
                         type: string
-                - name: nopaging
+                - name: noPaging
                   in: query
-                  description: 是否不分页
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
                   schema:
                     type: boolean
-                - name: field_mask
+                - name: fieldMask
                   in: query
-                  description: 字段掩码
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
@@ -658,35 +658,35 @@ paths:
                     format: int32
                 - name: pageSize
                   in: query
-                  description: 每页的行数
+                  description: 每一页的行数
                   schema:
                     type: integer
                     format: int32
                 - name: query
                   in: query
-                  description: 与过滤参数
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
                   schema:
                     type: string
                 - name: or
                   in: query
-                  description: 或过滤参数
+                  description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
                 - name: orderBy
                   in: query
-                  description: 排序条件
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
                   schema:
                     type: array
                     items:
                         type: string
-                - name: nopaging
+                - name: noPaging
                   in: query
-                  description: 是否不分页
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
                   schema:
                     type: boolean
-                - name: field_mask
+                - name: fieldMask
                   in: query
-                  description: 字段掩码
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask

@@ -38,7 +38,7 @@ plugins:
       - useJsonName=true # 使用json_name定义的字段名
       - useNullAsOptional=true # optional字段生成的类型，如果为true生成null，否则生成undefined。
       - useDate=false # google.protobuf.Timestamp类型转换为Date类型，如果为true，则生成Date类型，否则保持Timestamp类型。
-      - useOptionals=none
+      - useOptionals=none # 将字段声明为可选项，即是否加?号(all, messages, none)
       - useMapType=true # 使用Map类型
       - useReadonlyTypes=false # 使用只读类型readonly
       - nestJs=false # 使用nestjs
