@@ -74,11 +74,16 @@ const gridOptions: VxeGridProps<User> = {
 
   columns: [
     { title: '序号', type: 'seq', width: 50 },
-    { title: '角色名称', field: 'name' },
-    { title: '角色值', field: 'code' },
-    { title: '排序', field: 'orderNo' },
-    { title: '状态', field: 'status', slots: { default: 'status' } },
-    { title: '创建时间', field: 'createTime', formatter: 'formatDateTime' },
+    { title: '角色名称', field: 'name', width: 100 },
+    { title: '角色值', field: 'code', width: 140 },
+    { title: '排序', field: 'orderNo', width: 50 },
+    { title: '状态', field: 'status', slots: { default: 'status' }, width: 80 },
+    {
+      title: '创建时间',
+      field: 'createTime',
+      formatter: 'formatDateTime',
+      width: 140,
+    },
     { title: '备注', field: 'remark' },
     {
       title: '操作',

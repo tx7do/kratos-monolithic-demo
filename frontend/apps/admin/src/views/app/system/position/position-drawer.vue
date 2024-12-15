@@ -7,7 +7,7 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { defPositionService, statusList } from '#/rpc';
+import { defPositionService, makeUpdateMask, statusList } from '#/rpc';
 
 const data = ref();
 

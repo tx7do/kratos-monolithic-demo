@@ -85,9 +85,14 @@ const gridOptions: VxeGridProps<User> = {
     { title: '姓名', field: 'realName' },
     { title: '邮箱', field: 'email' },
     { title: '手机', field: 'phone' },
-    { title: '创建时间', field: 'createTime', formatter: 'formatDateTime' },
+    {
+      title: '创建时间',
+      field: 'createTime',
+      formatter: 'formatDateTime',
+      width: 140,
+    },
     { title: '权限', field: 'authority', slots: { default: 'authority' } },
-    { title: '状态', field: 'status', slots: { default: 'status' } },
+    { title: '状态', field: 'status', slots: { default: 'status' }, width: 80 },
     {
       title: '操作',
       field: 'action',

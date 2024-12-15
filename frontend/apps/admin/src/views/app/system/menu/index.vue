@@ -100,8 +100,13 @@ const gridOptions: VxeGridProps<User> = {
     // { title: '权限标识', field: 'permissionCode', width: 50 },
     { title: '路由地址', field: 'path' },
     { title: '组件路径', field: 'component' },
-    { title: '状态', field: 'status', slots: { default: 'status' }, width: 70 },
-    { title: '更新时间', field: 'updateTime', formatter: 'formatDateTime' },
+    { title: '状态', field: 'status', slots: { default: 'status' }, width: 80 },
+    {
+      title: '更新时间',
+      field: 'updateTime',
+      formatter: 'formatDateTime',
+      width: 140,
+    },
     {
       title: '操作',
       field: 'action',
@@ -183,13 +188,25 @@ async function handleStatusChanged(row: any, checked: boolean) {
     row.pending = false;
   }
 }
+
+const expandAll = () => {
+  gridApi.grid?.setAllTreeExpand(true);
+};
+
+const collapseAll = () => {
+  gridApi.grid?.setAllTreeExpand(false);
+};
 </script>
 
 <template>
   <Page auto-content-height>
     <Grid :table-title="$t('menu.system.menu')">
       <template #toolbar-tools>
-        <Button type="primary" @click="handleCreate">创建菜单</Button>
+        <Button class="mr-2" type="primary" @click="handleCreate">
+          创建菜单
+        </Button>
+        <Button class="mr-2" @click="expandAll"> 展开全部 </Button>
+        <Button class="mr-2" @click="collapseAll"> 折叠全部 </Button>
       </template>
       <template #title="{ row }">
         <span :style="{ marginRight: '15px' }">{{ $t(row.meta.title) }}</span>

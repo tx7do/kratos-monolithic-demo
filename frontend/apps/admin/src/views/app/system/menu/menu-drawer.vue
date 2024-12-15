@@ -7,7 +7,12 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { defMenuService, menuTypeList, statusList } from '#/rpc';
+import {
+  defMenuService,
+  makeUpdateMask,
+  menuTypeList,
+  statusList,
+} from '#/rpc';
 
 const data = ref();
 

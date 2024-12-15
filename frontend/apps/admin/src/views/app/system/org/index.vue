@@ -81,9 +81,14 @@ const gridOptions: VxeGridProps<User> = {
   columns: [
     { title: '序号', type: 'seq', width: 50 },
     { title: '部门名称', field: 'name', treeNode: true },
-    { title: '排序', field: 'orderNo' },
-    { title: '状态', field: 'status', slots: { default: 'status' } },
-    { title: '创建时间', field: 'createTime', formatter: 'formatDateTime' },
+    { title: '排序', field: 'orderNo', width: 50 },
+    { title: '状态', field: 'status', slots: { default: 'status' }, width: 80 },
+    {
+      title: '创建时间',
+      field: 'createTime',
+      formatter: 'formatDateTime',
+      width: 140,
+    },
     { title: '备注', field: 'remark' },
     {
       title: '操作',
@@ -185,12 +190,8 @@ const collapseAll = () => {
         <Button class="mr-2" type="primary" @click="handleCreate">
           创建部门
         </Button>
-        <Button class="mr-2" type="primary" @click="expandAll">
-          展开全部
-        </Button>
-        <Button class="mr-2" type="primary" @click="collapseAll">
-          折叠全部
-        </Button>
+        <Button class="mr-2" @click="expandAll"> 展开全部 </Button>
+        <Button class="mr-2" @click="collapseAll"> 折叠全部 </Button>
       </template>
       <template #status="{ row }">
         <Switch
