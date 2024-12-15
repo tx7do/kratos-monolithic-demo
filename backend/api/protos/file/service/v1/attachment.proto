@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package file.service.v1;
 
+import "gnostic/openapi/v3/annotations.proto";
+
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -39,9 +41,9 @@ message Attachment {
   optional uint64 size = 10;
   optional int32 type = 11;
 
-  optional google.protobuf.Timestamp create_time = 30 [json_name = "createTime"];
-  optional google.protobuf.Timestamp update_time = 31 [json_name = "updateTime"];
-  optional google.protobuf.Timestamp delete_time = 32 [json_name = "deleteTime"];
+  optional google.protobuf.Timestamp create_time = 200 [json_name = "createTime", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
+  optional google.protobuf.Timestamp update_time = 201 [json_name = "updateTime", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
+  optional google.protobuf.Timestamp delete_time = 202 [json_name = "deleteTime", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间
 }
 
 // 附件列表 - 回应

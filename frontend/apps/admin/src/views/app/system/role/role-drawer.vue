@@ -89,11 +89,16 @@ const [Drawer, drawerApi] = useVbenDrawer({
     try {
       await (data.value?.create
         ? defRoleService.CreateRole({
-            role: values as any,
+            role: {
+              ...values,
+            },
           })
         : defRoleService.UpdateRole({
-            role: values as any,
-          updateMask: Object.keys(values),
+            role: {
+              id: data.value.id,
+              ...values,
+            },
+            updateMask: Object.keys(values),
           }));
 
       notification.success({

@@ -108,7 +108,7 @@ func (r *UserRepo) convertEntToProto(in *ent.User) *userV1.User {
 	}
 
 	return &userV1.User{
-		Id:            in.ID,
+		Id:            trans.Ptr(in.ID),
 		RoleId:        in.RoleID,
 		WorkId:        in.WorkID,
 		OrgId:         in.OrgID,

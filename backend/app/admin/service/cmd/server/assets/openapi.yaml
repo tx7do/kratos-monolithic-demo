@@ -832,7 +832,9 @@ components:
                 user:
                     $ref: '#/components/schemas/User'
                 password:
+                    readOnly: true
                     type: string
+                    description: 用户登录密码
             description: 创建用户 - 请求
         KratosStatus:
             type: object
@@ -981,19 +983,16 @@ components:
             properties:
                 id:
                     type: integer
-                    description: 节点ID
-                    format: int32
-                parentId:
-                    type: integer
-                    description: 父节点ID
+                    description: 菜单ID
                     format: int32
                 status:
                     enum:
-                        - ON
                         - OFF
+                        - ON
                     type: string
                     default: ON
-                    description: 状态
+                    description: 菜单状态
+                    format: enum
                 type:
                     enum:
                         - FOLDER
@@ -1001,13 +1000,8 @@ components:
                         - BUTTON
                     type: string
                     default: FOLDER
-                    description: 类型
+                    description: 菜单类型
                     format: enum
-                children:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/Menu'
-                    description: 子节点列表
                 path:
                     type: string
                     description: 路由路径
@@ -1025,14 +1019,26 @@ components:
                     description: 指向的组件
                 meta:
                     $ref: '#/components/schemas/RouteMeta'
+                parentId:
+                    type: integer
+                    description: 父节点ID
+                    format: int32
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Menu'
+                    description: 子节点树
                 createTime:
                     type: string
+                    description: 创建时间
                     format: date-time
                 updateTime:
                     type: string
+                    description: 更新时间
                     format: date-time
                 deleteTime:
                     type: string
+                    description: 删除时间
                     format: date-time
             description: 菜单
         Organization:
@@ -1040,14 +1046,14 @@ components:
             properties:
                 id:
                     type: integer
+                    description: 部门ID
                     format: uint32
                 name:
                     type: string
-                parentId:
-                    type: integer
-                    format: uint32
+                    description: 部门名称
                 orderNo:
                     type: integer
+                    description: 排序号
                     format: int32
                 status:
                     enum:
@@ -1058,18 +1064,27 @@ components:
                     description: 状态
                 remark:
                     type: string
+                    description: 备注
+                parentId:
+                    type: integer
+                    description: 父节点ID
+                    format: uint32
                 children:
                     type: array
                     items:
                         $ref: '#/components/schemas/Organization'
+                    description: 子节点树
                 createTime:
                     type: string
+                    description: 创建时间
                     format: date-time
                 updateTime:
                     type: string
+                    description: 更新时间
                     format: date-time
                 deleteTime:
                     type: string
+                    description: 删除时间
                     format: date-time
             description: 部门
         Position:
@@ -1077,17 +1092,18 @@ components:
             properties:
                 id:
                     type: integer
+                    description: 职位ID
                     format: uint32
                 name:
                     type: string
-                parentId:
-                    type: integer
-                    format: uint32
+                    description: 职位名称
                 orderNo:
                     type: integer
+                    description: 排序号
                     format: int32
                 code:
                     type: string
+                    description: 职位值
                 status:
                     enum:
                         - ON
@@ -1097,14 +1113,27 @@ components:
                     description: 状态
                 remark:
                     type: string
+                    description: 备注
+                parentId:
+                    type: integer
+                    description: 父节点ID
+                    format: uint32
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Position'
+                    description: 子节点树
                 createTime:
                     type: string
+                    description: 创建时间
                     format: date-time
                 updateTime:
                     type: string
+                    description: 更新时间
                     format: date-time
                 deleteTime:
                     type: string
+                    description: 删除时间
                     format: date-time
             description: 职位
         RefreshTokenRequest:
@@ -1135,17 +1164,18 @@ components:
             properties:
                 id:
                     type: integer
+                    description: 角色ID
                     format: uint32
                 name:
                     type: string
-                parentId:
-                    type: integer
-                    format: uint32
+                    description: 角色名称
                 orderNo:
                     type: integer
+                    description: 排序号
                     format: int32
                 code:
                     type: string
+                    description: 角色值
                 status:
                     enum:
                         - ON
@@ -1155,14 +1185,27 @@ components:
                     description: 状态
                 remark:
                     type: string
+                    description: 备注
+                parentId:
+                    type: integer
+                    description: 父节点ID
+                    format: uint32
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Role'
+                    description: 子节点树
                 createTime:
                     type: string
+                    description: 创建时间
                     format: date-time
                 updateTime:
                     type: string
+                    description: 更新时间
                     format: date-time
                 deleteTime:
                     type: string
+                    description: 删除时间
                     format: date-time
             description: 角色
         RouteItem:
@@ -1172,6 +1215,7 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/RouteItem'
+                    description: 子节点树
                 path:
                     type: string
                     description: 路由路径
@@ -1366,7 +1410,9 @@ components:
                 user:
                     $ref: '#/components/schemas/User'
                 password:
+                    readOnly: true
                     type: string
+                    description: 用户登录密码
                 updateMask:
                     example: id,realName,userName
                     type: string
@@ -1381,6 +1427,7 @@ components:
             properties:
                 id:
                     type: integer
+                    description: 用户ID
                     format: uint32
                 roleId:
                     type: integer
@@ -1470,12 +1517,15 @@ components:
                     format: enum
                 createTime:
                     type: string
+                    description: 创建时间
                     format: date-time
                 updateTime:
                     type: string
+                    description: 更新时间
                     format: date-time
                 deleteTime:
                     type: string
+                    description: 删除时间
                     format: date-time
             description: 用户
     responses:

@@ -57,14 +57,46 @@ func (m *Position) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
+	for idx, item := range m.GetChildren() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, PositionValidationError{
+						field:  fmt.Sprintf("Children[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, PositionValidationError{
+						field:  fmt.Sprintf("Children[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return PositionValidationError{
+					field:  fmt.Sprintf("Children[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.Id != nil {
+		// no validation rules for Id
+	}
 
 	if m.Name != nil {
 		// no validation rules for Name
-	}
-
-	if m.ParentId != nil {
-		// no validation rules for ParentId
 	}
 
 	if m.OrderNo != nil {
@@ -81,6 +113,10 @@ func (m *Position) validate(all bool) error {
 
 	if m.Remark != nil {
 		// no validation rules for Remark
+	}
+
+	if m.ParentId != nil {
+		// no validation rules for ParentId
 	}
 
 	if m.CreateTime != nil {

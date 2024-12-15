@@ -161,9 +161,21 @@ export interface User {
     | null
     | undefined;
   /** 权限 */
-  authority?: UserAuthority | null | undefined;
-  createTime?: Timestamp | null | undefined;
-  updateTime?: Timestamp | null | undefined;
+  authority?:
+    | UserAuthority
+    | null
+    | undefined;
+  /** 创建时间 */
+  createTime?:
+    | Timestamp
+    | null
+    | undefined;
+  /** 更新时间 */
+  updateTime?:
+    | Timestamp
+    | null
+    | undefined;
+  /** 删除时间 */
   deleteTime?: Timestamp | null | undefined;
 }
 
@@ -179,36 +191,57 @@ export interface GetUserRequest {
 }
 
 export interface GetUserByUserNameRequest {
+  /** 用户登录名 */
   userName: string;
 }
 
 /** 创建用户 - 请求 */
 export interface CreateUserRequest {
+  /** 操作用户ID */
   operatorId?: number | null | undefined;
-  user: User | null;
+  user:
+    | User
+    | null;
+  /** 用户登录密码 */
   password?: string | null | undefined;
 }
 
 /** 更新用户 - 请求 */
 export interface UpdateUserRequest {
-  operatorId?: number | null | undefined;
-  user: User | null;
-  password?: string | null | undefined;
-  updateMask: string[] | null;
+  /** 操作用户ID */
+  operatorId?:
+    | number
+    | null
+    | undefined;
+  /** 用户的数据 */
+  user:
+    | User
+    | null;
+  /** 用户登录密码 */
+  password?:
+    | string
+    | null
+    | undefined;
+  /** 要更新的字段列表 */
+  updateMask:
+    | string[]
+    | null;
+  /** 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。 */
   allowMissing?: boolean | null | undefined;
 }
 
 /** 删除用户 - 请求 */
 export interface DeleteUserRequest {
+  /** 操作用户ID */
   operatorId?: number | null | undefined;
   id: number;
 }
 
 /** 验证密码 - 请求 */
 export interface VerifyPasswordRequest {
-  /** 用户名 */
+  /** 用户登录名 */
   userName: string;
-  /** 密码 */
+  /** 用户登录密码 */
   password: string;
 }
 
@@ -219,6 +252,7 @@ export interface VerifyPasswordResponse {
 
 /** 用户是否存在 - 请求 */
 export interface UserExistsRequest {
+  /** 用户登录名 */
   userName: string;
 }
 

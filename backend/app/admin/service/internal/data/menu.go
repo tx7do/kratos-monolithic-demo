@@ -56,6 +56,28 @@ func (r *MenuRepo) convertMenuTypeToEnt(in *systemV1.MenuType) *menu.Type {
 	return (*menu.Type)(trans.Ptr(find))
 }
 
+func (r *MenuRepo) convertUserStatusToEnt(status *systemV1.MenuStatus) *menu.Status {
+	if status == nil {
+		return nil
+	}
+	find, ok := systemV1.MenuStatus_name[int32(*status)]
+	if !ok {
+		return nil
+	}
+	return (*menu.Status)(trans.Ptr(find))
+}
+
+func (r *MenuRepo) convertUserStatusToProto(status *menu.Status) *systemV1.MenuStatus {
+	if status == nil {
+		return nil
+	}
+	find, ok := systemV1.MenuStatus_value[string(*status)]
+	if !ok {
+		return nil
+	}
+	return (*systemV1.MenuStatus)(trans.Ptr(find))
+}
+
 func (r *MenuRepo) convertEntToProto(in *ent.Menu) *systemV1.Menu {
 	if in == nil {
 		return nil
@@ -64,14 +86,14 @@ func (r *MenuRepo) convertEntToProto(in *ent.Menu) *systemV1.Menu {
 	return &systemV1.Menu{
 		Id:         trans.Ptr(in.ID),
 		ParentId:   in.ParentID,
-		Type:       r.convertMenuTypeToProto(in.Type),
 		Path:       in.Path,
 		Redirect:   in.Redirect,
 		Alias:      in.Alias,
 		Name:       in.Name,
 		Component:  in.Component,
 		Meta:       in.Meta,
-		Status:     (*string)(in.Status),
+		Type:       r.convertMenuTypeToProto(in.Type),
+		Status:     r.convertUserStatusToProto(in.Status),
 		CreateTime: timeutil.TimeToTimestamppb(in.CreateTime),
 		UpdateTime: timeutil.TimeToTimestamppb(in.UpdateTime),
 		DeleteTime: timeutil.TimeToTimestamppb(in.DeleteTime),
@@ -197,7 +219,7 @@ func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) 
 		SetNillableAlias(req.Menu.Alias).
 		SetNillableName(req.Menu.Name).
 		SetNillableComponent(req.Menu.Component).
-		SetNillableStatus((*menu.Status)(req.Menu.Status))
+		SetNillableStatus(r.convertUserStatusToEnt(req.Menu.Status))
 
 	if req.Menu.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
@@ -263,7 +285,7 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) 
 		SetNillableAlias(req.Menu.Alias).
 		SetNillableName(req.Menu.Name).
 		SetNillableComponent(req.Menu.Component).
-		SetNillableStatus((*menu.Status)(req.Menu.Status))
+		SetNillableStatus(r.convertUserStatusToEnt(req.Menu.Status))
 
 	if req.Menu.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())

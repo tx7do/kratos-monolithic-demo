@@ -99,10 +99,15 @@ const [Modal, modalApi] = useVbenModal({
     try {
       await (data.value?.create
         ? defOrganizationService.CreateOrganization({
-            org: values as any,
+            org: {
+              ...values,
+            },
           })
         : defOrganizationService.UpdateOrganization({
-            org: values as any,
+            org: {
+              id: data.value.id,
+              ...values,
+            },
             updateMask: Object.keys(values),
           }));
 

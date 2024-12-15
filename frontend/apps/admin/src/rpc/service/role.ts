@@ -33,10 +33,9 @@ class RoleServiceImpl implements RoleService {
   }
 
   async UpdateRole(request: UpdateRoleRequest): Promise<Empty> {
-    return await requestClient.put<Empty>(
-      `/roles/${request.role?.id}`,
-      request,
-    );
+    const id = request.role?.id;
+    if (request.role !== null) request.role.id = null;
+    return await requestClient.put<Empty>(`/roles/${id}`, request);
   }
 }
 

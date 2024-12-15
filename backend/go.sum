@@ -1448,8 +1448,6 @@ github.com/tx7do/kratos-authn v1.1.2 h1:74LW+oM2VkWZRm3FXqzpndbMAb4vVOO0vFpSTuQK
 github.com/tx7do/kratos-authn v1.1.2/go.mod h1:gnICxlHHLM2GjRmPqbIdGa0gfSAkVW7saBvm0fTX9sg=
 github.com/tx7do/kratos-authn/engine/jwt v1.1.2 h1:hAqy2uYu/2bZkt6+lIVEpy4UmuvqQq8Issehu+OrET8=
 github.com/tx7do/kratos-authn/engine/jwt v1.1.2/go.mod h1:8c3+PJHSqV1gc8eCIlyk7R8dWaMK+EjeP/SXh1seTb4=
-github.com/tx7do/kratos-authn/middleware v1.1.2 h1:rpdl+P8cYauHYs6jNHISqL/RA97MVqSCx0B+Q+ZTAKY=
-github.com/tx7do/kratos-authn/middleware v1.1.2/go.mod h1:ee9R9ZPBt8ycxDYkFuknoJFHY4dOFJywGMlkkPxsjfw=
 github.com/tx7do/kratos-authn/middleware v1.1.3 h1:0GWn0qUkXazh81rztSSeR3WUjuYXjbO864nt2Ep3SZg=
 github.com/tx7do/kratos-authn/middleware v1.1.3/go.mod h1:ee9R9ZPBt8ycxDYkFuknoJFHY4dOFJywGMlkkPxsjfw=
 github.com/tx7do/kratos-authz v1.0.2 h1:AkkCCPGd8WwIcVHL0oJhUv1mRpbeSQRVIF+A2p1epHg=
@@ -1460,8 +1458,8 @@ github.com/tx7do/kratos-authz/engine/opa v1.1.1 h1:gxTxafDavqyy918OqxIyk7ccQueIp
 github.com/tx7do/kratos-authz/engine/opa v1.1.1/go.mod h1:X7yQfwZfwyUIGKVLeOSEqpkAq3mbZeLA/YIxSUkdB9M=
 github.com/tx7do/kratos-authz/middleware v1.0.2 h1:vbBNyc3Lde4RQmWFGQ9H0UNfnZwnA2mGQpTLk+EOj3w=
 github.com/tx7do/kratos-authz/middleware v1.0.2/go.mod h1:XjYjosD5RFjsexFusAnOGS5Ofpc3c+KxEv/XN/pvpes=
-github.com/tx7do/kratos-bootstrap/api v0.0.9 h1:wzvMcjwIKXt0EsT1doB3zlmmT44A+p4qxYJo1CWwRn0=
-github.com/tx7do/kratos-bootstrap/api v0.0.9/go.mod h1:2pJjrcupwdNtfMvpz+aCgskEfrSw8LRSxnms6LLxvmo=
+github.com/tx7do/kratos-bootstrap/api v0.0.11 h1:28RoBHE1isdRhDMDlDRBzG0zg4H+JNiROAi6PseY408=
+github.com/tx7do/kratos-bootstrap/api v0.0.11/go.mod h1:2pJjrcupwdNtfMvpz+aCgskEfrSw8LRSxnms6LLxvmo=
 github.com/tx7do/kratos-bootstrap/bootstrap v0.0.13 h1:sb9s3R+ZgXaxlc/EnVrAyK9wkV3f3AUr/OC4vcXVONQ=
 github.com/tx7do/kratos-bootstrap/bootstrap v0.0.13/go.mod h1:RI+D9OWQYD87DY7ZIjbwIywvBWg6hRSs0PeBK0YPCQI=
 github.com/tx7do/kratos-bootstrap/cache/redis v0.0.8 h1:Vk12hobotOxVNevkHhigNKcZHp038GjmHgls7V8EKHY=

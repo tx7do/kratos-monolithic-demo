@@ -11,15 +11,50 @@ import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** 角色 */
 export interface Role {
-  id: number;
-  name?: string | null | undefined;
-  parentId?: number | null | undefined;
-  orderNo?: number | null | undefined;
+  /** 角色ID */
+  id?:
+    | number
+    | null
+    | undefined;
+  /** 角色名称 */
+  name?:
+    | string
+    | null
+    | undefined;
+  /** 排序号 */
+  orderNo?:
+    | number
+    | null
+    | undefined;
+  /** 角色值 */
   code?: string | null | undefined;
-  status?: string | null | undefined;
-  remark?: string | null | undefined;
-  createTime?: Timestamp | null | undefined;
-  updateTime?: Timestamp | null | undefined;
+  status?:
+    | string
+    | null
+    | undefined;
+  /** 备注 */
+  remark?:
+    | string
+    | null
+    | undefined;
+  /** 父节点ID */
+  parentId?:
+    | number
+    | null
+    | undefined;
+  /** 子节点树 */
+  children: Role[];
+  /** 创建时间 */
+  createTime?:
+    | Timestamp
+    | null
+    | undefined;
+  /** 更新时间 */
+  updateTime?:
+    | Timestamp
+    | null
+    | undefined;
+  /** 删除时间 */
   deleteTime?: Timestamp | null | undefined;
 }
 
@@ -36,20 +71,29 @@ export interface GetRoleRequest {
 
 /** 创建角色 - 请求 */
 export interface CreateRoleRequest {
+  /** 操作用户ID */
   operatorId?: number | null | undefined;
   role: Role | null;
 }
 
 /** 更新角色 - 请求 */
 export interface UpdateRoleRequest {
+  /** 操作用户ID */
   operatorId?: number | null | undefined;
-  role: Role | null;
-  updateMask: string[] | null;
+  role:
+    | Role
+    | null;
+  /** 要更新的字段列表 */
+  updateMask:
+    | string[]
+    | null;
+  /** 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。 */
   allowMissing?: boolean | null | undefined;
 }
 
 /** 删除角色 - 请求 */
 export interface DeleteRoleRequest {
+  /** 操作用户ID */
   operatorId?: number | null | undefined;
   id: number;
 }

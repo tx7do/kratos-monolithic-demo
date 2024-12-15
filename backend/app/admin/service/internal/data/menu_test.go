@@ -43,7 +43,7 @@ func TestMenuMetaFieldMask(t *testing.T) {
 	fieldmaskutil.Filter(updateMenuReq.GetMenu().Meta, metaPaths)
 
 	nilPaths := fieldmaskutil.NilValuePaths(updateMenuReq.GetMenu().Meta, metaPaths)
-	keyValues := entgoUpdate.ExtractJsonFieldKeyValues(updateMenuReq.GetMenu().Meta, metaPaths)
+	keyValues := entgoUpdate.ExtractJsonFieldKeyValues(updateMenuReq.GetMenu().Meta, metaPaths, false)
 
 	log.Infof("UPDATE: [%v] [%v] [%v] [%v]", updateMenuReq.Menu, updateMenuReq.Menu.Meta, nilPaths, keyValues)
 }

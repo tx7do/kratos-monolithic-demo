@@ -19,59 +19,223 @@ export enum MenuType {
   BUTTON = "BUTTON",
 }
 
+/** 菜单状态 */
+export enum MenuStatus {
+  OFF = "OFF",
+  ON = "ON",
+}
+
 /** 菜单 */
 export interface Menu {
-  id?: number | null | undefined;
-  parentId?: number | null | undefined;
-  status?: string | null | undefined;
-  type?: MenuType | null | undefined;
+  /** 菜单ID */
+  id?:
+    | number
+    | null
+    | undefined;
+  /** 菜单状态 */
+  status?:
+    | MenuStatus
+    | null
+    | undefined;
+  /** 菜单类型 */
+  type?:
+    | MenuType
+    | null
+    | undefined;
+  /** 路由路径 */
+  path?:
+    | string
+    | null
+    | undefined;
+  /** 重定向地址 */
+  redirect?:
+    | string
+    | null
+    | undefined;
+  /** 路由别名 */
+  alias?:
+    | string
+    | null
+    | undefined;
+  /** 路由命名，然后我们可以使用 name 而不是 path 来传递 to 属性给 <router-link>。 */
+  name?:
+    | string
+    | null
+    | undefined;
+  /** 指向的组件 */
+  component?:
+    | string
+    | null
+    | undefined;
+  /** 路由元信息 */
+  meta?:
+    | RouteMeta
+    | null
+    | undefined;
+  /** 父节点ID */
+  parentId?:
+    | number
+    | null
+    | undefined;
+  /** 子节点树 */
   children: Menu[];
-  path?: string | null | undefined;
-  redirect?: string | null | undefined;
-  alias?: string | null | undefined;
-  name?: string | null | undefined;
-  component?: string | null | undefined;
-  meta?: RouteMeta | null | undefined;
-  createTime?: Timestamp | null | undefined;
-  updateTime?: Timestamp | null | undefined;
+  /** 创建时间 */
+  createTime?:
+    | Timestamp
+    | null
+    | undefined;
+  /** 更新时间 */
+  updateTime?:
+    | Timestamp
+    | null
+    | undefined;
+  /** 删除时间 */
   deleteTime?: Timestamp | null | undefined;
 }
 
 /** 路由项 */
 export interface RouteItem {
+  /** 子节点树 */
   children: RouteItem[];
-  path?: string | null | undefined;
-  redirect?: string | null | undefined;
-  alias?: string | null | undefined;
-  name?: string | null | undefined;
-  component?: string | null | undefined;
+  /** 路由路径 */
+  path?:
+    | string
+    | null
+    | undefined;
+  /** 重定向地址 */
+  redirect?:
+    | string
+    | null
+    | undefined;
+  /** 路由别名 */
+  alias?:
+    | string
+    | null
+    | undefined;
+  /** 路由命名，然后我们可以使用 name 而不是 path 来传递 to 属性给 <router-link>。 */
+  name?:
+    | string
+    | null
+    | undefined;
+  /** 指向的组件 */
+  component?:
+    | string
+    | null
+    | undefined;
+  /** 路由元信息 */
   meta?: RouteMeta | null | undefined;
 }
 
 /** 路由元数据 */
 export interface RouteMeta {
-  activeIcon?: string | null | undefined;
-  activePath?: string | null | undefined;
-  affixTab?: boolean | null | undefined;
-  affixTabOrder?: number | null | undefined;
+  /** 激活图标，用于：菜单、tab */
+  activeIcon?:
+    | string
+    | null
+    | undefined;
+  /** 当前激活的菜单，有时候不想激活现有菜单，需要激活父级菜单时使用 */
+  activePath?:
+    | string
+    | null
+    | undefined;
+  /** 是否固定标签页 */
+  affixTab?:
+    | boolean
+    | null
+    | undefined;
+  /** 固定标签页的顺序 */
+  affixTabOrder?:
+    | number
+    | null
+    | undefined;
+  /** 权限列表，需要特定的角色标识才可以访问 */
   authority: string[];
-  badge?: string | null | undefined;
-  badgeType?: string | null | undefined;
-  badgeVariants?: string | null | undefined;
-  hideChildrenInMenu?: boolean | null | undefined;
-  hideInBreadcrumb?: boolean | null | undefined;
-  hideInMenu?: boolean | null | undefined;
-  hideInTab?: boolean | null | undefined;
-  icon?: string | null | undefined;
-  iframeSrc?: string | null | undefined;
-  ignoreAccess?: boolean | null | undefined;
-  keepAlive?: boolean | null | undefined;
-  link?: string | null | undefined;
-  loaded?: boolean | null | undefined;
-  maxNumOfOpenTab?: number | null | undefined;
-  menuVisibleWithForbidden?: boolean | null | undefined;
-  openInNewWindow?: boolean | null | undefined;
-  order?: number | null | undefined;
+  /** 徽标 */
+  badge?:
+    | string
+    | null
+    | undefined;
+  /** 徽标类型 */
+  badgeType?:
+    | string
+    | null
+    | undefined;
+  /** 徽标颜色 */
+  badgeVariants?:
+    | string
+    | null
+    | undefined;
+  /** 当前路由的子级在菜单中不展现 */
+  hideChildrenInMenu?:
+    | boolean
+    | null
+    | undefined;
+  /** 当前路由在面包屑中不展现 */
+  hideInBreadcrumb?:
+    | boolean
+    | null
+    | undefined;
+  /** 当前路由在菜单中不展现 */
+  hideInMenu?:
+    | boolean
+    | null
+    | undefined;
+  /** 当前路由在标签页不展现 */
+  hideInTab?:
+    | boolean
+    | null
+    | undefined;
+  /** 图标，用于：菜单、标签页 */
+  icon?:
+    | string
+    | null
+    | undefined;
+  /** iframe 地址 */
+  iframeSrc?:
+    | string
+    | null
+    | undefined;
+  /** 忽略权限，直接可以访问 */
+  ignoreAccess?:
+    | boolean
+    | null
+    | undefined;
+  /** 开启KeepAlive缓存 */
+  keepAlive?:
+    | boolean
+    | null
+    | undefined;
+  /** 外链-跳转路径 */
+  link?:
+    | string
+    | null
+    | undefined;
+  /** 路由是否已经加载过 */
+  loaded?:
+    | boolean
+    | null
+    | undefined;
+  /** 标签页最大打开数量 */
+  maxNumOfOpenTab?:
+    | number
+    | null
+    | undefined;
+  /** 菜单可以看到，但是访问会被重定向到403 */
+  menuVisibleWithForbidden?:
+    | boolean
+    | null
+    | undefined;
+  /** 在新窗口打开 */
+  openInNewWindow?:
+    | boolean
+    | null
+    | undefined;
+  /** 排序ID，用于路由->菜单排序 */
+  order?:
+    | number
+    | null
+    | undefined;
+  /** 标题名称，路由上显示的标题 */
   title?: string | null | undefined;
 }
 
@@ -88,20 +252,29 @@ export interface GetMenuRequest {
 
 /** 创建菜单 - 请求 */
 export interface CreateMenuRequest {
+  /** 操作用户ID */
   operatorId?: number | null | undefined;
   menu: Menu | null;
 }
 
 /** 更新菜单 - 请求 */
 export interface UpdateMenuRequest {
+  /** 操作用户ID */
   operatorId?: number | null | undefined;
-  menu: Menu | null;
-  updateMask: string[] | null;
+  menu:
+    | Menu
+    | null;
+  /** 要更新的字段列表 */
+  updateMask:
+    | string[]
+    | null;
+  /** 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。 */
   allowMissing?: boolean | null | undefined;
 }
 
 /** 删除菜单 - 请求 */
 export interface DeleteMenuRequest {
+  /** 操作用户ID */
   operatorId?: number | null | undefined;
   id: number;
 }

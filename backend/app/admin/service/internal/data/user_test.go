@@ -53,11 +53,11 @@ func TestUserFieldMask(t *testing.T) {
 func TestFilterReuseMask(t *testing.T) {
 	users := []*userV1.User{
 		{
-			Id:       1,
+			Id:       trans.Ptr(uint32(1)),
 			UserName: trans.String("name 1"),
 		},
 		{
-			Id:       2,
+			Id:       trans.Ptr(uint32(2)),
 			UserName: trans.String("name 2"),
 		},
 	}
@@ -73,7 +73,7 @@ func TestFilterReuseMask(t *testing.T) {
 
 func TestNilValuePaths(t *testing.T) {
 	u := &userV1.User{
-		Id:       2,
+		Id:       trans.Ptr(uint32(2)),
 		UserName: trans.String("name 2"),
 		//RealName: trans.String(""),
 	}
@@ -85,7 +85,7 @@ func TestNilValuePaths(t *testing.T) {
 
 func TestMessageNil(t *testing.T) {
 	u := &userV1.User{
-		Id:       2,
+		Id:       trans.Ptr(uint32(2)),
 		UserName: trans.String("name 2"),
 	}
 

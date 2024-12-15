@@ -56,7 +56,9 @@ func (m *User) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
+	if m.Id != nil {
+		// no validation rules for Id
+	}
 
 	if m.RoleId != nil {
 		// no validation rules for RoleId

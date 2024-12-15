@@ -142,10 +142,15 @@ const [Modal, modalApi] = useVbenModal({
     try {
       await (data.value?.create
         ? defUserService.CreateUser({
-            user: values as any,
+            user: {
+              ...values,
+            },
           })
         : defUserService.UpdateUser({
-            user: values as any,
+            user: {
+              id: data.value.id,
+              ...values,
+            },
             updateMask: Object.keys(values),
           }));
 

@@ -57,8 +57,6 @@ func (m *Organization) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
-
 	for idx, item := range m.GetChildren() {
 		_, _ = idx, item
 
@@ -93,12 +91,12 @@ func (m *Organization) validate(all bool) error {
 
 	}
 
-	if m.Name != nil {
-		// no validation rules for Name
+	if m.Id != nil {
+		// no validation rules for Id
 	}
 
-	if m.ParentId != nil {
-		// no validation rules for ParentId
+	if m.Name != nil {
+		// no validation rules for Name
 	}
 
 	if m.OrderNo != nil {
@@ -111,6 +109,10 @@ func (m *Organization) validate(all bool) error {
 
 	if m.Remark != nil {
 		// no validation rules for Remark
+	}
+
+	if m.ParentId != nil {
+		// no validation rules for ParentId
 	}
 
 	if m.CreateTime != nil {

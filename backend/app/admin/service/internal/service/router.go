@@ -42,7 +42,7 @@ func fillRouteItem(menus []*systemV1.Menu) []*systemV1.RouteItem {
 	var routers []*systemV1.RouteItem
 
 	for _, v := range menus {
-		if v.GetStatus() != "ON" {
+		if v.GetStatus() != systemV1.MenuStatus_ON {
 			continue
 		}
 		if v.GetType() == systemV1.MenuType_BUTTON {

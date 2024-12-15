@@ -94,10 +94,6 @@ func (m *Menu) validate(all bool) error {
 		// no validation rules for Id
 	}
 
-	if m.ParentId != nil {
-		// no validation rules for ParentId
-	}
-
 	if m.Status != nil {
 		// no validation rules for Status
 	}
@@ -157,6 +153,10 @@ func (m *Menu) validate(all bool) error {
 			}
 		}
 
+	}
+
+	if m.ParentId != nil {
+		// no validation rules for ParentId
 	}
 
 	if m.CreateTime != nil {

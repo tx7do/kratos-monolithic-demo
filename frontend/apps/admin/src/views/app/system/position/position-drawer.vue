@@ -78,10 +78,15 @@ const [Drawer, drawerApi] = useVbenDrawer({
     try {
       await (data.value?.create
         ? defPositionService.CreatePosition({
-            pos: values as any,
+            pos: {
+              ...values,
+            },
           })
         : defPositionService.UpdatePosition({
-            pos: values as any,
+            pos: {
+              id: data.value.id,
+              ...values,
+            },
             updateMask: Object.keys(values),
           }));
 

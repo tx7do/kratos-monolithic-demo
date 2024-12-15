@@ -12,6 +12,7 @@ import (
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	timeutil "github.com/tx7do/go-utils/timeutil"
+	"github.com/tx7do/go-utils/trans"
 
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent"
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent/position"
@@ -38,7 +39,7 @@ func (r *PositionRepo) convertEntToProto(in *ent.Position) *userV1.Position {
 		return nil
 	}
 	return &userV1.Position{
-		Id:         in.ID,
+		Id:         trans.Ptr(in.ID),
 		Name:       &in.Name,
 		Code:       &in.Code,
 		Remark:     in.Remark,

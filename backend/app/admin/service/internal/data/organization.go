@@ -13,6 +13,7 @@ import (
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	timeutil "github.com/tx7do/go-utils/timeutil"
+	"github.com/tx7do/go-utils/trans"
 
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent"
 	"kratos-monolithic-demo/app/admin/service/internal/data/ent/organization"
@@ -39,7 +40,7 @@ func (r *OrganizationRepo) convertEntToProto(in *ent.Organization) *userV1.Organ
 		return nil
 	}
 	return &userV1.Organization{
-		Id:         in.ID,
+		Id:         trans.Ptr(in.ID),
 		Name:       in.Name,
 		Remark:     in.Remark,
 		OrderNo:    in.OrderNo,
@@ -66,7 +67,7 @@ func (r *OrganizationRepo) travelChild(nodes []*userV1.Organization, node *userV
 			continue
 		}
 
-		if n.Id == *node.ParentId {
+		if n.GetId() == node.GetParentId() {
 			n.Children = append(n.Children, node)
 			return true
 		} else {

@@ -28,7 +28,7 @@ require (
 	github.com/tx7do/kratos-authn/middleware v1.1.3
 	github.com/tx7do/kratos-authz v1.0.2
 	github.com/tx7do/kratos-authz/middleware v1.0.2
-	github.com/tx7do/kratos-bootstrap/api v0.0.9
+	github.com/tx7do/kratos-bootstrap/api v0.0.11
 	github.com/tx7do/kratos-bootstrap/bootstrap v0.0.13
 	github.com/tx7do/kratos-bootstrap/cache/redis v0.0.8
 	github.com/tx7do/kratos-bootstrap/rpc v0.0.9
