@@ -5,17 +5,6 @@
 // source: pagination/v1/pagination.proto
 
 /* eslint-disable */
-import { type Any } from "../../google/protobuf/any.pb";
-
-/** 排序类型 */
-export enum SortOrder {
-  /** UNSORTED - 不排序 */
-  UNSORTED = "UNSORTED",
-  /** ASCENDING - 升序 */
-  ASCENDING = "ASCENDING",
-  /** DESCENDING - 降序 */
-  DESCENDING = "DESCENDING",
-}
 
 /** 分页通用请求 */
 export interface PagingRequest {
@@ -24,30 +13,30 @@ export interface PagingRequest {
     | number
     | null
     | undefined;
-  /** 每页的行数 */
+  /** 每一页的行数 */
   pageSize?:
     | number
     | null
     | undefined;
-  /** 与过滤参数 */
+  /** AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md */
   query?:
     | string
     | null
     | undefined;
-  /** 或过滤参数 */
+  /** OR过滤参数，语法同AND过滤参数。 */
   or?:
     | string
     | null
     | undefined;
-  /** 排序条件 */
+  /** 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。 */
   orderBy: string[];
-  /** 是否不分页 */
-  nopaging?:
+  /** 是否不分页，如果为true，则page和pageSize参数无效。 */
+  noPaging?:
     | boolean
     | null
     | undefined;
-  /** 字段掩码 */
-  field_mask: string[] | null;
+  /** 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。 */
+  fieldMask?: string[] | null;
 }
 
 /** 分页通用结果 */
@@ -55,5 +44,5 @@ export interface PagingResponse {
   /** 总数 */
   total: number;
   /** 分页数据 */
-  items: Any[];
+  items: Uint8Array[];
 }
