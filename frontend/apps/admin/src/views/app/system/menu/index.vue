@@ -2,8 +2,12 @@
 import type { VxeGridProps } from '#/adapter/vxe-table';
 import type { User } from '#/rpc/api/user/service/v1/user.pb';
 
-import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
+import { h } from 'vue';
 
+import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
+import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
+
+import { Icon } from '@iconify/vue';
 import { Button, notification, Popconfirm, Switch } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
@@ -52,12 +56,22 @@ const gridOptions: VxeGridProps<User> = {
     zoom: true,
   },
   height: 'auto',
+
   exportConfig: {},
-  pagerConfig: {},
+  pagerConfig: {
+    enabled: false,
+  },
   rowConfig: {
     isHover: true,
   },
-  stripe: true,
+
+  // stripe: true,
+
+  treeConfig: {
+    childrenField: 'children',
+    rowField: 'id',
+    // transform: true,
+  },
 
   proxyConfig: {
     ajax: {
@@ -76,20 +90,26 @@ const gridOptions: VxeGridProps<User> = {
 
   columns: [
     { title: '序号', type: 'seq', width: 50 },
-    { title: '菜单名称', field: 'title', slots: { default: 'title' } },
-    { title: '排序', field: 'orderNo' },
-    { title: '权限标识', field: 'permissionCode' },
+    {
+      title: '菜单名称',
+      field: 'meta.title',
+      slots: { default: 'title' },
+      width: 200,
+      treeNode: true,
+    },
+    { title: '图标', field: 'icon', slots: { default: 'icon' }, width: 50 },
+    { title: '排序', field: 'meta.order', width: 50 },
+    // { title: '权限标识', field: 'permissionCode', width: 50 },
     { title: '路由地址', field: 'path' },
     { title: '组件路径', field: 'component' },
-    { title: '状态', field: 'status', slots: { default: 'status' } },
+    { title: '状态', field: 'status', slots: { default: 'status' }, width: 70 },
     { title: '更新时间', field: 'updateTime', formatter: 'formatDateTime' },
-    { title: '备注', field: 'remark' },
     {
       title: '操作',
       field: 'action',
       fixed: 'right',
       slots: { default: 'action' },
-      width: 210,
+      width: 90,
     },
   ],
 };
@@ -174,7 +194,14 @@ async function handleStatusChanged(row: any, checked: boolean) {
         <Button type="primary" @click="handleCreate">创建菜单</Button>
       </template>
       <template #title="{ row }">
-        <span :style="{ marginRight: '15px' }"></span>
+        <span :style="{ marginRight: '15px' }">{{ $t(row.meta.title) }}</span>
+      </template>
+      <template #icon="{ row }">
+        <Icon
+          v-if="row.meta.icon !== undefined"
+          :icon="row.meta.icon"
+          class="mr-1 size-4 flex-shrink-0"
+        />
       </template>
       <template #status="{ row }">
         <Switch
@@ -186,14 +213,18 @@ async function handleStatusChanged(row: any, checked: boolean) {
         />
       </template>
       <template #action="{ row }">
-        <Button type="link" @click="() => handleEdit(row)">编辑</Button>
+        <Button
+          type="link"
+          :icon="h(LucideFilePenLine)"
+          @click="() => handleEdit(row)"
+        />
         <Popconfirm
           cancel-text="不要"
           ok-text="是的"
           title="你是否要删除掉该菜单？"
           @confirm="() => handleDelete(row)"
         >
-          <Button danger type="link">删除</Button>
+          <Button danger type="link" :icon="h(LucideTrash2)" />
         </Popconfirm>
       </template>
     </Grid>

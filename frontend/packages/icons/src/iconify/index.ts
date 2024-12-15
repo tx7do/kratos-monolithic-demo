@@ -21,3 +21,12 @@ export const LucideArrowBigLeft = createIconifyIcon('lucide:arrow-big-left');
 export const LucideArrowLeft = createIconifyIcon('lucide:arrow-left');
 
 export const LucideChevronLeft = createIconifyIcon('lucide:chevron-left');
+
+export const LucideTrash = createIconifyIcon('lucide:trash');
+export const LucideTrash2 = createIconifyIcon('lucide:trash-2');
+
+export const LucidePencil = createIconifyIcon('lucide:pencil');
+export const LucidePencilOff = createIconifyIcon('lucide:pencil-off');
+
+export const LucideNotebookPen = createIconifyIcon('lucide:notebook-pen');
+export const LucideFilePenLine = createIconifyIcon('lucide:file-pen-line');

@@ -33,6 +33,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
         options: menuTypeList,
       },
+      rules: 'selectRequired',
     },
 
     {
@@ -43,7 +44,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
-      rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
+      rules: 'required',
     },
     {
       component: 'TreeSelect',
@@ -75,25 +76,28 @@ const [BaseForm, baseFormApi] = useVbenForm({
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
+      rules: 'required',
     },
     {
       component: 'Input',
       fieldName: 'component',
       label: '组件路径',
+      defaultValue: 'BasicLayout',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
+      rules: 'required',
     },
-    {
-      component: 'Input',
-      fieldName: 'permissionCode',
-      label: '权限标识',
-      componentProps: {
-        placeholder: $t('ui.placeholder.input'),
-        allowClear: true,
-      },
-    },
+    // {
+    //   component: 'Input',
+    //   fieldName: 'permissionCode',
+    //   label: '权限标识',
+    //   componentProps: {
+    //     placeholder: $t('ui.placeholder.input'),
+    //     allowClear: true,
+    //   },
+    // },
     {
       component: 'RadioGroup',
       fieldName: 'status',

@@ -1,9 +1,7 @@
 export {
   ArrowDown,
   ArrowLeft,
-  ArrowLeftFromLine as MdiMenuOpen,
   ArrowLeftToLine,
-  ArrowRightFromLine as MdiMenuClose,
   ArrowRightLeft,
   ArrowRightToLine,
   ArrowUp,
@@ -26,7 +24,6 @@ export {
   EyeOff,
   FoldHorizontal,
   Fullscreen,
-  Github,
   Grip,
   Info,
   InspectionPanel,

@@ -53,11 +53,17 @@ const gridOptions: VxeGridProps<User> = {
   },
   height: 'auto',
   exportConfig: {},
-  pagerConfig: {},
+  pagerConfig: {
+    enabled: false,
+  },
   rowConfig: {
     isHover: true,
   },
-  stripe: true,
+
+  treeConfig: {
+    childrenField: 'children',
+    rowField: 'id',
+  },
 
   proxyConfig: {
     ajax: {
@@ -76,7 +82,7 @@ const gridOptions: VxeGridProps<User> = {
 
   columns: [
     { title: '序号', type: 'seq', width: 50 },
-    { title: '部门名称', field: 'name' },
+    { title: '部门名称', field: 'name', treeNode: true },
     { title: '排序', field: 'orderNo' },
     { title: '状态', field: 'status', slots: { default: 'status' } },
     { title: '创建时间', field: 'createTime', formatter: 'formatDateTime' },
@@ -164,13 +170,29 @@ async function handleStatusChanged(row: any, checked: boolean) {
     row.pending = false;
   }
 }
+
+const expandAll = () => {
+  gridApi.grid?.setAllTreeExpand(true);
+};
+
+const collapseAll = () => {
+  gridApi.grid?.setAllTreeExpand(false);
+};
 </script>
 
 <template>
   <Page auto-content-height>
     <Grid :table-title="$t('menu.system.org')">
       <template #toolbar-tools>
-        <Button type="primary" @click="handleCreate">创建部门</Button>
+        <Button class="mr-2" type="primary" @click="handleCreate">
+          创建部门
+        </Button>
+        <Button class="mr-2" type="primary" @click="expandAll">
+          展开全部
+        </Button>
+        <Button class="mr-2" type="primary" @click="collapseAll">
+          折叠全部
+        </Button>
       </template>
       <template #status="{ row }">
         <Switch

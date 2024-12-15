@@ -11,11 +11,7 @@ const expandedKeys = ref<(number | string)[]>([]);
 const searchValue = ref<string>('');
 const autoExpandParent = ref<boolean>(true);
 const treeData = ref<TreeProps['treeData']>([]);
-
-const onExpand = (keys: string[]) => {
-  expandedKeys.value = keys;
-  autoExpandParent.value = false;
-};
+const dataList: TreeProps['treeData'] = [];
 
 async function fetch() {
   const orgData =
@@ -23,10 +19,22 @@ async function fetch() {
       noPaging: true,
       orderBy: [],
     })) || [];
-  treeData.value = orgData.items;
+
+  for (let i = 0; i < orgData.items.length; i++) {
+    const node = orgData.items[i];
+    if (node === null) continue;
+
+    const key = node?.id ?? '';
+    dataList?.push({ key, title: key });
+  }
 }
 
-function handleSelect(keys) {
+const handleExpand = (keys: string[]) => {
+  expandedKeys.value = keys;
+  autoExpandParent.value = false;
+};
+
+function handleSelect(keys: any[]) {
   emit('select', keys[0]);
 }
 
@@ -46,7 +54,8 @@ onMounted(() => {
       :expanded-keys="expandedKeys"
       :auto-expand-parent="autoExpandParent"
       :tree-data="treeData"
-      @expand="onExpand"
+      @expand="handleExpand"
+      @select="handleSelect"
     >
       <template #title="{ title }">
         <span v-if="title.indexOf(searchValue) > -1">
