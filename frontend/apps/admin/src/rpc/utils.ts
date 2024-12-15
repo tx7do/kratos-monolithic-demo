@@ -28,6 +28,11 @@ export function makeQueryString(formValues: any): null | string {
   return JSON.stringify(formValues);
 }
 
+export function makeUpdateMask(keys: string[]): string {
+  keys.push('id');
+  return keys.join(',');
+}
+
 export const statusList = [
   { value: 'ON', label: '正常' },
   { value: 'OFF', label: '停用' },

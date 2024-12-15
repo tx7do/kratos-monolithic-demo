@@ -33,8 +33,6 @@ const formOptions: VbenFormProps = {
       component: 'Select',
       fieldName: 'status',
       label: '状态',
-      defaultValue: 'ON',
-      rules: 'selectRequired',
       componentProps: {
         options: statusList,
         placeholder: $t('ui.placeholder.select'),
@@ -149,7 +147,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   try {
     await defRoleService.UpdateRole({
       role: { id: row.id, status: row.status },
-      updateMask: ['id', 'status'],
+      updateMask: 'id,status',
     });
 
     notification.success({

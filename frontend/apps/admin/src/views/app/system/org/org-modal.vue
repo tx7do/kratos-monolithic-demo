@@ -6,7 +6,7 @@ import { $t } from '@vben/locales';
 
 import { notification } from 'ant-design-vue';
 
-import { useVbenForm, z } from '#/adapter/form';
+import { useVbenForm } from '#/adapter/form';
 import { defOrganizationService, statusList } from '#/rpc';
 
 const data = ref();
@@ -32,7 +32,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
-      rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
+      rules: 'required',
     },
     {
       component: 'TreeSelect',
@@ -41,7 +41,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
       },
-      rules: z.string().min(1, { message: $t('authentication.orgErrorTip') }),
+      rules: 'selectRequired',
     },
     {
       component: 'InputNumber',
@@ -51,9 +51,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
-      rules: z
-        .string()
-        .min(1, { message: $t('authentication.nicknameErrorTip') }),
+      rules: 'required',
     },
     {
       component: 'RadioGroup',
@@ -101,14 +99,16 @@ const [Modal, modalApi] = useVbenModal({
         ? defOrganizationService.CreateOrganization({
             org: {
               ...values,
+              children: [],
             },
           })
         : defOrganizationService.UpdateOrganization({
             org: {
-              id: data.value.id,
+              id: data.value.row.id,
               ...values,
+              children: [],
             },
-            updateMask: Object.keys(values),
+            updateMask: makeUpdateMask(Object.keys(values)),
           }));
 
       notification.success({

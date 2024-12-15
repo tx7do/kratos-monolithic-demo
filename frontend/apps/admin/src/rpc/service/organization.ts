@@ -38,7 +38,7 @@ class OrganizationServiceImpl implements OrganizationService {
 
   async UpdateOrganization(request: UpdateOrganizationRequest): Promise<Empty> {
     const id = request.org?.id;
-    if (request.org !== null) request.org.id = null;
+    if (request.org !== null) request.org.id = undefined;
     return await requestClient.put<Empty>(`/orgs/${id}`, request);
   }
 }

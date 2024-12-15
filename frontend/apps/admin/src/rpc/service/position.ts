@@ -34,7 +34,7 @@ class PositionServiceImpl implements PositionService {
 
   async UpdatePosition(request: UpdatePositionRequest): Promise<Empty> {
     const id = request.position?.id;
-    if (request.position !== null) request.position.id = null;
+    if (request.position !== null) request.position.id = undefined;
     return await requestClient.put<Empty>(`/positions/${id}`, request);
   }
 }

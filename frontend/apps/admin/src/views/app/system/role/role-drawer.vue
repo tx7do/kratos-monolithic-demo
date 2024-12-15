@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 
-import { useVbenDrawer, z } from '@vben/common-ui';
+import { useVbenDrawer } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { defRoleService, statusList } from '#/rpc';
+import { defRoleService, makeUpdateMask, statusList } from '#/rpc';
 
 const data = ref();
 
@@ -32,7 +32,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
-      rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
+      rules: 'required',
     },
     {
       component: 'Input',
@@ -42,7 +42,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
-      rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
+      rules: 'required',
     },
 
     {
@@ -84,21 +84,23 @@ const [Drawer, drawerApi] = useVbenDrawer({
     // 获取表单数据
     const values = await baseFormApi.getValues();
 
-    console.log(getTitle.value, values);
+    console.log(getTitle.value, values, data.value.row);
 
     try {
       await (data.value?.create
         ? defRoleService.CreateRole({
             role: {
               ...values,
+              children: [],
             },
           })
         : defRoleService.UpdateRole({
             role: {
-              id: data.value.id,
+              id: data.value.row.id,
+              children: [],
               ...values,
             },
-            updateMask: Object.keys(values),
+            updateMask: makeUpdateMask(Object.keys(values)),
           }));
 
       notification.success({

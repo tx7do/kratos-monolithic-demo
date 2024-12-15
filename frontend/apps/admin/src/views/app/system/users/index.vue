@@ -161,7 +161,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   try {
     await defUserService.UpdateUser({
       user: { id: row.id, status: row.status },
-      updateMask: ['id', 'status'],
+      updateMask: 'id,status',
     });
 
     notification.success({

@@ -42,7 +42,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     //     passwordStrength: true,
     //     placeholder: $t('ui.placeholder.input'),
     //   },
-    //   rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
+    //   rules: 'required',
     // },
     {
       component: 'Select',
@@ -52,7 +52,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         placeholder: $t('ui.placeholder.select'),
         options: authorityList,
       },
-      rules: z.string().min(1, { message: $t('ui.formRules.selectRequired') }),
+      rules: 'selectRequired',
     },
     {
       component: 'ApiTreeSelect',
@@ -78,7 +78,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         //   }));
         // },
       },
-      rules: z.string().min(1, { message: $t('authentication.orgErrorTip') }),
+      rules: 'selectRequired',
     },
     {
       component: 'Input',
@@ -88,9 +88,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
-      rules: z
-        .string()
-        .min(1, { message: $t('authentication.nicknameErrorTip') }),
+      rules: 'required',
     },
     {
       component: 'Input',
@@ -100,9 +98,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
-      rules: z
-        .string()
-        .min(1, { message: $t('authentication.emailValidErrorTip') }),
+      rules: 'required',
     },
 
     {
@@ -148,10 +144,10 @@ const [Modal, modalApi] = useVbenModal({
           })
         : defUserService.UpdateUser({
             user: {
-              id: data.value.id,
+              id: data.value.row.id,
               ...values,
             },
-            updateMask: Object.keys(values),
+            updateMask: makeUpdateMask(Object.keys(values)),
           }));
 
       notification.success({

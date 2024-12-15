@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 
-import { useVbenDrawer, z } from '@vben/common-ui';
+import { useVbenDrawer } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { notification } from 'ant-design-vue';
@@ -163,14 +163,16 @@ const [Drawer, drawerApi] = useVbenDrawer({
         ? defMenuService.CreateMenu({
             menu: {
               ...values,
+              children: [],
             },
           })
         : defMenuService.UpdateMenu({
             menu: {
-              id: data.value.id,
+              id: data.value.row.id,
+              children: [],
               ...values,
             },
-            updateMask: Object.keys(values),
+            updateMask: makeUpdateMask(Object.keys(values)),
           }));
 
       notification.success({

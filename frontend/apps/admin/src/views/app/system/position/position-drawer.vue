@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 
-import { useVbenDrawer, z } from '@vben/common-ui';
+import { useVbenDrawer } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { notification } from 'ant-design-vue';
@@ -32,7 +32,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
-      rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
+      rules: 'required',
     },
     {
       component: 'RadioGroup',
@@ -78,16 +78,18 @@ const [Drawer, drawerApi] = useVbenDrawer({
     try {
       await (data.value?.create
         ? defPositionService.CreatePosition({
-            pos: {
+            position: {
               ...values,
+              children: [],
             },
           })
         : defPositionService.UpdatePosition({
-            pos: {
-              id: data.value.id,
+            position: {
+              id: data.value.row.id,
+              children: [],
               ...values,
             },
-            updateMask: Object.keys(values),
+            updateMask: makeUpdateMask(Object.keys(values)),
           }));
 
       notification.success({

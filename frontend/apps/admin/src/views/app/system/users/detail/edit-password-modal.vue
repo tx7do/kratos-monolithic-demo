@@ -4,7 +4,7 @@ import { ref } from 'vue';
 import { useVbenModal } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
-import { useVbenForm, z } from '#/adapter/form';
+import { useVbenForm } from '#/adapter/form';
 
 const data = ref();
 
@@ -25,7 +25,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
       },
-      rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
+      rules: 'required',
     },
     {
       component: 'VbenInputPassword',
@@ -35,7 +35,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         passwordStrength: true,
         placeholder: $t('ui.placeholder.input'),
       },
-      rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
+      rules: 'required',
     },
     {
       component: 'VbenInputPassword',
@@ -44,7 +44,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
       },
-      rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
+      rules: 'required',
     },
   ],
 });
