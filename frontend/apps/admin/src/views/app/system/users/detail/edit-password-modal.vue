@@ -57,19 +57,28 @@ const [Modal, modalApi] = useVbenModal({
   async onConfirm() {
     console.log('onConfirm');
 
-    const values = await baseFormApi.validate();
-    if (!values.valid) {
+    // 校验输入的数据
+    const validate = await baseFormApi.validate();
+    if (!validate.valid) {
       return;
     }
 
     setLoading(true);
+
+    // 获取表单数据
+    const values = await baseFormApi.getValues();
   },
 
   onOpenChange(isOpen: boolean) {
     if (isOpen) {
+      // 获取传入的数据
       data.value = modalApi.getData<Record<string, any>>();
+
+      // 为表单赋值
       baseFormApi.setValues(data.value?.row);
+
       setLoading(false);
+
       console.log('onOpenChange', data.value, data.value?.create);
     }
   },

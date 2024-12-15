@@ -83,21 +83,27 @@ const [Modal, modalApi] = useVbenModal({
   async onConfirm() {
     console.log('onConfirm');
 
-    const values = await baseFormApi.validate();
-    if (!values.valid) {
+    // 校验输入的数据
+    const validate = await baseFormApi.validate();
+    if (!validate.valid) {
       return;
     }
 
     setLoading(true);
 
+    // 获取表单数据
+    const values = await baseFormApi.getValues();
+
     console.log(getTitle.value, values);
 
     try {
       await (data.value?.create
-        ? defOrganizationService.CreateOrganization({ org: values.results })
+        ? defOrganizationService.CreateOrganization({
+            org: values as any,
+          })
         : defOrganizationService.UpdateOrganization({
-            org: values.results,
-            updateMask: ['id', 'status'],
+            org: values as any,
+            updateMask: Object.keys(values),
           }));
 
       notification.success({
@@ -108,6 +114,7 @@ const [Modal, modalApi] = useVbenModal({
         message: `${getTitle.value}失败`,
       });
     } finally {
+      // 关闭窗口
       modalApi.close();
       setLoading(false);
     }
@@ -115,9 +122,14 @@ const [Modal, modalApi] = useVbenModal({
 
   onOpenChange(isOpen: boolean) {
     if (isOpen) {
+      // 获取传入的数据
       data.value = modalApi.getData<Record<string, any>>();
+
+      // 为表单赋值
       baseFormApi.setValues(data.value?.row);
+
       setLoading(false);
+
       console.log('onOpenChange', data.value, data.value?.create);
     }
   },

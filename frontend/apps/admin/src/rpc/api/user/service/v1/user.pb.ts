@@ -56,7 +56,10 @@ export enum UserStatus {
 /** 用户 */
 export interface User {
   /** 用户ID */
-  id: number;
+  id?:
+    | number
+    | null
+    | undefined;
   /** 角色ID */
   roleId?:
     | number

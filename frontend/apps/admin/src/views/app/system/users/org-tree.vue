@@ -1,15 +1,29 @@
 <script lang="ts" setup>
+import type { TreeProps } from 'ant-design-vue';
+
 import { onMounted, ref } from 'vue';
 
-import { ListOrganization } from '/@/api/app/organization';
-import { BasicTree, TreeItem } from '/@/components/Tree';
+import { defOrganizationService } from '#/rpc';
 
 const emit = defineEmits(['select']);
-const treeData = ref<TreeItem[]>([]);
+
+const expandedKeys = ref<(number | string)[]>([]);
+const searchValue = ref<string>('');
+const autoExpandParent = ref<boolean>(true);
+const treeData = ref<TreeProps['treeData']>([]);
+
+const onExpand = (keys: string[]) => {
+  expandedKeys.value = keys;
+  autoExpandParent.value = false;
+};
 
 async function fetch() {
-  const orgData = (await ListOrganization({})) || [];
-  treeData.value = orgData.items as unknown as TreeItem[];
+  const orgData =
+    (await defOrganizationService.ListOrganization({
+      noPaging: true,
+      orderBy: [],
+    })) || [];
+  treeData.value = orgData.items;
 }
 
 function handleSelect(keys) {
@@ -23,14 +37,25 @@ onMounted(() => {
 
 <template>
   <div class="m-4 mr-0 overflow-hidden bg-white">
-    <BasicTree
-      title="部门列表"
-      toolbar
-      search
-      :click-row-to-expand="false"
-      :tree-data="treeData"
-      :field-names="{ key: 'id', title: 'name' }"
-      @select="handleSelect"
+    <a-input-search
+      v-model:value="searchValue"
+      style="margin-bottom: 8px"
+      placeholder="Search"
     />
+    <a-tree
+      :expanded-keys="expandedKeys"
+      :auto-expand-parent="autoExpandParent"
+      :tree-data="treeData"
+      @expand="onExpand"
+    >
+      <template #title="{ title }">
+        <span v-if="title.indexOf(searchValue) > -1">
+          {{ title.substring(0, title.indexOf(searchValue)) }}
+          <span style="color: #f50">{{ searchValue }}</span>
+          {{ title.substring(title.indexOf(searchValue) + searchValue.length) }}
+        </span>
+        <span v-else>{{ title }}</span>
+      </template>
+    </a-tree>
   </div>
 </template>

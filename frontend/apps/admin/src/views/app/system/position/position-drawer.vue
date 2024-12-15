@@ -62,21 +62,27 @@ const [Drawer, drawerApi] = useVbenDrawer({
   async onConfirm() {
     console.log('onConfirm');
 
-    const values = await baseFormApi.validate();
-    if (!values.valid) {
+    // 校验输入的数据
+    const validate = await baseFormApi.validate();
+    if (!validate.valid) {
       return;
     }
 
     setLoading(true);
 
+    // 获取表单数据
+    const values = await baseFormApi.getValues();
+
     console.log(getTitle.value, values);
 
     try {
       await (data.value?.create
-        ? defPositionService.CreatePosition({ pos: values.results })
+        ? defPositionService.CreatePosition({
+            pos: values as any,
+          })
         : defPositionService.UpdatePosition({
-            pos: values.results,
-            updateMask: ['id', 'status'],
+            pos: values as any,
+            updateMask: Object.keys(values),
           }));
 
       notification.success({
@@ -94,10 +100,12 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
   onOpenChange(isOpen) {
     if (isOpen) {
+      // 获取传入的数据
       data.value = drawerApi.getData<Record<string, any>>();
+
+      // 为表单赋值
       baseFormApi.setValues(data.value?.row);
 
-      // setLoading(true);
       setLoading(false);
     }
   },

@@ -68,7 +68,7 @@ const gridOptions: VxeGridProps<User> = {
       query: async ({ page }, formValues) => {
         // console.log('query:', filters, form, formValues);
         return await defUserService.ListUser({
-          field_mask: null,
+          fieldMask: null,
           orderBy: [],
           query: makeQueryString(formValues),
           page: page.currentPage,

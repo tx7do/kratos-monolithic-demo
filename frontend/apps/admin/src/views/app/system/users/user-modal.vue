@@ -60,26 +60,25 @@ const [BaseForm, baseFormApi] = useVbenForm({
       label: '所属部门',
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
-        api: defOrganizationService.ListOrganization,
+        api: async () => {
+          const result = await defOrganizationService.ListOrganization({
+            noPaging: true,
+            orderBy: [],
+          });
+          return result.items;
+        },
+        numberToString: true,
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
-        // 菜单接口转options格式
-        afterFetch: (data: any) => {
-          console.log(data);
-
-          const result: any[] = [];
-          for (const item of data.items) {
-            result.push({
-              label: item.name,
-              value: item.id,
-            });
-          }
-
-          return result;
-        },
+        // afterFetch: (data: any) => {
+        //   return data.map((item: any) => ({
+        //     label: item.name,
+        //     value: item.id,
+        //   }));
+        // },
       },
-      // rules: z.string().min(1, { message: $t('authentication.orgErrorTip') }),
+      rules: z.string().min(1, { message: $t('authentication.orgErrorTip') }),
     },
     {
       component: 'Input',
@@ -110,6 +109,10 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'Textarea',
       fieldName: 'remark',
       label: '备注',
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
     },
   ],
 });
@@ -122,21 +125,28 @@ const [Modal, modalApi] = useVbenModal({
   async onConfirm() {
     console.log('onConfirm');
 
-    const values = await baseFormApi.validate();
-    if (!values.valid) {
+    // 校验输入的数据
+    const validate = await baseFormApi.validate();
+    if (!validate.valid) {
       return;
     }
 
+    // 加载条设置为加载状态
     setLoading(true);
 
-    console.log(getTitle.value, values);
+    // 获取表单数据
+    const values = await baseFormApi.getValues();
+
+    console.log(getTitle.value, Object.keys(values));
 
     try {
       await (data.value?.create
-        ? defUserService.CreateUser({ user: values.results })
+        ? defUserService.CreateUser({
+            user: values as any,
+          })
         : defUserService.UpdateUser({
-            user: values.results,
-            updateMask: ['id', 'status'],
+            user: values as any,
+            updateMask: Object.keys(values),
           }));
 
       notification.success({
@@ -147,6 +157,7 @@ const [Modal, modalApi] = useVbenModal({
         message: `${getTitle.value}失败`,
       });
     } finally {
+      // 关闭窗口
       modalApi.close();
       setLoading(false);
     }
@@ -154,9 +165,17 @@ const [Modal, modalApi] = useVbenModal({
 
   onOpenChange(isOpen: boolean) {
     if (isOpen) {
+      // 获取传入的数据
       data.value = modalApi.getData<Record<string, any>>();
-      baseFormApi.setValues(data.value?.row);
+
+      // 为表单赋值
+      if (data.value.row !== undefined) {
+        data.value.row.orgId = data.value?.row?.orgId.toString();
+        baseFormApi.setValues(data.value?.row);
+      }
+
       setLoading(false);
+
       console.log('onOpenChange', data.value, data.value?.create);
     }
   },
