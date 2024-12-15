@@ -4,7 +4,6 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
-	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 	"github.com/tx7do/go-utils/entgo/mixin"
 )
@@ -69,8 +68,8 @@ func (Role) Mixin() []ent.Mixin {
 // Edges of the Role.
 func (Role) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.
-			To("children", Role.Type).
-			From("parent").Unique().Field("parent_id"),
+		//edge.
+		//	To("children", Role.Type).
+		//	From("parent").Unique().Field("parent_id"),
 	}
 }
